@@ -1,16 +1,17 @@
-import { ImageSourcePropType } from "react-native";
-
 declare module "*.png" {
-  const content: ImageSourcePropType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content: any;
   export default content;
 }
 
 declare module "*.jpg" {
-  const content: ImageSourcePropType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content: any;
   export default content;
 }
 
 declare module "*.jpeg" {
-  const content: ImageSourcePropType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const content: any;
   export default content;
 }
