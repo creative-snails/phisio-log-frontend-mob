@@ -11,6 +11,7 @@ import reactNative from "eslint-plugin-react-native";
 import globals from "globals";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,6 +41,7 @@ export default [
       "react-native": fixupPluginRules(reactNative),
       "jsx-a11y": fixupPluginRules(jsxA11Y),
       prettier: fixupPluginRules(prettier),
+      "simple-import-sort": fixupPluginRules(simpleImportSort),
     },
 
     languageOptions: {
@@ -78,6 +80,40 @@ export default [
       "react-native/no-inline-styles": "warn",
       "react-native/no-color-literals": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
+      "react-hooks/rules-of-hooks": ["error"],
+      "react/jsx-key": ["error"],
+      "react/jsx-tag-spacing": [
+        "error",
+        {
+          closingSlash: "never",
+          beforeSelfClosing: "always",
+          afterOpening: "never",
+          beforeClosing: "allow",
+        },
+      ],
+      "simple-import-sort/imports": [
+        "error",
+        {
+          /**
+           * More than one array item in `groups` indicates a line break between import groups.
+           */
+          groups: [
+            [
+              // Packages related to `react`.
+              "^react",
+              // Things that start with a letter/digit/underscore/@ followed by a letter.
+              "^@?\\w",
+              // Imports starting with `../`.
+              "^\\.\\.(?!/?$)",
+              "^\\.\\./?$",
+              // Imports starting with `./`.
+              "^\\./(?=.*/)(?!/?$)",
+              "^\\.(?!/?$)",
+              "^\\./?$",
+            ],
+          ],
+        },
+      ],
     },
   },
 ];
