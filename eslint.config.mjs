@@ -94,22 +94,15 @@ export default [
       "simple-import-sort/imports": [
         "error",
         {
-          /**
-           * More than one array item in `groups` indicates a line break between import groups.
-           */
           groups: [
             [
-              // Packages related to `react`.
-              "^react",
-              // Things that start with a letter/digit/underscore/@ followed by a letter.
-              "^@?\\w",
-              // Imports starting with `../`.
-              "^\\.\\.(?!/?$)",
+              "^react", // React-related packages first
+              "^@?\\w", // Third-party packages
+              "^\\.\\.(?!/?$)", // Parent imports
               "^\\.\\./?$",
-              // Imports starting with `./`.
-              "^\\./(?=.*/)(?!/?$)",
+              "^\\./(?=.*/)(?!/?$)", // Relative imports with nested paths
               "^\\.(?!/?$)",
-              "^\\./?$",
+              "^\\./?$", // Relative imports
             ],
           ],
         },
