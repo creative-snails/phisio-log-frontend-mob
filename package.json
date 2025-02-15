@@ -10,9 +10,9 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint:expo": "expo lint",
-    "lint:es": "eslint './**/*.{ts,tsx}'",
-    "lint:fix": "eslint './**/*.{ts,tsx}' --fix",
-    "format": "prettier --write './**/*.{ts,tsx}'",
+    "lint:es": "eslint ./**/*.{ts,tsx}",
+    "lint:fix": "eslint ./**/*.{ts,tsx} --fix",
+    "format": "prettier --write ./**/*.{ts,tsx}",
     "prepare": "husky && husky install"
   },
   "jest": {
