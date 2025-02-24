@@ -1,0 +1,51 @@
+{
+  "healthRecords": [
+    {
+      "id": 1,
+      "user": "me",
+      "description": "Severe migraine lasting for days",
+      "symptoms": [
+        {
+          "name": "Migraine",
+          "startDate": "2025-02-20",
+          "duration": "3 days"
+        },
+        {
+          "name": "Nausea",
+          "startDate": "2025-02-21",
+          "duration": "2 days"
+        }
+      ],
+      "status": "in-progress",
+      "treatmentsTried": ["Painkillers", "Cold compress", "Hydration"],
+      "improvementStatus": "stable",
+      "medicalConsultations": [
+        {
+          "consultant": "Dr. Smith",
+          "date": "2025-02-22",
+          "diagnosis": "Tension headache",
+          "followUpActions": ["Rest", "Reduce screen time"]
+        }
+      ],
+      "severity": "severe",
+      "updates": [
+        {
+          "description": "Tried a new painkiller, mild relief",
+          "symptoms": [
+            {
+              "name": "Migraine",
+              "startDate": "2025-02-20",
+              "duration": "3 days"
+            }
+          ],
+          "status": "open",
+          "treatmentsTried": ["Painkillers"],
+          "improvementStatus": "improving",
+          "medicalConsultations": []
+        }
+      ],
+      "createdAt": "2025-02-20T10:00:00.000Z",
+      "updatedAt": "2025-02-23T15:30:00.000Z"
+    }
+  ]
+}
