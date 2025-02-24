@@ -1,0 +1,73 @@
+{
+  "logEntries": [
+    {
+      "id": "1",
+      "description": "Updated description via Postman",
+      "severity": "moderate"
+    },
+    {
+      "id": "2",
+      "description": "The user experiences severe and worsening pain in both the neck and shoulders. It started after an old injury and has gotten worse over time. They have tried physiotherapy and painkillers with little success.",
+      "symptoms": [
+        {
+          "name": "Neck pain",
+          "startDate": "2019-08-15"
+        },
+        {
+          "name": "Shoulder pain",
+          "startDate": "2019-08-15"
+        }
+      ],
+      "treatmentsTried": ["Physiotherapy", "Painkillers"],
+      "improvementStatus": "worsening",
+      "severity": "severe"
+    },
+    {
+      "id": "3",
+      "description": "The user has moderate pain in their shoulders and neck that fluctuates. It might be related to posture and lack of exercise. They have not attempted any treatments yet.",
+      "symptoms": [
+        {
+          "name": "Neck pain",
+          "startDate": "2021-05-20"
+        },
+        {
+          "name": "Shoulder pain",
+          "startDate": "2021-05-20"
+        }
+      ],
+      "treatmentsTried": [],
+      "improvementStatus": "variable",
+      "severity": "moderate"
+    },
+    {
+      "id": "4",
+      "description": "The user had severe neck and shoulder pain but has seen improvements through regular stretching, physical therapy, and ergonomic adjustments.",
+      "symptoms": [
+        {
+          "name": "Neck pain",
+          "startDate": "2020-03-10"
+        },
+        {
+          "name": "Shoulder pain",
+          "startDate": "2020-03-10"
+        }
+      ],
+      "treatmentsTried": ["Stretching", "Physical therapy", "Ergonomic adjustments"],
+      "improvementStatus": "improving",
+      "severity": "severe"
+    },
+    {
+      "id": "5",
+      "description": "The user has mild and stable neck pain, possibly due to poor posture. No treatments have been tried yet.",
+      "symptoms": [
+        {
+          "name": "Neck pain",
+          "startDate": "2023-01-15"
+        }
+      ],
+      "treatmentsTried": [],
+      "improvementStatus": "stable",
+      "severity": "mild"
+    }
+  ]
+}
