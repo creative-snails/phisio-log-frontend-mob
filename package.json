@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "start:mock-server": "json-server --watch db.json --port 5000",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -13,8 +14,7 @@
     "lint:es": "eslint ./**/*.{ts,tsx}",
     "lint:fix": "eslint ./**/*.{ts,tsx} --fix",
     "format": "prettier --write ./**/*.{ts,tsx}",
-    "prepare": "husky && husky install",
-    "start:json-server": "json-server --watch db.json --port 5000"
+    "prepare": "husky && husky install"
   },
   "jest": {
     "preset": "jest-expo"
