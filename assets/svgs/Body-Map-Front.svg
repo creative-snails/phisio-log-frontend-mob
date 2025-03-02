@@ -75,7 +75,7 @@
           class="body-part"
           id="shoulder-left"
           style="
-            fill: #aaaaaa;
+            fill: #ff0000;
             stroke: #ff0000;
             stroke-width: 6;
             stroke-linecap: round;

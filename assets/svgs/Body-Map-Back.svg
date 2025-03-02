@@ -29,7 +29,7 @@
         <path
           id="path20"
           style="
-            fill: #aaaaaa;
+            fill: #ff0000;
             stroke: #ff0000;
             stroke-width: 6;
             stroke-linecap: round;
@@ -45,6 +45,7 @@
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
+
             stroke-width: 6;
             stroke-linecap: round;
             stroke-linejoin: round;
