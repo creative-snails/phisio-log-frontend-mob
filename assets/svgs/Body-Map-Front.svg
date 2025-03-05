@@ -28,7 +28,7 @@
       <g clip-path="url(#clipPath18)" id="g14">
         <path
           class="body-part"
-          id="head"
+          id="head-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -43,7 +43,7 @@
         />
         <path
           class="body-part"
-          id="neck-left"
+          id="neck-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -58,7 +58,7 @@
         />
         <path
           class="body-part"
-          id="neck-right"
+          id="neck-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -73,7 +73,7 @@
         />
         <path
           class="body-part"
-          id="shoulder-left"
+          id="shoulder-left-front"
           style="
             fill: #ff0000;
             stroke: #ff0000;
@@ -88,7 +88,7 @@
         />
         <path
           class="body-part"
-          id="shoulder-right"
+          id="shoulder-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -103,7 +103,7 @@
         />
         <path
           class="body-part"
-          id="upper-arm-left"
+          id="upper-arm-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -118,7 +118,7 @@
         />
         <path
           class="body-part"
-          id="upper-arm-right"
+          id="upper-arm-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -133,7 +133,7 @@
         />
         <path
           class="body-part"
-          id="elbow-left"
+          id="elbow-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -148,7 +148,7 @@
         />
         <path
           class="body-part"
-          id="elbow-right"
+          id="elbow-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -163,7 +163,7 @@
         />
         <path
           class="body-part"
-          id="forearm-left"
+          id="forearm-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -178,7 +178,7 @@
         />
         <path
           class="body-part"
-          id="forearm-right"
+          id="forearm-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -193,7 +193,7 @@
         />
         <path
           class="body-part"
-          id="wrist-left"
+          id="wrist-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -208,7 +208,7 @@
         />
         <path
           class="body-part"
-          id="wrist-right"
+          id="wrist-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -223,7 +223,7 @@
         />
         <path
           class="body-part"
-          id="hand-left"
+          id="hand-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -238,7 +238,7 @@
         />
         <path
           class="body-part"
-          id="hand-right"
+          id="hand-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -373,7 +373,7 @@
         />
         <path
           class="body-part"
-          id="thigh-left"
+          id="thigh-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -388,7 +388,7 @@
         />
         <path
           class="body-part"
-          id="thigh-right"
+          id="thigh-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -403,7 +403,7 @@
         />
         <path
           class="body-part"
-          id="knee-left"
+          id="knee-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -418,7 +418,7 @@
         />
         <path
           class="body-part"
-          id="knee-right"
+          id="knee-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -433,7 +433,7 @@
         />
         <path
           class="body-part"
-          id="lower-leg-left"
+          id="lower-leg-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -448,7 +448,7 @@
         />
         <path
           class="body-part"
-          id="lower-leg-left"
+          id="lower-leg-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -463,7 +463,7 @@
         />
         <path
           class="body-part"
-          id="ankle-left"
+          id="ankle-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -478,7 +478,7 @@
         />
         <path
           class="body-part"
-          id="ankle-right"
+          id="ankle-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -493,7 +493,7 @@
         />
         <path
           class="body-part"
-          id="foot-left"
+          id="foot-left-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
@@ -508,7 +508,7 @@
         />
         <path
           class="body-part"
-          id="foot-right"
+          id="foot-right-front"
           style="
             fill: #aaaaaa;
             stroke: #ff0000;
