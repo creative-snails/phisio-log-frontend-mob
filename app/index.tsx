@@ -1,22 +1,24 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 
-export class index extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>index</Text>
-      </View>
-    );
-  }
-}
+const App = () => {
+  const router = useRouter();
 
-export default index;
+  return (
+    <View style={styles.container}>
+      <Text>Home Page</Text>
+      <Button title="Body Map" onPress={() => router.push("/BodyMap")} />
+    </View>
+  );
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     flex: 1,
+    gap: 40,
     justifyContent: "center",
   },
 });
