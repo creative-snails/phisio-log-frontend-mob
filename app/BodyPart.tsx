@@ -4,16 +4,23 @@ import { Path } from "react-native-svg";
 import { bodyPartData } from "@/services/bodyParts";
 
 const BodyPart = ({ data }: { data: bodyPartData }) => {
-  const [partData, setPartData] = useState({ isSelected: data.isSelected, status: data.status });
+  const [isSelected, setIsSelected] = useState<boolean>(data.isSelected);
+
+  const statusColors = {
+    1: "#F44336",
+    2: "#FF9800",
+    3: "#4CAF50",
+  };
   return (
     <Path
       id={data.id}
       d={data.d}
-      onPressIn={() => setPartData((prev) => ({ ...prev, isSelected: !prev.isSelected }))}
+      onPressIn={() => setIsSelected((prev) => !prev)}
+      onPress={() => setIsSelected((prev) => !prev)}
       stroke="#ff0000"
       strokeWidth={6}
       strokeOpacity={1}
-      fill={partData.isSelected ? "#ff0000" : "#aaaaaa"}
+      fill={isSelected ? statusColors[data.status] : "#aaaaaa"}
     />
   );
 };
