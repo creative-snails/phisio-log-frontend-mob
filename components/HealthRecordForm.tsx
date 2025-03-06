@@ -1,13 +1,39 @@
 import { useState } from "react";
+import { Text, View } from "react-native";
 
 const HealthRecordForm = () => {
+  const [user, setUser] = useState("");
   const [description, setDescription] = useState("");
   const [symptoms, setSymptoms] = useState<{ name: string; startDate: string; duration: string }[]>([]);
   const [status, setStatus] = useState("open");
+  const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
+  const [improvementStatus, setImprovementStatus] = useState("");
+  const [medicalConsultations, setMedicalConsultations] = useState<
+    { consultant: string; date: string; diagnosis: string; followUpAction: string[] }[]
+  >([]);
+  const [severity, setSeverity] = useState("");
+  const [updates, setUpdates] = useState<
+    {
+      description: string;
+      symptoms: { name: string; startDate: string; duration: string }[];
+      status: string;
+      treatmentsTried: string;
+      improvementStatus: string;
+      medicalConsultations: string[];
+    }[]
+  >([]);
+  const [createdAt, setCreatedAt] = useState("");
+  const [updatedAt, setUpdatedAt] = useState("");
 
+  // Handlers for updating state
   const handleDescriptionChange = (text: string) => setDescription(text);
-  const addSympton = () => setSymptoms([...symptoms, { name: "", startDate: "", duration: "" }]);
   const handleStatusChange = (text: string) => setStatus(text);
+  const handleImprovementChange = (text: string) => setImprovementStatus(text);
+  const handleSeverityChange = (text: string) => setSeverity(text);
+  const handleCreatedAtChange = (text: string) => setCreatedAt(text);
+  const handleUpdatedAtChange = (text: string) => setUpdatedAt(text);
+
+  const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "", duration: "" }]);
 
   const updateSymptom = (index: number, key: string, value: string) => {
     const updatedSymptoms = symptoms.map((symptom, i) => {
@@ -18,6 +44,26 @@ const HealthRecordForm = () => {
     });
     setSymptoms(updatedSymptoms);
   };
+
+  return (
+    <View>
+      <View>
+        <Text>User</Text>
+      </View>
+
+      <View>
+        <Text>Description</Text>
+      </View>
+
+      <View>
+        <Text>Symptoms</Text>
+      </View>
+
+      <View>
+        <Text>Status</Text>
+      </View>
+    </View>
+  );
 };
 
 export default HealthRecordForm;
