@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
 
+interface RecordUpdates {
+  description: string;
+  symptoms: { name: string; startDate: string; duration: string }[];
+  status: string;
+  treatmentsTried: string;
+  improvementStatus: string;
+  medicalConsultations: string[];
+}
+
 const HealthRecordForm = () => {
-  const [user, setUser] = useState("");
   const [description, setDescription] = useState("");
-  const [symptoms, setSymptoms] = useState<{ name: string; startDate: string; duration: string }[]>([]);
+  const [symptoms, setSymptoms] = useState<{ name: string; startDate: string }[]>([]);
   const [status, setStatus] = useState("open");
   const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
   const [improvementStatus, setImprovementStatus] = useState("");
@@ -12,16 +20,7 @@ const HealthRecordForm = () => {
     { consultant: string; date: string; diagnosis: string; followUpAction: string[] }[]
   >([]);
   const [severity, setSeverity] = useState("");
-  const [updates, setUpdates] = useState<
-    {
-      description: string;
-      symptoms: { name: string; startDate: string; duration: string }[];
-      status: string;
-      treatmentsTried: string;
-      improvementStatus: string;
-      medicalConsultations: string[];
-    }[]
-  >([]);
+  const [updates, setUpdates] = useState<RecordUpdates[]>([]);
   const [createdAt, setCreatedAt] = useState("");
   const [updatedAt, setUpdatedAt] = useState("");
 
@@ -33,7 +32,7 @@ const HealthRecordForm = () => {
   const handleCreatedAtChange = (text: string) => setCreatedAt(text);
   const handleUpdatedAtChange = (text: string) => setUpdatedAt(text);
 
-  const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "", duration: "" }]);
+  const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "" }]);
 
   const updateSymptom = (index: number, key: string, value: string) => {
     const updatedSymptoms = symptoms.map((symptom, i) => {
