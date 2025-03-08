@@ -5,9 +5,7 @@ interface PartialRecord {
   description: string;
   status: string;
   improvementStatus: string;
-  severtiy: string;
-  createdAt: string;
-  updatedAt: string;
+  severity: string;
 }
 
 interface Symptoms {
