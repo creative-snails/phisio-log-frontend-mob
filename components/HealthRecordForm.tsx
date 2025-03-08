@@ -1,15 +1,6 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
 
-interface RecordUpdates {
-  description: string;
-  symptoms: { name: string; startDate: string; duration: string }[];
-  status: string;
-  treatmentsTried: string;
-  improvementStatus: string;
-  medicalConsultations: string[];
-}
-
 interface PartialRecord {
   description: string;
   status: string;
@@ -35,14 +26,6 @@ const HealthRecordForm = () => {
   const [symptoms, setSymptoms] = useState<Symptoms[]>([]);
   const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
   const [medicalConsultations, setMedicalConsultations] = useState<MedicalConsultation[]>([]);
-
-  // Handlers for updating state
-  const handleDescriptionChange = (text: string) => setDescription(text);
-  const handleStatusChange = (text: string) => setStatus(text);
-  const handleImprovementChange = (text: string) => setImprovementStatus(text);
-  const handleSeverityChange = (text: string) => setSeverity(text);
-  const handleCreatedAtChange = (text: string) => setCreatedAt(text);
-  const handleUpdatedAtChange = (text: string) => setUpdatedAt(text);
 
   const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "" }]);
 
