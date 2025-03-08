@@ -21,6 +21,12 @@ interface MedicalConsultation {
 }
 
 const HealthRecordForm = () => {
+  const [partialRecord, setPartialRecord] = useState<PartialRecord>({
+    description: "",
+    status: "",
+    improvementStatus: "",
+    severity: "",
+  });
   const [symptoms, setSymptoms] = useState<Symptoms[]>([]);
   const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
   const [medicalConsultations, setMedicalConsultations] = useState<MedicalConsultation[]>([]);
@@ -39,10 +45,6 @@ const HealthRecordForm = () => {
 
   return (
     <View>
-      <View>
-        <Text>User</Text>
-      </View>
-
       <View>
         <Text>Description</Text>
       </View>
@@ -69,10 +71,6 @@ const HealthRecordForm = () => {
 
       <View>
         <Text>Medical Consultations</Text>
-      </View>
-
-      <View>
-        <Text>Created At & Updated At</Text>
       </View>
     </View>
   );
