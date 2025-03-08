@@ -56,6 +56,26 @@ const HealthRecordForm = () => {
       <View>
         <Text>Status</Text>
       </View>
+
+      <View>
+        <Text>Severity</Text>
+      </View>
+
+      <View>
+        <Text>Treatments Tried</Text>
+      </View>
+
+      <View>
+        <Text>Improvements Status</Text>
+      </View>
+
+      <View>
+        <Text>Medical Consultations</Text>
+      </View>
+
+      <View>
+        <Text>Created At & Updated At</Text>
+      </View>
     </View>
   );
 };
