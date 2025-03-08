@@ -20,7 +20,6 @@ const HealthRecordForm = () => {
     { consultant: string; date: string; diagnosis: string; followUpAction: string[] }[]
   >([]);
   const [severity, setSeverity] = useState("");
-  const [updates, setUpdates] = useState<RecordUpdates[]>([]);
   const [createdAt, setCreatedAt] = useState("");
   const [updatedAt, setUpdatedAt] = useState("");
 
