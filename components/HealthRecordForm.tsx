@@ -10,18 +10,31 @@ interface RecordUpdates {
   medicalConsultations: string[];
 }
 
+interface PartialRecord {
+  description: string;
+  status: string;
+  improvementStatus: string;
+  severtiy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Symptoms {
+  name: string;
+  startDate: string;
+}
+
+interface MedicalConsultation {
+  consultant: string;
+  date: string;
+  diagnosis: string;
+  followUpAction: string[];
+}
+
 const HealthRecordForm = () => {
-  const [description, setDescription] = useState("");
-  const [symptoms, setSymptoms] = useState<{ name: string; startDate: string }[]>([]);
-  const [status, setStatus] = useState("open");
+  const [symptoms, setSymptoms] = useState<Symptoms[]>([]);
   const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
-  const [improvementStatus, setImprovementStatus] = useState("");
-  const [medicalConsultations, setMedicalConsultations] = useState<
-    { consultant: string; date: string; diagnosis: string; followUpAction: string[] }[]
-  >([]);
-  const [severity, setSeverity] = useState("");
-  const [createdAt, setCreatedAt] = useState("");
-  const [updatedAt, setUpdatedAt] = useState("");
+  const [medicalConsultations, setMedicalConsultations] = useState<MedicalConsultation[]>([]);
 
   // Handlers for updating state
   const handleDescriptionChange = (text: string) => setDescription(text);
