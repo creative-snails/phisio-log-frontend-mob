@@ -43,6 +43,31 @@ const HealthRecordForm = () => {
     setSymptoms(updatedSymptoms);
   };
 
+  const mapPartialRecord = async () => {
+    const healthRecord = await getHealthRecord(1);
+    setPartialRecord({
+      description: healthRecord.description,
+      status: healthRecord.status,
+      improvementStatus: healthRecord.improvementStatus,
+      severity: healthRecord.severity,
+    });
+  };
+
+  const mapSymptoms = async () => {
+    const healthRecord = await getHealthRecord(1);
+    setSymptoms(healthRecord.symptoms);
+  };
+
+  const mapTreatmentsTried = async () => {
+    const healthRecord = await getHealthRecord(1);
+    setTreatmentsTried(healthRecord.treatmentsTried);
+  };
+
+  const mapMedicalConsultations = async () => {
+    const healthRecord = await getHealthRecord(1);
+    setMedicalConsultations(healthRecord.medicalConsultations);
+  };
+
   return (
     <View>
       <View>
