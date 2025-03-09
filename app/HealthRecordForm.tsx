@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { getHealthRecord } from "./api";
 
 interface PartialRecord {
   description: string;
@@ -46,32 +47,39 @@ const HealthRecordForm = () => {
   const mapPartialRecord = async () => {
     const healthRecord = await getHealthRecord(1);
     setPartialRecord({
-      description: healthRecord.description,
-      status: healthRecord.status,
-      improvementStatus: healthRecord.improvementStatus,
-      severity: healthRecord.severity,
+      description: healthRecord[0].description,
+      status: healthRecord[0].status,
+      improvementStatus: healthRecord[0].improvementStatus,
+      severity: healthRecord[0].severity,
     });
   };
 
   const mapSymptoms = async () => {
     const healthRecord = await getHealthRecord(1);
-    setSymptoms(healthRecord.symptoms);
+    setSymptoms(healthRecord[0].symptoms);
   };
 
   const mapTreatmentsTried = async () => {
     const healthRecord = await getHealthRecord(1);
-    setTreatmentsTried(healthRecord.treatmentsTried);
+    setTreatmentsTried(healthRecord[0].treatmentsTried);
   };
 
   const mapMedicalConsultations = async () => {
     const healthRecord = await getHealthRecord(1);
-    setMedicalConsultations(healthRecord.medicalConsultations);
+    setMedicalConsultations(healthRecord[0].medicalConsultations);
   };
+
+  useEffect(() => {
+    mapPartialRecord();
+    mapSymptoms();
+    mapTreatmentsTried();
+    mapMedicalConsultations();
+  }, []);
 
   return (
     <View>
       <View>
-        <Text>Description</Text>
+        <Text>Description {partialRecord.description}</Text>
       </View>
 
       <View>

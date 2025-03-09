@@ -5,10 +5,11 @@ const API_URL = "http://localhost:5000/health-records";
 // Get specific health record based on id
 export const getHealthRecord = async (id: number) => {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axios.get(`${API_URL}?id=${id}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching health record:", error);
+    throw error;
   }
 };
 
@@ -18,7 +19,8 @@ export const createHealthRecord = async (data: any) => {
     const response = await axios.post(API_URL, data);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error creating health record:", error);
+    throw error;
   }
 };
 
@@ -28,7 +30,8 @@ export const updateHealthRecord = async (id: number, data: any) => {
     const response = await axios.put(`${API_URL}/${id}`, data);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error updating health record:", error);
+    throw error;
   }
 };
 
@@ -38,6 +41,14 @@ export const deleteHealthRecord = async (id: number) => {
     const response = await axios.delete(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("Error deleting health record:", error);
+    throw error;
   }
+};
+
+export default {
+  getHealthRecord,
+  createHealthRecord,
+  updateHealthRecord,
+  deleteHealthRecord,
 };

@@ -8,6 +8,7 @@ const App = () => {
     <View style={styles.container}>
       <Text>Home Page</Text>
       <Button title="Body Map" onPress={() => router.push("/BodyMap")} />
+      <Button title="Health Record" onPress={() => router.push("/HealthRecordForm")} />
     </View>
   );
 };
