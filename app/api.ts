@@ -13,6 +13,17 @@ export const getHealthRecord = async (id: number) => {
   }
 };
 
+// Fetch all health records
+export const getAllHealthRecords = async () => {
+  try {
+    const response = await axios.get(API_URL);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching health records:", error);
+    throw error;
+  }
+};
+
 // Create a new health record
 export const createHealthRecord = async (data: any) => {
   try {
@@ -48,6 +59,7 @@ export const deleteHealthRecord = async (id: number) => {
 
 export default {
   getHealthRecord,
+  getAllHealthRecords,
   createHealthRecord,
   updateHealthRecord,
   deleteHealthRecord,
