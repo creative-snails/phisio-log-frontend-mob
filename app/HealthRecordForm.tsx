@@ -44,36 +44,25 @@ const HealthRecordForm = () => {
     setSymptoms(updatedSymptoms);
   };
 
-  const mapPartialRecord = async () => {
-    const healthRecord = await getHealthRecord(1);
-    setPartialRecord({
-      description: healthRecord[0].description,
-      status: healthRecord[0].status,
-      improvementStatus: healthRecord[0].improvementStatus,
-      severity: healthRecord[0].severity,
-    });
-  };
-
-  const mapSymptoms = async () => {
-    const healthRecord = await getHealthRecord(1);
-    setSymptoms(healthRecord[0].symptoms);
-  };
-
-  const mapTreatmentsTried = async () => {
-    const healthRecord = await getHealthRecord(1);
-    setTreatmentsTried(healthRecord[0].treatmentsTried);
-  };
-
-  const mapMedicalConsultations = async () => {
-    const healthRecord = await getHealthRecord(1);
-    setMedicalConsultations(healthRecord[0].medicalConsultations);
-  };
-
   useEffect(() => {
-    mapPartialRecord();
-    mapSymptoms();
-    mapTreatmentsTried();
-    mapMedicalConsultations();
+    const fetchHealthRecord = async () => {
+      try {
+        const healthRecord = await getHealthRecord(1);
+
+        setPartialRecord({
+          description: healthRecord.description,
+          status: healthRecord.status,
+          improvementStatus: healthRecord.improvementStatus,
+          severity: healthRecord.severity,
+        });
+        setTreatmentsTried(healthRecord.treatmentsTried);
+        setMedicalConsultations(healthRecord.medicalConsultations);
+        setSymptoms(healthRecord.symptoms);
+      } catch (error) {
+        console.error("Error fetching health record:", error);
+      }
+    };
+    fetchHealthRecord();
   }, []);
 
   return (

@@ -5,7 +5,7 @@ const API_URL = "http://localhost:5000/health-records";
 // Get specific health record based on id
 export const getHealthRecord = async (id: number) => {
   try {
-    const response = await axios.get(`${API_URL}?id=${id}`);
+    const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching health record:", error);
