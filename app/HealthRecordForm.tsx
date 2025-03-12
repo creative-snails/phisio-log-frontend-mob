@@ -66,6 +66,12 @@ const HealthRecordForm = () => {
     fetchHealthRecord();
   }, []);
 
+  const editRecord = (editSection: string, editData: any) => {
+    router.push({
+      pathname: "/EditRecordSection",
+      params: { section: editSection, data: editData },
+    });
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Health Record</Text>
@@ -75,11 +81,7 @@ const HealthRecordForm = () => {
         <Text> {partialRecord.description}</Text>
         <Pressable
           style={styles.editButton}
-          onPress={() =>
-            router.push({
-              pathname: "/EditRecordSection",
-              params: { section: "Description", data: partialRecord.description },
-            })
+          onPress={() => editRecord("Description", partialRecord.description)
           }
         >
           <Text>Edit</Text>
