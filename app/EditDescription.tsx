@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 
 const EditDescription = ({ data }: { data: string }) => {
   const [description, setDescription] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -17,10 +16,13 @@ const EditDescription = ({ data }: { data: string }) => {
 
   const handleSave = () => {
     if (description.trim().length < 10) {
-      setError("Description must be at least 10 characters long");
+      if (Platform.OS === "web") {
+        window.alert("Description must be at least 10 characters long!");
+      } else {
+        Alert.alert("Description must be at least 10 characters long");
+      }
       return;
     }
-    setError(null);
     // Save
     console.log("Saved description:", description);
   };
@@ -35,17 +37,11 @@ const EditDescription = ({ data }: { data: string }) => {
       <Pressable style={styles.saveBtn} onPress={router.back}>
         <Text>Cancel</Text>
       </Pressable>
-      {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  error: {
-    color: "red",
-    marginHorizontal: "auto",
-    marginTop: 8,
-  },
   saveBtn: {
     alignItems: "center",
     backgroundColor: "#FBDABB",
