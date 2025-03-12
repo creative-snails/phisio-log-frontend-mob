@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { router, useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
 interface PartialRecord {
@@ -72,7 +73,15 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text> {partialRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Description")}>
+        <Pressable
+          style={styles.editButton}
+          onPress={() =>
+            router.push({
+              pathname: "/EditRecordSection",
+              params: { section: "Description", data: partialRecord.description },
+            })
+          }
+        >
           <Text>Edit</Text>
         </Pressable>
       </View>
