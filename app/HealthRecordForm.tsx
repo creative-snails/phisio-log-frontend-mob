@@ -69,8 +69,9 @@ const HealthRecordForm = () => {
   const editRecord = (editSection: string, editData: any) => {
     router.push({
       pathname: "/EditRecordSection",
-      params: { section: editSection, data: editData },
+      params: { section: editSection, data: JSON.stringify(editData) },
     });
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -79,11 +80,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text> {partialRecord.description}</Text>
-        <Pressable
-          style={styles.editButton}
-          onPress={() => editRecord("Description", partialRecord.description)
-          }
-        >
+        <Pressable style={styles.editButton} onPress={() => editRecord("Description", partialRecord.description)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -96,7 +93,7 @@ const HealthRecordForm = () => {
             <Text>Start Date: {symptom.startDate}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Symptoms")}>
+        <Pressable style={styles.editButton} onPress={() => editRecord("Symptoms", symptoms)}>
           <Text>Edit</Text>
         </Pressable>
       </View>

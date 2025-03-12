@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import EditDescription from "./EditDescription";
+import EditSymptoms from "./EditSymptoms";
 
 const EditRecordSection = () => {
-  const { section, data } = useLocalSearchParams<{ section: string; data: any }>();
-  const [value, setValue] = useState(data);
+  const { section, data } = useLocalSearchParams<{ section: string; data: string }>();
+
   return (
     <View>
-      <Text>Edit {section} </Text>
-      <TextInput value={value} onChangeText={setValue} />
+      {section === "Description" && <EditDescription data={data} />}
+      {section === "Symptoms" && <EditSymptoms data={data} />}
     </View>
   );
 };
