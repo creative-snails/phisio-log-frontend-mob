@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button } from "react-native-paper";
+import { DatePickerModal } from "react-native-paper-dates";
+import { enGB, registerTranslation } from "react-native-paper-dates";
 import { router } from "expo-router";
+
+registerTranslation("en-GB", enGB);
 
 interface Symptom {
   name: string;
@@ -9,6 +14,8 @@ interface Symptom {
 
 const EditSymptoms = ({ data }: { data: string }) => {
   const [symptoms, setSymptoms] = useState<Symptom[]>([]);
+  const [open, setOpen] = React.useState(false);
+  const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
   useEffect(() => {
     try {
@@ -44,17 +51,37 @@ const EditSymptoms = ({ data }: { data: string }) => {
     console.log("Saved symptoms:", symptoms);
   };
 
+  const openDatePicker = (index: number) => {
+    setSelectedSymptomIndex(index);
+    setOpen(true);
+  };
+
+  const onConfirmDate = (date: Date) => {
+    if (selectedSymptomIndex !== null) {
+      updateSymptom(selectedSymptomIndex, "startDate", date.toISOString().split("T")[0]);
+    }
+    setOpen(false);
+  };
+
   return (
     <View>
       <Text style={styles.title}>Edit Symptoms</Text>
       {symptoms.map((symptom, index) => (
-        <ScrollView key={index} style={styles.container}>
+        <ScrollView
+          key={index}
+          style={styles.container}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+          contentInsetAdjustmentBehavior="always"
+        >
           <TextInput
             style={styles.textInput}
             value={symptom.name}
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
-          <TextInput value={symptom.startDate} onChangeText={(text) => updateSymptom(index, "startDate", text)} />
+          <Button onPress={() => openDatePicker(index)} uppercase={false} mode="outlined">
+            {symptom.startDate}
+          </Button>
           <Pressable style={styles.saveBtn} onPress={handleSave}>
             <Text>Save</Text>
           </Pressable>
@@ -63,6 +90,20 @@ const EditSymptoms = ({ data }: { data: string }) => {
       <Pressable style={styles.saveBtn} onPress={router.back}>
         <Text>Cancel</Text>
       </Pressable>
+      <DatePickerModal
+        locale="en-GB"
+        mode="single"
+        label="Select date"
+        saveLabel="   SAVE"
+        visible={open}
+        onDismiss={() => setOpen(false)}
+        date={selectedSymptomIndex !== null ? new Date(symptoms[selectedSymptomIndex].startDate) : new Date()}
+        onConfirm={({ date }) => {
+          if (date) {
+            onConfirmDate(date);
+          }
+        }}
+      />
     </View>
   );
 };
