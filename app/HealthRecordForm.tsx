@@ -1,26 +1,9 @@
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { router, useRouter } from "expo-router";
+import { router } from "expo-router";
 import { getHealthRecord } from "./api";
 
-interface PartialRecord {
-  description: string;
-  status: string;
-  improvementStatus: string;
-  severity: string;
-}
-
-interface Symptoms {
-  name: string;
-  startDate: string;
-}
-
-interface MedicalConsultation {
-  consultant: string;
-  date: string;
-  diagnosis: string;
-  followUpAction: string[];
-}
+import { MedicalConsultation, PartialRecord, Symptom } from "@/types/healthRecordTypes_ts";
 
 const HealthRecordForm = () => {
   const [partialRecord, setPartialRecord] = useState<PartialRecord>({
@@ -29,21 +12,11 @@ const HealthRecordForm = () => {
     improvementStatus: "",
     severity: "",
   });
-  const [symptoms, setSymptoms] = useState<Symptoms[]>([]);
+  const [symptoms, setSymptoms] = useState<Symptom[]>([]);
   const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
   const [medicalConsultations, setMedicalConsultations] = useState<MedicalConsultation[]>([]);
 
-  const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "" }]);
-
-  const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = symptoms.map((symptom, i) => {
-      if (i === index) {
-        return { ...symptom, [key]: value };
-      }
-      return symptom;
-    });
-    setSymptoms(updatedSymptoms);
-  };
+  // const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "" }]);
 
   useEffect(() => {
     const fetchHealthRecord = async () => {
@@ -66,7 +39,7 @@ const HealthRecordForm = () => {
     fetchHealthRecord();
   }, []);
 
-  const editRecord = (editSection: string, editData: any) => {
+  const editRecord = (editSection: string, editData: string | Symptom[] | MedicalConsultation[] | string[]) => {
     router.push({
       pathname: "/EditRecordSection",
       params: { section: editSection, data: JSON.stringify(editData) },
@@ -90,7 +63,7 @@ const HealthRecordForm = () => {
         {symptoms.map((symptom, index) => (
           <View key={index}>
             <Text>Name: {symptom.name}</Text>
-            <Text>Start Date: {symptom.startDate}</Text>
+            <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => editRecord("Symptoms", symptoms)}>
@@ -137,9 +110,9 @@ const HealthRecordForm = () => {
         {medicalConsultations.map((consultation, index) => (
           <View key={index}>
             <Text>Consultant: {consultation.consultant}</Text>
-            <Text>Date: {consultation.date}</Text>
+            <Text>Date: {consultation.date ? consultation.date.toString() : ""}</Text>
             <Text>Diagnosis: {consultation.diagnosis}</Text>
-            <Text>Follow-up action: {consultation.followUpAction?.join(", ")}</Text>
+            <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Medical Consultation")}>

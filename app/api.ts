@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { HealthRecordType } from "@/types/healthRecordTypes_ts";
+
 const API_URL = "http://localhost:5000/health-records";
 
 // Get specific health record based on id
@@ -25,7 +27,7 @@ export const getAllHealthRecords = async () => {
 };
 
 // Create a new health record
-export const createHealthRecord = async (data: any) => {
+export const createHealthRecord = async (data: HealthRecordType) => {
   try {
     const response = await axios.post(API_URL, data);
     return response.data;
@@ -36,7 +38,7 @@ export const createHealthRecord = async (data: any) => {
 };
 
 // Update an existing health record
-export const updateHealthRecord = async (id: number, data: any) => {
+export const updateHealthRecord = async (id: number, data: HealthRecordType) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, data);
     return response.data;

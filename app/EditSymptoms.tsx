@@ -5,12 +5,9 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 import { router } from "expo-router";
 
-registerTranslation("en-GB", enGB);
+import { Symptom } from "@/types/healthRecordTypes_ts";
 
-interface Symptom {
-  name: string;
-  startDate: string;
-}
+registerTranslation("en-GB", enGB);
 
 const EditSymptoms = ({ data }: { data: string }) => {
   const [symptoms, setSymptoms] = useState<Symptom[]>([]);
@@ -80,7 +77,7 @@ const EditSymptoms = ({ data }: { data: string }) => {
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
           <Button onPress={() => openDatePicker(index)} uppercase={false} mode="outlined">
-            {symptom.startDate}
+            {symptom.startDate ? symptom.startDate.toString() : ""}
           </Button>
           <Pressable style={styles.saveBtn} onPress={handleSave}>
             <Text>Save</Text>
@@ -97,7 +94,11 @@ const EditSymptoms = ({ data }: { data: string }) => {
         saveLabel="   SAVE"
         visible={open}
         onDismiss={() => setOpen(false)}
-        date={selectedSymptomIndex !== null ? new Date(symptoms[selectedSymptomIndex].startDate) : new Date()}
+        date={
+          selectedSymptomIndex !== null && symptoms[selectedSymptomIndex].startDate
+            ? new Date(symptoms[selectedSymptomIndex].startDate)
+            : new Date()
+        }
         onConfirm={({ date }) => {
           if (date) {
             onConfirmDate(date);
