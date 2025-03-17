@@ -26,9 +26,9 @@ export interface HealthRecordUpdateType {
 
 export interface PartialRecord {
   description: string;
-  status: string;
-  improvementStatus: string;
-  severity: string;
+  status: Status;
+  improvementStatus: ImprovementStatus;
+  severity: Severity;
 }
 
 export interface HealthRecordType {

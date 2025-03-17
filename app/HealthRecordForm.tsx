@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { getHealthRecord } from "./api";
 
-import { MedicalConsultation, PartialRecord, Symptom } from "@/types/healthRecordTypes_ts";
+import { MedicalConsultation, PartialRecord, Symptom } from "@/types/healthRecordTypes";
 
 const HealthRecordForm = () => {
   const [partialRecord, setPartialRecord] = useState<PartialRecord>({

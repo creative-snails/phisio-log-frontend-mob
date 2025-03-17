@@ -5,7 +5,7 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 import { router } from "expo-router";
 
-import { Symptom } from "@/types/healthRecordTypes_ts";
+import { Symptom } from "@/types/healthRecordTypes";
 
 registerTranslation("en-GB", enGB);
 
