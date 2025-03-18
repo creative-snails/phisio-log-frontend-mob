@@ -26,7 +26,7 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
     setTimeout(() => {
       if (!interactRef.current) return;
       setIsSelected((prev) => !prev);
-    }, 150);
+    }, 250);
   };
 
   return (

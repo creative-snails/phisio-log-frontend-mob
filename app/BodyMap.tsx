@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   GestureEvent,
@@ -15,6 +15,7 @@ import BodyPart from "./BodyPart";
 import { backSide, frontSide } from "@/services/bodyParts";
 
 const BodyMap = () => {
+  const [flip, setFlip] = useState(true);
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
@@ -24,6 +25,14 @@ const BodyMap = () => {
   const panRef = useRef(null);
   const lastScale = useRef(1);
   const lastOffset = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    lastScale.current = 1;
+    lastOffset.current = { x: 0, y: 0 };
+    setTranslateX(0);
+    setTranslateY(0);
+    setScale(1);
+  }, [flip]);
 
   const onPinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
@@ -52,7 +61,6 @@ const BodyMap = () => {
     }
   };
 
-  const [flip, setFlip] = useState(true);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
