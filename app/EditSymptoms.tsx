@@ -11,17 +11,18 @@ registerTranslation("en-GB", enGB);
 
 const EditSymptoms = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
+  const [localSymptoms, setLocalSymptoms] = useState(healthRecord.symptoms);
   const [open, setOpen] = React.useState(false);
   const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
   const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = healthRecord.symptoms.map((symptom, i) => {
+    const updatedSymptoms = localSymptoms.map((symptom, i) => {
       if (i === index) {
         return { ...symptom, [key]: value };
       }
       return symptom;
     });
-    setHealthRecord({ ...healthRecord, symptoms: updatedSymptoms });
+    setLocalSymptoms(updatedSymptoms);
   };
 
   const handleSave = () => {
@@ -35,8 +36,10 @@ const EditSymptoms = () => {
         return;
       }
     }
+    setHealthRecord({ ...healthRecord, symptoms: localSymptoms });
     // Save
-    console.log("Saved symptoms:", healthRecord.symptoms);
+    console.log("Saved symptoms:", localSymptoms);
+    router.back();
   };
 
   const openDatePicker = (index: number) => {
@@ -54,7 +57,7 @@ const EditSymptoms = () => {
   return (
     <View>
       <Text style={styles.title}>Edit Symptoms</Text>
-      {healthRecord.symptoms.map((symptom, index) => (
+      {localSymptoms.map((symptom, index) => (
         <ScrollView
           key={index}
           style={styles.container}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 
@@ -5,9 +6,10 @@ import useAppStore from "@/store/useAppStore";
 
 const EditDescription = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
+  const [localDescription, setLocalDescription] = useState(healthRecord.description);
 
   const handleSave = () => {
-    if (healthRecord.description.trim().length < 10) {
+    if (localDescription.trim().length < 10) {
       if (Platform.OS === "web") {
         window.alert("Description must be at least 10 characters long!");
       } else {
@@ -15,8 +17,10 @@ const EditDescription = () => {
       }
       return;
     }
+    setHealthRecord({ ...healthRecord, description: localDescription });
     // Save
-    console.log("Saved description:", healthRecord.description);
+    console.log("Saved description:", localDescription);
+    router.back();
   };
 
   return (
@@ -25,8 +29,8 @@ const EditDescription = () => {
       <TextInput
         style={styles.textInput}
         multiline={true}
-        value={healthRecord.description}
-        onChangeText={(description) => setHealthRecord({ ...healthRecord, description })}
+        value={localDescription}
+        onChangeText={setLocalDescription}
       />
       <Pressable style={styles.saveBtn} onPress={handleSave}>
         <Text>Save</Text>
