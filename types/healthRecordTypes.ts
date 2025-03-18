@@ -32,7 +32,6 @@ export interface PartialRecord {
 }
 
 export interface HealthRecordType {
-  user: string;
   description: string;
   symptoms: Symptom[];
   status?: Status;
