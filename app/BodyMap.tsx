@@ -15,17 +15,24 @@ import BodyPart from "./BodyPart";
 import { backSide, frontSide } from "@/services/bodyParts";
 
 const BodyMap = () => {
+  // State for front/back view toggle
   const [flip, setFlip] = useState(true);
+  // States from zoom and pan transformations
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  // States to disable interaction during gestures
   const [isZooming, setIsZooming] = useState(false);
   const [isPanning, setIsPanning] = useState(false);
+
+  // Refs for gesture handlers
   const pinchRef = useRef(null);
   const panRef = useRef(null);
+  // Refs to remember previous gesture states
   const lastScale = useRef(1);
   const lastOffset = useRef({ x: 0, y: 0 });
 
+  // Reset all transformations when flipping the body
   useEffect(() => {
     lastScale.current = 1;
     lastOffset.current = { x: 0, y: 0 };
@@ -38,6 +45,7 @@ const BodyMap = () => {
     setScale(lastScale.current * event.nativeEvent.scale);
   };
 
+  // Track pinch gesture states and store final scale
   const onPinchStateChange = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       setIsZooming(true);
@@ -52,6 +60,7 @@ const BodyMap = () => {
     setTranslateY(lastOffset.current.y + event.nativeEvent.translationY);
   };
 
+  // Track pan gesture states and store final position
   const onPanStateChange = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       setIsPanning(true);

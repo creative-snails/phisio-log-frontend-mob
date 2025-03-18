@@ -10,18 +10,23 @@ interface BodyPartProps {
 
 const BodyPart = ({ interact, data }: BodyPartProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(data.isSelected);
+
+  // Ref to track latest interact prop value inside event handlers
   const interactRef = useRef(interact);
 
+  // Keep interactRef in sync with interact prop
   useEffect(() => {
     interactRef.current = interact;
   }, [interact]);
 
+  // Color mapping for different status levels
   const statusColors = {
     1: "#F44336",
     2: "#FF9800",
     3: "#4CAF50",
   };
 
+  // Hanlde press events with debounce to prevent double triggers
   const handleOnPress = () => {
     setTimeout(() => {
       if (!interactRef.current) return;
