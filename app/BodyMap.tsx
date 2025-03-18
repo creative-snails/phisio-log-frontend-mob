@@ -34,7 +34,6 @@ const BodyMap = () => {
       setIsZooming(true);
     } else if (event.nativeEvent.state === State.END) {
       setIsZooming(false);
-      // setScale(event.nativeEvent.scale);
       lastScale.current = scale;
     }
   };

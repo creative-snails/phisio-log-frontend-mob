@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Path } from "react-native-svg";
 
 import { bodyPartData } from "@/services/bodyParts";
@@ -10,6 +10,11 @@ interface BodyPartProps {
 
 const BodyPart = ({ interact, data }: BodyPartProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(data.isSelected);
+  const interactRef = useRef(interact);
+
+  useEffect(() => {
+    interactRef.current = interact;
+  }, [interact]);
 
   const statusColors = {
     1: "#F44336",
@@ -18,7 +23,10 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
   };
 
   const handleOnPress = () => {
-    if (interact) setIsSelected((prev) => !prev);
+    setTimeout(() => {
+      if (!interactRef.current) return;
+      setIsSelected((prev) => !prev);
+    }, 150);
   };
 
   return (
