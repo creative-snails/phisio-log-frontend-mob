@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import useAppStore from "./../store/useAppStore";
 import { getHealthRecord } from "./api";
 
-import { MedicalConsultation, Symptom } from "@/types/healthRecordTypes";
-
 const HealthRecordForm = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchHealthRecord = async () => {
@@ -19,14 +18,7 @@ const HealthRecordForm = () => {
       }
     };
     fetchHealthRecord();
-  }, []);
-
-  const editRecord = (editSection: string, editData: string | Symptom[] | MedicalConsultation[] | string[]) => {
-    router.push({
-      pathname: "/EditRecordSection",
-      params: { section: editSection, data: JSON.stringify(editData) },
-    });
-  };
+  }, [setHealthRecord]);
 
   return (
     <ScrollView style={styles.container}>
@@ -35,7 +27,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text> {healthRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => editRecord("Description", healthRecord.description)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditDescription")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -48,7 +40,7 @@ const HealthRecordForm = () => {
             <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => editRecord("Symptoms", healthRecord.symptoms)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSymptoms")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
