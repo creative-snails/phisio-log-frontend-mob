@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
 import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
 
-const EditDescription = ({ data }: { data: string }) => {
-  const [description, setDescription] = useState<string>("");
+import useAppStore from "@/store/useAppStore";
 
-  useEffect(() => {
-    try {
-      const parsedData = JSON.parse(data);
-      setDescription(parsedData);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-  }, [data]);
+const EditDescription = () => {
+  const { setHealthRecord, healthRecord } = useAppStore();
 
   const handleSave = () => {
-    if (description.trim().length < 10) {
+    if (healthRecord.description.trim().length < 10) {
       if (Platform.OS === "web") {
         window.alert("Description must be at least 10 characters long!");
       } else {
@@ -24,13 +16,18 @@ const EditDescription = ({ data }: { data: string }) => {
       return;
     }
     // Save
-    console.log("Saved description:", description);
+    console.log("Saved description:", healthRecord.description);
   };
 
   return (
     <View>
       <Text style={styles.title}>Edit Description</Text>
-      <TextInput style={styles.textInput} multiline={true} value={description} onChangeText={setDescription} />
+      <TextInput
+        style={styles.textInput}
+        multiline={true}
+        value={healthRecord.description}
+        onChangeText={(description) => setHealthRecord({ ...healthRecord, description })}
+      />
       <Pressable style={styles.saveBtn} onPress={handleSave}>
         <Text>Save</Text>
       </Pressable>

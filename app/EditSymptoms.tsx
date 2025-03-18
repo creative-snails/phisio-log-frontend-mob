@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 import { router } from "expo-router";
 
-import { Symptom } from "@/types/healthRecordTypes";
+import useAppStore from "@/store/useAppStore";
 
 registerTranslation("en-GB", enGB);
 
-const EditSymptoms = ({ data }: { data: string }) => {
-  const [symptoms, setSymptoms] = useState<Symptom[]>([]);
+const EditSymptoms = () => {
+  const { setHealthRecord, healthRecord } = useAppStore();
   const [open, setOpen] = React.useState(false);
   const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    try {
-      const parsedData = JSON.parse(data);
-      setSymptoms(parsedData);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-  }, [data]);
-
   const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = symptoms.map((symptom, i) => {
+    const updatedSymptoms = healthRecord.symptoms.map((symptom, i) => {
       if (i === index) {
         return { ...symptom, [key]: value };
       }
       return symptom;
     });
-    setSymptoms(updatedSymptoms);
+    setHealthRecord({ ...healthRecord, symptoms: updatedSymptoms });
   };
 
   const handleSave = () => {
-    for (const symptom of symptoms) {
+    for (const symptom of healthRecord.symptoms) {
       if (symptom.name.trim().length < 3) {
         if (Platform.OS === "web") {
           window.alert("Symptom name must be at least 3 characters long!");
@@ -45,7 +36,7 @@ const EditSymptoms = ({ data }: { data: string }) => {
       }
     }
     // Save
-    console.log("Saved symptoms:", symptoms);
+    console.log("Saved symptoms:", healthRecord.symptoms);
   };
 
   const openDatePicker = (index: number) => {
@@ -63,7 +54,7 @@ const EditSymptoms = ({ data }: { data: string }) => {
   return (
     <View>
       <Text style={styles.title}>Edit Symptoms</Text>
-      {symptoms.map((symptom, index) => (
+      {healthRecord.symptoms.map((symptom, index) => (
         <ScrollView
           key={index}
           style={styles.container}
@@ -95,8 +86,8 @@ const EditSymptoms = ({ data }: { data: string }) => {
         visible={open}
         onDismiss={() => setOpen(false)}
         date={
-          selectedSymptomIndex !== null && symptoms[selectedSymptomIndex].startDate
-            ? new Date(symptoms[selectedSymptomIndex].startDate)
+          selectedSymptomIndex !== null && healthRecord.symptoms[selectedSymptomIndex].startDate
+            ? new Date(healthRecord.symptoms[selectedSymptomIndex].startDate)
             : new Date()
         }
         onConfirm={({ date }) => {

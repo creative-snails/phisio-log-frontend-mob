@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
-import useAppStore from "./../store/useAppStore";
 import { getHealthRecord } from "./api";
+
+import useAppStore from "@/store/useAppStore";
 
 const HealthRecordForm = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
