@@ -23,6 +23,7 @@ const BodyMap = () => {
   const pinchRef = useRef(null);
   const panRef = useRef(null);
   const lastScale = useRef(1);
+  const lastOffset = useRef({ x: 0, y: 0 });
 
   const onPinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
@@ -39,8 +40,8 @@ const BodyMap = () => {
   };
 
   const onPanEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
-    setTranslateX(event.nativeEvent.translationX);
-    setTranslateY(event.nativeEvent.translationY);
+    setTranslateX(lastOffset.current.x + event.nativeEvent.translationX);
+    setTranslateY(lastOffset.current.y + event.nativeEvent.translationY);
   };
 
   const onPanStateChange = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
@@ -48,8 +49,7 @@ const BodyMap = () => {
       setIsPanning(true);
     } else if (event.nativeEvent.state === State.END) {
       setIsPanning(false);
-      setTranslateX(event.nativeEvent.translationX);
-      setTranslateY(event.nativeEvent.translationY);
+      lastOffset.current = { x: translateX, y: translateY };
     }
   };
 
