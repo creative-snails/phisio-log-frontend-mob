@@ -12,16 +12,11 @@ registerTranslation("en-GB", enGB);
 const EditSymptoms = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const [localSymptoms, setLocalSymptoms] = useState(healthRecord.symptoms);
-  const [open, setOpen] = React.useState(false);
+  const [openDatePicker, setOpenDatePicker] = useState(false);
   const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
   const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = localSymptoms.map((symptom, i) => {
-      if (i === index) {
-        return { ...symptom, [key]: value };
-      }
-      return symptom;
-    });
+    const updatedSymptoms = localSymptoms.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));
     setLocalSymptoms(updatedSymptoms);
   };
 
@@ -41,16 +36,16 @@ const EditSymptoms = () => {
     router.back();
   };
 
-  const openDatePicker = (index: number) => {
+  const datePicker = (index: number) => {
     setSelectedSymptomIndex(index);
-    setOpen(true);
+    setOpenDatePicker(true);
   };
 
   const onConfirmDate = (date: Date) => {
     if (selectedSymptomIndex !== null) {
       updateSymptom(selectedSymptomIndex, "startDate", date.toISOString().split("T")[0]);
     }
-    setOpen(false);
+    setOpenDatePicker(false);
   };
 
   return (
@@ -69,7 +64,7 @@ const EditSymptoms = () => {
             value={symptom.name}
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
-          <Button onPress={() => openDatePicker(index)} uppercase={false} mode="outlined">
+          <Button onPress={() => datePicker(index)} uppercase={false} mode="outlined">
             {symptom.startDate ? symptom.startDate.toString() : ""}
           </Button>
           <Pressable style={styles.saveBtn} onPress={handleSave}>
@@ -85,8 +80,8 @@ const EditSymptoms = () => {
         mode="single"
         label="Select date"
         saveLabel="   SAVE"
-        visible={open}
-        onDismiss={() => setOpen(false)}
+        visible={openDatePicker}
+        onDismiss={() => setOpenDatePicker(false)}
         date={
           selectedSymptomIndex !== null && healthRecord.symptoms[selectedSymptomIndex].startDate
             ? new Date(healthRecord.symptoms[selectedSymptomIndex].startDate)
