@@ -95,8 +95,8 @@ const BodyMap = () => {
                   { scale },
                   { scaleX: 1 },
                   { scaleY: -1 },
-                  { translateX: translateX * 0.7 },
-                  { translateY: -translateY * 0.7 },
+                  { translateX: translateX / scale }, // reduce pan speed as scale grows
+                  { translateY: -translateY / scale }, // reduce pan speed as scale grows
                 ],
               }}
             >

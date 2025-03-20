@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Platform } from "react-native";
 import { Path } from "react-native-svg";
 
 import { bodyPartData } from "@/services/bodyParts";
@@ -27,19 +28,21 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
   };
 
   // Hanlde press events with debounce to prevent double triggers
-  const handleOnPress = () => {
-    setTimeout(() => {
+  const handlePress = () => {
+    const pressTimeout = setTimeout(() => {
       if (!interactRef.current) return;
       setIsSelected((prev) => !prev);
     }, 250);
+
+    return () => clearTimeout(pressTimeout);
   };
 
   return (
     <Path
       id={data.id}
       d={data.d}
-      onPressIn={handleOnPress}
-      onPress={handleOnPress}
+      onPressIn={Platform.OS !== "web" ? handlePress : undefined}
+      onPress={Platform.OS === "web" ? handlePress : undefined}
       stroke="#ff0000"
       strokeWidth={6}
       strokeOpacity={1}
