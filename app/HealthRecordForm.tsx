@@ -1,63 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
-interface PartialRecord {
-  description: string;
-  status: string;
-  improvementStatus: string;
-  severity: string;
-}
-
-interface Symptoms {
-  name: string;
-  startDate: string;
-}
-
-interface MedicalConsultation {
-  consultant: string;
-  date: string;
-  diagnosis: string;
-  followUpAction: string[];
-}
+import useAppStore from "@/store/useAppStore";
 
 const HealthRecordForm = () => {
-  const [partialRecord, setPartialRecord] = useState<PartialRecord>({
-    description: "",
-    status: "",
-    improvementStatus: "",
-    severity: "",
-  });
-  const [symptoms, setSymptoms] = useState<Symptoms[]>([]);
-  const [treatmentsTried, setTreatmentsTried] = useState<string[]>([]);
-  const [medicalConsultations, setMedicalConsultations] = useState<MedicalConsultation[]>([]);
-
-  const addSymptom = () => setSymptoms([...symptoms, { name: "", startDate: "" }]);
-
-  const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = symptoms.map((symptom, i) => {
-      if (i === index) {
-        return { ...symptom, [key]: value };
-      }
-      return symptom;
-    });
-    setSymptoms(updatedSymptoms);
-  };
+  const { setHealthRecord, healthRecord } = useAppStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchHealthRecord = async () => {
       try {
         const healthRecord = await getHealthRecord(1);
-
-        setPartialRecord({
-          description: healthRecord.description,
-          status: healthRecord.status,
-          improvementStatus: healthRecord.improvementStatus,
-          severity: healthRecord.severity,
-        });
-        setTreatmentsTried(healthRecord.treatmentsTried);
-        setMedicalConsultations(healthRecord.medicalConsultations);
-        setSymptoms(healthRecord.symptoms);
+        setHealthRecord(healthRecord);
       } catch (error) {
         console.error("Error fetching health record:", error);
       }
@@ -71,28 +27,28 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
-        <Text> {partialRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Description")}>
+        <Text> {healthRecord.description}</Text>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditDescription")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Symptoms</Text>
-        {symptoms.map((symptom, index) => (
+        {healthRecord.symptoms.map((symptom, index) => (
           <View key={index}>
             <Text>Name: {symptom.name}</Text>
-            <Text>Start Date: {symptom.startDate}</Text>
+            <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Symptoms")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSymptoms")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Status</Text>
-        <Text>{partialRecord.status}</Text>
+        <Text>{healthRecord.status}</Text>
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Status")}>
           <Text>Edit</Text>
         </Pressable>
@@ -100,7 +56,7 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Severity</Text>
-        <Text>{partialRecord.severity}</Text>
+        <Text>{healthRecord.severity}</Text>
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Severity")}>
           <Text>Edit</Text>
         </Pressable>
@@ -108,9 +64,7 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
-        {treatmentsTried.map((treatment, index) => (
-          <Text key={index}>{treatment}</Text>
-        ))}
+        {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Treatments Tried")}>
           <Text>Edit</Text>
         </Pressable>
@@ -118,7 +72,7 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Improvement Status</Text>
-        <Text>{partialRecord.improvementStatus}</Text>
+        <Text>{healthRecord.improvementStatus}</Text>
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Improvement Status")}>
           <Text>Edit</Text>
         </Pressable>
@@ -126,12 +80,12 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Medical Consultation</Text>
-        {medicalConsultations.map((consultation, index) => (
+        {healthRecord.medicalConsultations?.map((consultation, index) => (
           <View key={index}>
             <Text>Consultant: {consultation.consultant}</Text>
-            <Text>Date: {consultation.date}</Text>
+            <Text>Date: {consultation.date ? consultation.date.toString() : ""}</Text>
             <Text>Diagnosis: {consultation.diagnosis}</Text>
-            <Text>Follow-up action: {consultation.followUpAction?.join(", ")}</Text>
+            <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Medical Consultation")}>
