@@ -41,12 +41,12 @@ const BodyMap = () => {
     setScale(1);
   }, [flip]);
 
-  const onPinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
+  const handlePinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
   };
 
   // Track pinch gesture states and store final scale
-  const onPinchStateChange = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
+  const handlePinchStateChange = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       setIsZooming(true);
     } else if (event.nativeEvent.state === State.END) {
@@ -55,13 +55,13 @@ const BodyMap = () => {
     }
   };
 
-  const onPanEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
+  const handlePanEvent = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     setTranslateX(lastOffset.current.x + event.nativeEvent.translationX);
     setTranslateY(lastOffset.current.y + event.nativeEvent.translationY);
   };
 
   // Track pan gesture states and store final position
-  const onPanStateChange = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
+  const handlePanStateChange = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     if (event.nativeEvent.state === State.ACTIVE) {
       setIsPanning(true);
     } else if (event.nativeEvent.state === State.END) {
@@ -75,14 +75,14 @@ const BodyMap = () => {
       <View style={styles.container}>
         <PinchGestureHandler
           ref={pinchRef}
-          onGestureEvent={onPinchEvent}
-          onHandlerStateChange={onPinchStateChange}
+          onGestureEvent={handlePinchEvent}
+          onHandlerStateChange={handlePinchStateChange}
           simultaneousHandlers={panRef}
         >
           <PanGestureHandler
             ref={panRef}
-            onGestureEvent={onPanEvent}
-            onHandlerStateChange={onPanStateChange}
+            onGestureEvent={handlePanEvent}
+            onHandlerStateChange={handlePanStateChange}
             simultaneousHandlers={pinchRef}
           >
             <Svg
