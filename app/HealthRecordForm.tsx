@@ -19,7 +19,7 @@ const HealthRecordForm = () => {
       }
     };
     fetchHealthRecord();
-  }, [setHealthRecord]);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
