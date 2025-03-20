@@ -37,7 +37,6 @@ const EditSymptoms = () => {
       }
     }
     setHealthRecord({ ...healthRecord, symptoms: localSymptoms });
-    // Save
     console.log("Saved symptoms:", localSymptoms);
     router.back();
   };

@@ -18,7 +18,6 @@ const EditDescription = () => {
       return;
     }
     setHealthRecord({ ...healthRecord, description: localDescription });
-    // Save
     console.log("Saved description:", localDescription);
     router.back();
   };

@@ -4,7 +4,6 @@ import { HealthRecordType } from "@/types/healthRecordTypes";
 
 const API_URL = "http://localhost:5000/health-records";
 
-// Get specific health record based on id
 export const getHealthRecord = async (id: number) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`);
@@ -15,7 +14,6 @@ export const getHealthRecord = async (id: number) => {
   }
 };
 
-// Fetch all health records
 export const getAllHealthRecords = async () => {
   try {
     const response = await axios.get(API_URL);
@@ -26,7 +24,6 @@ export const getAllHealthRecords = async () => {
   }
 };
 
-// Create a new health record
 export const createHealthRecord = async (data: HealthRecordType) => {
   try {
     const response = await axios.post(API_URL, data);
@@ -37,7 +34,6 @@ export const createHealthRecord = async (data: HealthRecordType) => {
   }
 };
 
-// Update an existing health record
 export const updateHealthRecord = async (id: number, data: HealthRecordType) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, data);
@@ -48,7 +44,6 @@ export const updateHealthRecord = async (id: number, data: HealthRecordType) => 
   }
 };
 
-// Delete an existing health record
 export const deleteHealthRecord = async (id: number) => {
   try {
     const response = await axios.delete(`${API_URL}/${id}`);
