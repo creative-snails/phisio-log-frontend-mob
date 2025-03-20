@@ -3,6 +3,7 @@ import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, Vi
 import { Button } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
+import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
@@ -41,8 +42,8 @@ const EditSymptoms = () => {
     setOpenDatePicker(true);
   };
 
-  const onConfirmDate = (date: Date) => {
-    if (selectedSymptomIndex !== null) {
+  const handleConfirmDate = (date: CalendarDate) => {
+    if (selectedSymptomIndex !== null && date) {
       updateSymptom(selectedSymptomIndex, "startDate", date.toISOString().split("T")[0]);
     }
     setOpenDatePicker(false);
@@ -88,11 +89,7 @@ const EditSymptoms = () => {
         visible={openDatePicker}
         onDismiss={() => setOpenDatePicker(false)}
         date={getDate(selectedSymptomIndex)}
-        onConfirm={({ date }) => {
-          if (date) {
-            onConfirmDate(date);
-          }
-        }}
+        onConfirm={({ date }) => handleConfirmDate(date)}
       />
     </View>
   );
