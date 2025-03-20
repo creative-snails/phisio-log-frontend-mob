@@ -64,7 +64,7 @@ const EditSymptoms = () => {
             value={symptom.name}
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
-          <Button onPress={() => datePicker(index)} uppercase={false} mode="outlined">
+          <Button onPress={() => datePicker(index)} mode="outlined">
             {symptom.startDate ? symptom.startDate.toString() : ""}
           </Button>
           <Pressable style={styles.saveBtn} onPress={handleSave}>
