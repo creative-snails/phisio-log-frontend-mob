@@ -21,7 +21,7 @@ const EditSymptoms = () => {
   };
 
   const handleSave = () => {
-    for (const symptom of healthRecord.symptoms) {
+    for (const symptom of localSymptoms) {
       if (symptom.name.trim().length < 3) {
         if (Platform.OS === "web") {
           window.alert("Symptom name must be at least 3 characters long!");
@@ -47,6 +47,11 @@ const EditSymptoms = () => {
     }
     setOpenDatePicker(false);
   };
+
+  const getDate = (selectedIndex: number | null) =>
+    selectedIndex !== null && healthRecord.symptoms[selectedIndex].startDate
+      ? new Date(healthRecord.symptoms[selectedIndex].startDate)
+      : new Date();
 
   return (
     <View>
@@ -82,11 +87,7 @@ const EditSymptoms = () => {
         saveLabel="   SAVE"
         visible={openDatePicker}
         onDismiss={() => setOpenDatePicker(false)}
-        date={
-          selectedSymptomIndex !== null && healthRecord.symptoms[selectedSymptomIndex].startDate
-            ? new Date(healthRecord.symptoms[selectedSymptomIndex].startDate)
-            : new Date()
-        }
+        date={getDate(selectedSymptomIndex)}
         onConfirm={({ date }) => {
           if (date) {
             onConfirmDate(date);
