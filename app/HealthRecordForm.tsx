@@ -49,7 +49,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Status</Text>
         <Text>{healthRecord.status}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Status")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditStatus")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -57,7 +57,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Severity</Text>
         <Text>{healthRecord.severity}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Severity")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSeverity")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -73,7 +73,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Improvement Status</Text>
         <Text>{healthRecord.improvementStatus}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Improvement Status")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditImprovementStatus")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
