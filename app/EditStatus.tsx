@@ -25,7 +25,13 @@ const EditStatus = () => {
 
   return (
     <View>
-      <Picker selectedValue={localStatus} onValueChange={(itemValue) => setLocalStatus(itemValue)}>
+      <Text style={styles.title}>Edit Status</Text>
+      <Picker
+        selectedValue={localStatus}
+        onValueChange={(itemValue) => setLocalStatus(itemValue)}
+        dropdownIconRippleColor="#FBDABB"
+        style={styles.dropdown}
+      >
         <Picker.Item label="Open" value="open" />
         <Picker.Item label="Closed" value="closed" />
         <Picker.Item label="In Progress" value="in-progress" />
@@ -40,6 +46,14 @@ const EditStatus = () => {
   );
 };
 const styles = StyleSheet.create({
+  dropdown: {
+    borderRadius: 10,
+    marginBottom: 10,
+    marginHorizontal: "auto",
+    padding: 5,
+    textAlign: "center",
+    width: 150,
+  },
   saveBtn: {
     alignItems: "center",
     backgroundColor: "#FBDABB",
@@ -49,6 +63,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 5,
     width: 100,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginHorizontal: "auto",
+    padding: 16,
   },
 });
 
