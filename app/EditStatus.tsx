@@ -29,7 +29,6 @@ const EditStatus = () => {
       <Picker
         selectedValue={localStatus}
         onValueChange={(itemValue) => setLocalStatus(itemValue)}
-        dropdownIconRippleColor="#FBDABB"
         style={styles.dropdown}
       >
         <Picker.Item label="Open" value="open" />
