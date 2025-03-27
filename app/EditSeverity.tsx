@@ -5,9 +5,17 @@ import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
 
+const SEVERITY_OPTIONS = [
+  { label: "Mild", value: "mild" },
+  { label: "Moderate", value: "moderate" },
+  { label: "Severe", value: "severe" },
+  { label: "Variable", value: "variable" },
+];
+
 const EditSeverity = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const [localSeverity, setLocalSeverity] = useState(healthRecord.severity);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleSave = () => {
     if (!localSeverity) {
@@ -30,11 +38,18 @@ const EditSeverity = () => {
         selectedValue={localSeverity}
         onValueChange={(itemValue) => setLocalSeverity(itemValue)}
         style={styles.dropdown}
+        onFocus={() => setIsExpanded(true)}
+        onBlur={() => setIsExpanded(false)}
+        mode="dropdown"
       >
-        <Picker.Item label="Mild" value="mild" />
-        <Picker.Item label="Moderate" value="moderate" />
-        <Picker.Item label="Severe" value="severe" />
-        <Picker.Item label="Variable" value="variable" />
+        {SEVERITY_OPTIONS.map((option) => (
+          <Picker.Item
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            style={{ backgroundColor: isExpanded && localSeverity === option.value ? "#FBDABB" : "transparent" }}
+          />
+        ))}
       </Picker>
       <Pressable style={styles.saveBtn} onPress={handleSave}>
         <Text>Save</Text>
