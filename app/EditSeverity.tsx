@@ -68,6 +68,25 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: "center",
     width: 150,
+    ...Platform.select({
+      android: {
+        backgroundColor: "#fff",
+        elevation: 2,
+      },
+      ios: {
+        backgroundColor: "#fff",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+      },
+      web: {
+        backgroundColor: "#fff",
+        fontSize: 16,
+        height: 40,
+        position: "relative",
+      },
+    }),
   },
   saveBtn: {
     alignItems: "center",
