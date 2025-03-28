@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Alert, Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
 
-const SEVERITY_OPTIONS = [
-  { label: "Mild", value: "mild" },
-  { label: "Moderate", value: "moderate" },
-  { label: "Severe", value: "severe" },
-  { label: "Variable", value: "variable" },
-];
-
 const EditSeverity = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const [localSeverity, setLocalSeverity] = useState(healthRecord.severity);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [severityOptions, setSeverityOptions] = useState<
+    { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
+  >([
+    { label: "Mild", value: "mild" },
+    { label: "Moderate", value: "moderate" },
+    { label: "Severe", value: "severe" },
+    { label: "Variable", value: "variable" },
+  ]);
 
   const handleSave = () => {
     if (!localSeverity) {
@@ -32,25 +33,24 @@ const EditSeverity = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Edit Severity</Text>
-      <Picker
-        selectedValue={localSeverity}
-        onValueChange={(itemValue) => setLocalSeverity(itemValue)}
-        style={styles.dropdown}
-        onFocus={() => setIsExpanded(true)}
-        onBlur={() => setIsExpanded(false)}
-        mode="dropdown"
-      >
-        {SEVERITY_OPTIONS.map((option) => (
-          <Picker.Item
-            key={option.value}
-            label={option.label}
-            value={option.value}
-            style={{ backgroundColor: isExpanded && localSeverity === option.value ? "#FBDABB" : "transparent" }}
-          />
-        ))}
-      </Picker>
+      <DropDownPicker
+        open={isExpanded}
+        setOpen={setIsExpanded}
+        value={localSeverity || null}
+        items={severityOptions}
+        setValue={setLocalSeverity}
+        setItems={setSeverityOptions}
+        onChangeValue={(value) => {
+          if (value) {
+            setLocalSeverity(value);
+          }
+        }}
+        containerStyle={styles.dropdown}
+        textStyle={styles.items}
+        labelStyle={styles.selectedItem}
+      />
       <Pressable style={styles.saveBtn} onPress={handleSave}>
         <Text>Save</Text>
       </Pressable>
@@ -61,32 +61,16 @@ const EditSeverity = () => {
   );
 };
 const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
   dropdown: {
-    borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     marginHorizontal: "auto",
-    padding: 5,
-    textAlign: "center",
     width: 150,
-    ...Platform.select({
-      android: {
-        backgroundColor: "#fff",
-        elevation: 2,
-      },
-      ios: {
-        backgroundColor: "#fff",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-      web: {
-        backgroundColor: "#fff",
-        fontSize: 16,
-        height: 40,
-        position: "relative",
-      },
-    }),
+  },
+  items: {
+    fontSize: 18,
   },
   saveBtn: {
     alignItems: "center",
@@ -97,6 +81,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingVertical: 5,
     width: 100,
+  },
+  selectedItem: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   title: {
     fontSize: 20,
