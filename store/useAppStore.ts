@@ -17,11 +17,13 @@ const useAppStore = create<AppStore>((set) => ({
   healthRecord: {
     description: "",
     symptoms: [],
-    status: "open",
+    currentCondition: {
+      status: "open",
+      severity: "mild",
+      improvementStatus: "stable",
+    },
     treatmentsTried: [],
-    improvementStatus: "stable",
     medicalConsultations: [],
-    severity: "mild",
     updates: [],
   },
   setHealthRecords: (healthRecords: HealthRecordType[]) => set({ healthRecords }),
