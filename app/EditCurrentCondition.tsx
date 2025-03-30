@@ -44,7 +44,12 @@ const EditSeverity = () => {
     }
     setHealthRecord({
       ...healthRecord,
-      currentCondition: { ...healthRecord.currentCondition, severity: localSeverity },
+      currentCondition: {
+        ...healthRecord.currentCondition,
+        severity: localSeverity,
+        status: localStatus,
+        improvementStatus: localImprovementStatus,
+      },
     });
     console.log("Saved severity:", localSeverity);
     router.back();
