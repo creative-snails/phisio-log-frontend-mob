@@ -7,7 +7,7 @@ import useAppStore from "@/store/useAppStore";
 
 const EditSeverity = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
-  const [localSeverity, setLocalSeverity] = useState(healthRecord.severity);
+  const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
   const [isExpanded, setIsExpanded] = useState(false);
   const [severityOptions, setSeverityOptions] = useState<
     { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
@@ -27,7 +27,10 @@ const EditSeverity = () => {
       }
       return;
     }
-    setHealthRecord({ ...healthRecord, severity: localSeverity });
+    setHealthRecord({
+      ...healthRecord,
+      currentCondition: { ...healthRecord.currentCondition, severity: localSeverity },
+    });
     console.log("Saved severity:", localSeverity);
     router.back();
   };
