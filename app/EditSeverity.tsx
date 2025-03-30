@@ -8,6 +8,8 @@ import useAppStore from "@/store/useAppStore";
 const EditSeverity = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
+  const [localStatus, setLocalStatus] = useState(healthRecord.currentCondition.status);
+  const [localImprovementStatus, setLocalImprovementStatus] = useState(healthRecord.currentCondition.improvementStatus);
   const [isExpanded, setIsExpanded] = useState(false);
   const [severityOptions, setSeverityOptions] = useState<
     { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
@@ -15,6 +17,19 @@ const EditSeverity = () => {
     { label: "Mild", value: "mild" },
     { label: "Moderate", value: "moderate" },
     { label: "Severe", value: "severe" },
+    { label: "Variable", value: "variable" },
+  ]);
+  const [statusOptions, setStatusOptions] = useState<{ label: string; value: "open" | "closed" | "in-progress" }[]>([
+    { label: "Open", value: "open" },
+    { label: "Closed", value: "closed" },
+    { label: "In Progress", value: "in-progress" },
+  ]);
+  const [improvementStatusOptions, setImprovementStatusOptions] = useState<
+    { label: string; value: "stable" | "improving" | "worsening" | "variable" }[]
+  >([
+    { label: "Improving", value: "improving" },
+    { label: "Stable", value: "stable" },
+    { label: "Worsening", value: "worsening" },
     { label: "Variable", value: "variable" },
   ]);
 
@@ -48,6 +63,40 @@ const EditSeverity = () => {
         onChangeValue={(value) => {
           if (value) {
             setLocalSeverity(value);
+          }
+        }}
+        containerStyle={styles.dropdown}
+        textStyle={styles.items}
+        labelStyle={styles.selectedItem}
+      />
+      <Text style={styles.title}>Edit Status</Text>
+      <DropDownPicker
+        open={isExpanded}
+        setOpen={setIsExpanded}
+        value={localStatus || null}
+        items={statusOptions}
+        setValue={setLocalStatus}
+        setItems={setStatusOptions}
+        onChangeValue={(value) => {
+          if (value) {
+            setLocalStatus(value);
+          }
+        }}
+        containerStyle={styles.dropdown}
+        textStyle={styles.items}
+        labelStyle={styles.selectedItem}
+      />
+      <Text style={styles.title}>Edit Improvement Status</Text>
+      <DropDownPicker
+        open={isExpanded}
+        setOpen={setIsExpanded}
+        value={localImprovementStatus || null}
+        items={improvementStatusOptions}
+        setValue={setLocalImprovementStatus}
+        setItems={setImprovementStatusOptions}
+        onChangeValue={(value) => {
+          if (value) {
+            setLocalImprovementStatus(value);
           }
         }}
         containerStyle={styles.dropdown}
