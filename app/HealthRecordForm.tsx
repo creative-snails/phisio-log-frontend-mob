@@ -55,7 +55,7 @@ const HealthRecordForm = () => {
             Improvement status: {healthRecord.currentCondition.improvementStatus}
           </Text>
         </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSeverity")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditCurrentCondition")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
