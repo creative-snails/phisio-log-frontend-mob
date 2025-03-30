@@ -16,9 +16,12 @@
           "duration": "2 days"
         }
       ],
-      "status": "in-progress",
+      "currentCondition": {
+        "status": "in-progress",
+        "severity": "severe",
+        "improvementStatus": "stable"
+      },
       "treatmentsTried": ["Painkillers", "Cold compress", "Hydration"],
-      "improvementStatus": "stable",
       "medicalConsultations": [
         {
           "consultant": "Dr. Smith",
@@ -27,7 +30,6 @@
           "followUpActions": ["Rest", "Reduce screen time"]
         }
       ],
-      "severity": "severe",
       "updates": [
         {
           "description": "Tried a new painkiller, mild relief",
@@ -63,9 +65,12 @@
           "duration": "12 days"
         }
       ],
-      "status": "open",
+      "currentCondition": {
+        "status": "open",
+        "severity": "moderate",
+        "improvementStatus": "variable"
+      },
       "treatmentsTried": ["Physical therapy", "Hot compress", "Stretching"],
-      "improvementStatus": "variable",
       "medicalConsultations": [
         {
           "consultant": "Dr. Adams",
@@ -74,7 +79,6 @@
           "followUpActions": ["Continue therapy", "Apply ice and heat alternately"]
         }
       ],
-      "severity": "moderate",
       "updates": [
         {
           "description": "Started physical therapy, mild improvement",

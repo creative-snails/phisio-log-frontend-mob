@@ -49,9 +49,11 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Current Condition</Text>
         <View>
-          <Text style={styles.capitalizedText}>Status: {healthRecord.status}</Text>
-          <Text style={styles.capitalizedText}>Severity: {healthRecord.severity}</Text>
-          <Text style={styles.capitalizedText}>Improvement status: {healthRecord.improvementStatus}</Text>
+          <Text style={styles.capitalizedText}>Status: {healthRecord.currentCondition.status}</Text>
+          <Text style={styles.capitalizedText}>Severity: {healthRecord.currentCondition.severity}</Text>
+          <Text style={styles.capitalizedText}>
+            Improvement status: {healthRecord.currentCondition.improvementStatus}
+          </Text>
         </View>
         <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSeverity")}>
           <Text>Edit</Text>
@@ -113,10 +115,6 @@ const styles = StyleSheet.create({
   section: {
     fontSize: 16,
     fontWeight: "bold",
-  },
-  statusContainer: {
-    alignItems: "center",
-    marginVertical: 5,
   },
   title: {
     fontSize: 20,

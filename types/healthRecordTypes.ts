@@ -34,10 +34,12 @@ export interface PartialRecord {
 export interface HealthRecordType {
   description: string;
   symptoms: Symptom[];
-  status?: Status;
+  currentCondition: {
+    status: Status;
+    severity: Severity;
+    improvementStatus: ImprovementStatus;
+  };
   treatmentsTried?: string[];
-  improvementStatus?: ImprovementStatus;
   medicalConsultations?: MedicalConsultation[];
-  severity?: Severity;
   updates?: HealthRecordUpdateType[];
 }
