@@ -47,19 +47,13 @@ const HealthRecordForm = () => {
       </View>
 
       <View style={styles.innerContainer}>
-        <View style={styles.statusContainer}>
-          <Text style={styles.section}>Status</Text>
-          <Text style={styles.capitalizedText}>{healthRecord.status}</Text>
+        <Text style={styles.section}>Current Condition</Text>
+        <View>
+          <Text style={styles.capitalizedText}>Status: {healthRecord.status}</Text>
+          <Text style={styles.capitalizedText}>Severity: {healthRecord.severity}</Text>
+          <Text style={styles.capitalizedText}>Improvement status: {healthRecord.improvementStatus}</Text>
         </View>
-        <View style={styles.statusContainer}>
-          <Text style={styles.section}>Severity</Text>
-          <Text style={styles.capitalizedText}>{healthRecord.severity}</Text>
-        </View>
-        <View style={styles.statusContainer}>
-          <Text style={styles.section}>Improvement Status</Text>
-          <Text style={styles.capitalizedText}>{healthRecord.improvementStatus}</Text>
-        </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditImprovementStatus")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSeverity")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
