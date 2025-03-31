@@ -34,7 +34,11 @@ const EditCurrentCondition = () => {
   ]);
 
   const handleSave = () => {
-    if (!localSeverity) {
+    if (
+      !["mild", "moderate", "severe", "variable"].includes(localSeverity) ||
+      !["open", "closed", "in-progress"].includes(localStatus) ||
+      !["stable", "improving", "worsening", "variable"].includes(localImprovementStatus)
+    ) {
       if (Platform.OS === "web") {
         window.alert("Invalid value selected");
       } else {
