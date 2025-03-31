@@ -5,12 +5,14 @@ import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
 
-const EditSeverity = () => {
+const EditCurrentCondition = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
-  const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
   const [localStatus, setLocalStatus] = useState(healthRecord.currentCondition.status);
+  const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
   const [localImprovementStatus, setLocalImprovementStatus] = useState(healthRecord.currentCondition.improvementStatus);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [statusOpen, setStatusOpen] = useState(false);
+  const [severityOpen, setSeverityOpen] = useState(false);
+  const [improvementStatusOpen, setImprovementStatusOpen] = useState(false);
   const [severityOptions, setSeverityOptions] = useState<
     { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
   >([
@@ -51,59 +53,61 @@ const EditSeverity = () => {
         improvementStatus: localImprovementStatus,
       },
     });
-    console.log("Saved severity:", localSeverity);
+    console.log(
+      `Saved --> Status: ${localStatus} | Severity: ${localSeverity} | Improvement Status: ${localImprovementStatus}`
+    );
     router.back();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Severity</Text>
-      <DropDownPicker
-        open={isExpanded}
-        setOpen={setIsExpanded}
-        value={localSeverity || null}
-        items={severityOptions}
-        setValue={setLocalSeverity}
-        setItems={setSeverityOptions}
-        onChangeValue={(value) => {
-          if (value) {
-            setLocalSeverity(value);
-          }
-        }}
-        containerStyle={styles.dropdown}
-        textStyle={styles.items}
-        labelStyle={styles.selectedItem}
-      />
       <Text style={styles.title}>Edit Status</Text>
       <DropDownPicker
-        open={isExpanded}
-        setOpen={setIsExpanded}
+        open={statusOpen}
+        setOpen={setStatusOpen}
         value={localStatus || null}
         items={statusOptions}
         setValue={setLocalStatus}
         setItems={setStatusOptions}
         onChangeValue={(value) => {
-          if (value) {
-            setLocalStatus(value);
-          }
+          if (value) setLocalStatus(value);
         }}
+        zIndex={3000}
+        zIndexInverse={1000}
+        containerStyle={styles.dropdown}
+        textStyle={styles.items}
+        labelStyle={styles.selectedItem}
+      />
+      <Text style={styles.title}>Edit Severity</Text>
+      <DropDownPicker
+        open={severityOpen}
+        setOpen={setSeverityOpen}
+        value={localSeverity || null}
+        items={severityOptions}
+        setValue={setLocalSeverity}
+        setItems={setSeverityOptions}
+        onChangeValue={(value) => {
+          if (value) setLocalSeverity(value);
+        }}
+        zIndex={2000}
+        zIndexInverse={2000}
         containerStyle={styles.dropdown}
         textStyle={styles.items}
         labelStyle={styles.selectedItem}
       />
       <Text style={styles.title}>Edit Improvement Status</Text>
       <DropDownPicker
-        open={isExpanded}
-        setOpen={setIsExpanded}
+        open={improvementStatusOpen}
+        setOpen={setImprovementStatusOpen}
         value={localImprovementStatus || null}
         items={improvementStatusOptions}
         setValue={setLocalImprovementStatus}
         setItems={setImprovementStatusOptions}
         onChangeValue={(value) => {
-          if (value) {
-            setLocalImprovementStatus(value);
-          }
+          if (value) setLocalImprovementStatus(value);
         }}
+        zIndex={1000}
+        zIndexInverse={3000}
         containerStyle={styles.dropdown}
         textStyle={styles.items}
         labelStyle={styles.selectedItem}
@@ -152,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditSeverity;
+export default EditCurrentCondition;
