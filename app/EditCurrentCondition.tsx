@@ -10,9 +10,7 @@ const EditCurrentCondition = () => {
   const [localStatus, setLocalStatus] = useState(healthRecord.currentCondition.status);
   const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
   const [localImprovementStatus, setLocalImprovementStatus] = useState(healthRecord.currentCondition.improvementStatus);
-  const [statusOpen, setStatusOpen] = useState(false);
-  const [severityOpen, setSeverityOpen] = useState(false);
-  const [improvementStatusOpen, setImprovementStatusOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<"status" | "severity" | "improvementStatus" | null>(null);
   const [severityOptions, setSeverityOptions] = useState<
     { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
   >([
@@ -59,12 +57,16 @@ const EditCurrentCondition = () => {
     router.back();
   };
 
+  const handleDropdowns = (dropdown: "status" | "severity" | "improvementStatus") => {
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Edit Status</Text>
       <DropDownPicker
-        open={statusOpen}
-        setOpen={setStatusOpen}
+        open={openDropdown === "status"}
+        setOpen={() => handleDropdowns("status")}
         value={localStatus || null}
         items={statusOptions}
         setValue={setLocalStatus}
@@ -80,8 +82,8 @@ const EditCurrentCondition = () => {
       />
       <Text style={styles.title}>Edit Severity</Text>
       <DropDownPicker
-        open={severityOpen}
-        setOpen={setSeverityOpen}
+        open={openDropdown === "severity"}
+        setOpen={() => handleDropdowns("severity")}
         value={localSeverity || null}
         items={severityOptions}
         setValue={setLocalSeverity}
@@ -97,8 +99,8 @@ const EditCurrentCondition = () => {
       />
       <Text style={styles.title}>Edit Improvement Status</Text>
       <DropDownPicker
-        open={improvementStatusOpen}
-        setOpen={setImprovementStatusOpen}
+        open={openDropdown === "improvementStatus"}
+        setOpen={() => handleDropdowns("improvementStatus")}
         value={localImprovementStatus || null}
         items={improvementStatusOptions}
         setValue={setLocalImprovementStatus}
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
   dropdown: {
     marginBottom: 20,
     marginHorizontal: "auto",
-    width: 150,
+    width: 200,
   },
   items: {
     fontSize: 18,
