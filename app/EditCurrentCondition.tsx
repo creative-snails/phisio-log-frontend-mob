@@ -4,8 +4,9 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
+import { currentConditionOptionsType } from "@/types/healthRecordTypes";
 
-const currentConditionOptions = {
+const currentConditionOptions: currentConditionOptionsType = {
   status: [
     { label: "Open", value: "open" },
     { label: "Closed", value: "closed" },
@@ -34,9 +35,9 @@ const EditCurrentCondition = () => {
 
   const handleSave = () => {
     if (
-      !["mild", "moderate", "severe", "variable"].includes(localSeverity) ||
-      !["open", "closed", "in-progress"].includes(localStatus) ||
-      !["stable", "improving", "worsening", "variable"].includes(localImprovementStatus)
+      !currentConditionOptions.status.map((s) => s.value).includes(localStatus) ||
+      !currentConditionOptions.severity.map((s) => s.value).includes(localSeverity) ||
+      !currentConditionOptions.improvementStatus.map((i) => i.value).includes(localImprovementStatus)
     ) {
       if (Platform.OS === "web") {
         window.alert("Invalid value selected");
