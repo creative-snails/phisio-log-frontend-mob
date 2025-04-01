@@ -5,33 +5,32 @@ import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
 
+const currentConditionOptions = {
+  status: [
+    { label: "Open", value: "open" },
+    { label: "Closed", value: "closed" },
+    { label: "In Progress", value: "in-progress" },
+  ],
+  severity: [
+    { label: "Mild", value: "mild" },
+    { label: "Moderate", value: "moderate" },
+    { label: "Severe", value: "severe" },
+    { label: "Variable", value: "variable" },
+  ],
+  improvementStatus: [
+    { label: "Improving", value: "improving" },
+    { label: "Stable", value: "stable" },
+    { label: "Worsening", value: "worsening" },
+    { label: "Variable", value: "variable" },
+  ],
+};
+
 const EditCurrentCondition = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const [localStatus, setLocalStatus] = useState(healthRecord.currentCondition.status);
   const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
   const [localImprovementStatus, setLocalImprovementStatus] = useState(healthRecord.currentCondition.improvementStatus);
   const [openDropdown, setOpenDropdown] = useState<"status" | "severity" | "improvementStatus" | null>(null);
-  const [severityOptions, setSeverityOptions] = useState<
-    { label: string; value: "mild" | "moderate" | "severe" | "variable" }[]
-  >([
-    { label: "Mild", value: "mild" },
-    { label: "Moderate", value: "moderate" },
-    { label: "Severe", value: "severe" },
-    { label: "Variable", value: "variable" },
-  ]);
-  const [statusOptions, setStatusOptions] = useState<{ label: string; value: "open" | "closed" | "in-progress" }[]>([
-    { label: "Open", value: "open" },
-    { label: "Closed", value: "closed" },
-    { label: "In Progress", value: "in-progress" },
-  ]);
-  const [improvementStatusOptions, setImprovementStatusOptions] = useState<
-    { label: string; value: "stable" | "improving" | "worsening" | "variable" }[]
-  >([
-    { label: "Improving", value: "improving" },
-    { label: "Stable", value: "stable" },
-    { label: "Worsening", value: "worsening" },
-    { label: "Variable", value: "variable" },
-  ]);
 
   const handleSave = () => {
     if (
@@ -72,12 +71,8 @@ const EditCurrentCondition = () => {
         open={openDropdown === "status"}
         setOpen={() => handleDropdowns("status")}
         value={localStatus || null}
-        items={statusOptions}
+        items={currentConditionOptions.status}
         setValue={setLocalStatus}
-        setItems={setStatusOptions}
-        onChangeValue={(value) => {
-          if (value) setLocalStatus(value);
-        }}
         zIndex={3000}
         zIndexInverse={1000}
         containerStyle={styles.dropdown}
@@ -89,12 +84,8 @@ const EditCurrentCondition = () => {
         open={openDropdown === "severity"}
         setOpen={() => handleDropdowns("severity")}
         value={localSeverity || null}
-        items={severityOptions}
+        items={currentConditionOptions.severity}
         setValue={setLocalSeverity}
-        setItems={setSeverityOptions}
-        onChangeValue={(value) => {
-          if (value) setLocalSeverity(value);
-        }}
         zIndex={2000}
         zIndexInverse={2000}
         containerStyle={styles.dropdown}
@@ -106,12 +97,8 @@ const EditCurrentCondition = () => {
         open={openDropdown === "improvementStatus"}
         setOpen={() => handleDropdowns("improvementStatus")}
         value={localImprovementStatus || null}
-        items={improvementStatusOptions}
+        items={currentConditionOptions.improvementStatus}
         setValue={setLocalImprovementStatus}
-        setItems={setImprovementStatusOptions}
-        onChangeValue={(value) => {
-          if (value) setLocalImprovementStatus(value);
-        }}
         zIndex={1000}
         zIndexInverse={3000}
         containerStyle={styles.dropdown}
