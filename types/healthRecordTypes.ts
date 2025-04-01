@@ -2,6 +2,12 @@ type Status = "open" | "closed" | "in-progress";
 type ImprovementStatus = "improving" | "stable" | "worsening" | "variable";
 type Severity = "mild" | "moderate" | "severe" | "variable";
 
+export type currentConditionOptionsType = {
+  status: { label: string; value: Status }[];
+  severity: { label: string; value: Severity }[];
+  improvementStatus: { label: string; value: ImprovementStatus }[];
+};
+
 export interface Symptom {
   name: string;
   startDate?: Date;
@@ -17,27 +23,24 @@ export interface MedicalConsultation {
 export interface HealthRecordUpdateType {
   description?: string;
   symptoms?: Symptom[];
-  status?: Status;
+  currentCondition?: {
+    status?: Status;
+    severity?: Severity;
+    improvementStatus?: ImprovementStatus;
+  };
   treatmentsTried?: string[];
-  improvementStatus?: ImprovementStatus;
   medicalConsultations?: MedicalConsultation[];
-  severity?: Severity;
-}
-
-export interface PartialRecord {
-  description: string;
-  status: Status;
-  improvementStatus: ImprovementStatus;
-  severity: Severity;
 }
 
 export interface HealthRecordType {
   description: string;
   symptoms: Symptom[];
-  status?: Status;
+  currentCondition: {
+    status: Status;
+    severity: Severity;
+    improvementStatus: ImprovementStatus;
+  };
   treatmentsTried?: string[];
-  improvementStatus?: ImprovementStatus;
   medicalConsultations?: MedicalConsultation[];
-  severity?: Severity;
   updates?: HealthRecordUpdateType[];
 }

@@ -47,17 +47,15 @@ const HealthRecordForm = () => {
       </View>
 
       <View style={styles.innerContainer}>
-        <Text style={styles.section}>Status</Text>
-        <Text>{healthRecord.status}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Status")}>
-          <Text>Edit</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.innerContainer}>
-        <Text style={styles.section}>Severity</Text>
-        <Text>{healthRecord.severity}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Severity")}>
+        <Text style={styles.section}>Current Condition</Text>
+        <View>
+          <Text style={styles.capitalizedText}>Status: {healthRecord.currentCondition.status}</Text>
+          <Text style={styles.capitalizedText}>Severity: {healthRecord.currentCondition.severity}</Text>
+          <Text style={styles.capitalizedText}>
+            Improvement status: {healthRecord.currentCondition.improvementStatus}
+          </Text>
+        </View>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditCurrentCondition")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -66,14 +64,6 @@ const HealthRecordForm = () => {
         <Text style={styles.section}>Treatments Tried</Text>
         {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
         <Pressable style={styles.editButton} onPress={() => console.log("Edit Treatments Tried")}>
-          <Text>Edit</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.innerContainer}>
-        <Text style={styles.section}>Improvement Status</Text>
-        <Text>{healthRecord.improvementStatus}</Text>
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Improvement Status")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -97,6 +87,9 @@ const HealthRecordForm = () => {
 };
 
 const styles = StyleSheet.create({
+  capitalizedText: {
+    textTransform: "capitalize",
+  },
   container: {
     flex: 1,
     marginVertical: 20,
