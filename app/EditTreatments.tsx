@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
@@ -55,26 +56,28 @@ const EditTreatments = () => {
   }
 
   return (
-    <ScrollView>
-      <Text style={styles.title}>Edit Treatments</Text>
-      {localTreatments?.map((treatment, index) => (
-        <View key={index}>
-          <TextInput
-            value={treatment}
-            onChangeText={(text) => handleTreatmentChange(text, index)}
-            placeholder="Enter treatment"
-            style={styles.textInput}
-            multiline={true}
-          />
-        </View>
-      ))}
-      <Pressable style={styles.saveBtn} onPress={handleSave}>
-        <Text>Save</Text>
-      </Pressable>
-      <Pressable style={styles.saveBtn} onPress={router.back}>
-        <Text>Cancel</Text>
-      </Pressable>
-    </ScrollView>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"}>
+      <ScrollView keyboardDismissMode="on-drag" keyboardShouldPersistTaps="handled">
+        <Text style={styles.title}>Edit Treatments</Text>
+        {localTreatments?.map((treatment, index) => (
+          <View key={index}>
+            <TextInput
+              value={treatment}
+              onChangeText={(text) => handleTreatmentChange(text, index)}
+              placeholder="Enter treatment"
+              style={styles.textInput}
+              multiline={true}
+            />
+          </View>
+        ))}
+        <Pressable style={styles.saveBtn} onPress={handleSave}>
+          <Text>Save</Text>
+        </Pressable>
+        <Pressable style={styles.saveBtn} onPress={router.back}>
+          <Text>Cancel</Text>
+        </Pressable>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
