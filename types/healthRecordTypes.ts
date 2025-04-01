@@ -17,18 +17,13 @@ export interface MedicalConsultation {
 export interface HealthRecordUpdateType {
   description?: string;
   symptoms?: Symptom[];
-  status?: Status;
+  currentCondition?: {
+    status?: Status;
+    severity?: Severity;
+    improvementStatus?: ImprovementStatus;
+  };
   treatmentsTried?: string[];
-  improvementStatus?: ImprovementStatus;
   medicalConsultations?: MedicalConsultation[];
-  severity?: Severity;
-}
-
-export interface PartialRecord {
-  description: string;
-  status: Status;
-  improvementStatus: ImprovementStatus;
-  severity: Severity;
 }
 
 export interface HealthRecordType {
