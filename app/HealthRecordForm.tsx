@@ -63,7 +63,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
         {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Treatments Tried")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditTreatments")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
