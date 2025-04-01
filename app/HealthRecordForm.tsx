@@ -78,7 +78,7 @@ const HealthRecordForm = () => {
             <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Medical Consultation")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditConsultations")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
