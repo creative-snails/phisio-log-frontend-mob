@@ -1,5 +1,7 @@
 import { useState } from "react";
 import {
+  ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -36,8 +38,6 @@ const EditConsultations = () => {
     setLocalConsultations(updatedConsultations);
   };
 
-  const handleSave = () => {};
-
   const datePicker = (index: number) => {
     setSelectedIndex(index);
     setOpenDatePicker(true);
@@ -54,6 +54,37 @@ const EditConsultations = () => {
     }
     setOpenDatePicker(false);
   };
+
+  const handleSave = () => {
+    if (localConsultations?.some((consultation) => consultation === null)) {
+      if (Platform.OS === "web") {
+        window.alert("Please fill all fields!");
+      } else {
+        Alert.alert("Error", "Please fill all fields!");
+      }
+      return;
+    }
+    try {
+      setLoading(true);
+      setHealthRecord({ ...healthRecord, medicalConsultations: localConsultations });
+      console.log("Saved consultations:", localConsultations);
+      router.back();
+    } catch (error) {
+      console.error("Error saving consultations:", error);
+      Alert.alert("Error", "Failed to save changes to Medical Consultations");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#d6abb6" />
+        <Text style={styles.loadingText}>Saving changes...</Text>
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "position"}>
