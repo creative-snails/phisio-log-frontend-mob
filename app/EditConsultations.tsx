@@ -114,21 +114,33 @@ const EditConsultations = () => {
               value={consultation.diagnosis}
               onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
             />
-            <View style={styles.followUps}>
-              <TouchableOpacity style={styles.followUpsBtn} onPress={() => setShowActions(!showActions)}>
-                <Text style={styles.followUpsText}>
+            <View style={styles.followUpsContainer}>
+              <TouchableOpacity style={styles.followUpsToggle} onPress={() => setShowActions(!showActions)}>
+                <Text style={styles.followUpsToggleText}>
                   {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
                 </Text>
               </TouchableOpacity>
-              {showActions &&
-                consultation.followUpActions?.map((action, followUpIndex) => (
-                  <TextInput
-                    key={followUpIndex}
-                    style={styles.textInput}
-                    value={action}
-                    onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
-                  />
-                ))}
+              <View style={styles.followUps}>
+                {showActions &&
+                  consultation.followUpActions?.map((action, followUpIndex) => (
+                    <View key={followUpIndex} style={styles.followUpsEntry}>
+                      <TextInput
+                        multiline={true}
+                        style={styles.textInput}
+                        value={action}
+                        onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
+                      />
+                      <TouchableOpacity style={styles.followUpsBtn}>
+                        <Text>Remove</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+              </View>
+              {showActions && (
+                <TouchableOpacity style={styles.followUpsBtn}>
+                  <Text>Add</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </ScrollView>
         ))}
@@ -189,11 +201,32 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   followUps: {
+    marginBottom: 10,
+  },
+  followUpsBtn: {
+    alignItems: "center",
+    backgroundColor: "#d6abb6",
+    borderColor: "#000",
+    borderRadius: 10,
+    borderStyle: "solid",
+    borderWidth: 1,
+    boxShadow: "2px 2px 0px #000",
+    marginLeft: 10,
+    paddingVertical: 5,
+    width: 100,
+  },
+  followUpsContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 15,
   },
-  followUpsBtn: {
+  followUpsEntry: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginHorizontal: 10,
+    verticalAlign: "middle",
+  },
+  followUpsToggle: {
     backgroundColor: "#afd0e3",
     borderRadius: 10,
     boxShadow: "2px 2px 0px #000",
@@ -202,14 +235,15 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "50%",
   },
-  followUpsText: {
+  followUpsToggleText: {
     fontSize: 16,
     textAlign: "center",
   },
   innerContainer: {
     borderRadius: 8,
     boxShadow: "1px 1px 10px #000",
-    margin: 8,
+    marginHorizontal: 8,
+    marginVertical: 20,
     padding: 8,
   },
   loadingContainer: {
