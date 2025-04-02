@@ -87,7 +87,11 @@ const EditConsultations = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "position"}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={50}
+    >
       <ScrollView
         style={styles.container}
         keyboardDismissMode="on-drag"
