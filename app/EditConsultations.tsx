@@ -74,7 +74,14 @@ const EditConsultations = () => {
   };
 
   const handleSave = () => {
-    if (localConsultations?.some((consultation) => consultation === null)) {
+    if (
+      localConsultations?.some(
+        (consultation) =>
+          consultation.consultant === "" ||
+          consultation.diagnosis === "" ||
+          consultation.followUpActions?.some((action) => action.trim() === "")
+      )
+    ) {
       if (Platform.OS === "web") {
         window.alert("Please fill all fields!");
       } else {
