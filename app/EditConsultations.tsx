@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { Button } from "react-native-paper";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
-import { isDateBetween } from "react-native-paper-dates/lib/typescript/Date/dateUtils";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
@@ -37,34 +44,35 @@ const EditConsultations = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "position"}>
       <ScrollView
+        style={styles.container}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         contentInsetAdjustmentBehavior="always"
       >
         <Text style={styles.title}>Edit Medical Consultations</Text>
         {localConsultations?.map((consultation, index) => (
-          <ScrollView key={index} style={styles.container}>
+          <ScrollView key={index} style={styles.innerContainer}>
             <TextInput
               style={styles.textInput}
               value={consultation.consultant}
               onChangeText={(text) => updateConsultation(index, "consultant", text)}
             />
-            <Pressable style={styles.dateBtn} onPress={() => datePicker(index)}>
+            <TouchableOpacity style={styles.dateBtn} onPress={() => datePicker(index)}>
               <Text style={styles.dateText}>{consultation.date ? consultation.date.toString() : ""}</Text>
-            </Pressable>
+            </TouchableOpacity>
             <TextInput
               style={styles.textInput}
               value={consultation.diagnosis}
               onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
             />
             <View style={styles.followUps}>
-              <Pressable style={styles.followUpsBtn} onPress={() => setShowActions(!showActions)}>
+              <TouchableOpacity style={styles.followUpsBtn} onPress={() => setShowActions(!showActions)}>
                 <Text style={styles.followUpsText}>
                   {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
               {showActions &&
                 consultation.followUpActions?.map((action, actionIndex) => (
                   <TextInput
@@ -77,12 +85,12 @@ const EditConsultations = () => {
             </View>
           </ScrollView>
         ))}
-        <Pressable style={styles.button} onPress={handleSave}>
+        <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Save</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={router.back}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={router.back}>
           <Text style={styles.buttonText}>Cancel</Text>
-        </Pressable>
+        </TouchableOpacity>
         <DatePickerModal
           locale="en-GB"
           mode="single"
@@ -101,8 +109,12 @@ const EditConsultations = () => {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#FBDABB",
+    backgroundColor: "#d6abb6",
+    borderColor: "#000",
     borderRadius: 10,
+    borderStyle: "solid",
+    borderWidth: 1,
+    boxShadow: "2px 2px 0px #000",
     justifyContent: "center",
     marginHorizontal: "auto",
     marginTop: 10,
@@ -110,20 +122,16 @@ const styles = StyleSheet.create({
     width: 100,
   },
   buttonText: {
+    color: "#fff",
     fontSize: 18,
   },
   container: {
-    backgroundColor: "#e9eff5",
-    borderRadius: 8,
-    margin: 8,
-    padding: 8,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3.84,
+    height: "100%",
   },
   dateBtn: {
     backgroundColor: "#afd0e3",
     borderRadius: 10,
+    boxShadow: "2px 2px 0px #000",
     marginHorizontal: "auto",
     marginVertical: 15,
     padding: 5,
@@ -141,6 +149,8 @@ const styles = StyleSheet.create({
   followUpsBtn: {
     backgroundColor: "#afd0e3",
     borderRadius: 10,
+    boxShadow: "2px 2px 0px #000",
+    marginBottom: 10,
     marginHorizontal: "auto",
     padding: 5,
     width: "50%",
@@ -148,6 +158,12 @@ const styles = StyleSheet.create({
   followUpsText: {
     fontSize: 16,
     textAlign: "center",
+  },
+  innerContainer: {
+    borderRadius: 8,
+    boxShadow: "1px 1px 10px #000",
+    margin: 8,
+    padding: 8,
   },
   loadingContainer: {
     alignItems: "center",
