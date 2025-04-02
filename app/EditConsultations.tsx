@@ -55,6 +55,24 @@ const EditConsultations = () => {
     setOpenDatePicker(false);
   };
 
+  const handleAddFollowUp = (consultationIndex: number) => {
+    const updatedConsultations = localConsultations?.map((consultation, i) => {
+      if (i !== consultationIndex) return consultation;
+      const currentFollowUps = consultation.followUpActions || [];
+      return { ...consultation, followUpActions: [...currentFollowUps, ""] };
+    });
+    setLocalConsultations(updatedConsultations);
+  };
+
+  const handleRemoveFollowUp = (consultationIndex: number, followUpIndex: number) => {
+    const updatedConsultations = localConsultations?.map((consultation, i) => {
+      if (i !== consultationIndex) return consultation;
+      const updatedFollowUps = consultation.followUpActions?.filter((_, idx) => idx !== followUpIndex);
+      return { ...consultation, followUpActions: updatedFollowUps };
+    });
+    setLocalConsultations(updatedConsultations);
+  };
+
   const handleSave = () => {
     if (localConsultations?.some((consultation) => consultation === null)) {
       if (Platform.OS === "web") {
@@ -130,14 +148,17 @@ const EditConsultations = () => {
                         value={action}
                         onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
                       />
-                      <TouchableOpacity style={styles.followUpsBtn}>
+                      <TouchableOpacity
+                        style={styles.followUpsBtn}
+                        onPress={() => handleRemoveFollowUp(index, followUpIndex)}
+                      >
                         <Text>Remove</Text>
                       </TouchableOpacity>
                     </View>
                   ))}
               </View>
               {showActions && (
-                <TouchableOpacity style={styles.followUpsBtn}>
+                <TouchableOpacity style={styles.followUpsBtn} onPress={() => handleAddFollowUp(index)}>
                   <Text>Add</Text>
                 </TouchableOpacity>
               )}
