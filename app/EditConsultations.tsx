@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
-import { DatePickerModal, enGB, registerTranslation } from "react-native-paper-dates";
+import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { router } from "expo-router";
 
@@ -12,6 +12,7 @@ const EditConsultations = () => {
   const [localConsultations, setLocalConsultations] = useState(healthRecord.medicalConsultations);
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [showActions, setShowActions] = useState(false);
 
   const updateConsultation = (index: number, field: string, text: string) => {};
 
@@ -52,6 +53,27 @@ const EditConsultations = () => {
             <Button onPress={() => datePicker(index)} mode="outlined">
               {consultation.date ? consultation.date.toString() : ""}
             </Button>
+            <TextInput
+              style={styles.textInput}
+              value={consultation.diagnosis}
+              onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
+            />
+            <View style={styles.followUps}>
+              <Pressable style={styles.followUpsBtn} onPress={() => setShowActions(!showActions)}>
+                <Text style={styles.followUpsText}>
+                  {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
+                </Text>
+              </Pressable>
+              {showActions &&
+                consultation.followUpActions?.map((action, actionIndex) => (
+                  <TextInput
+                    key={actionIndex}
+                    style={styles.textInput}
+                    value={action}
+                    onChangeText={(text) => updateConsultation(index, "followUpActions", text)}
+                  />
+                ))}
+            </View>
           </ScrollView>
         ))}
         <Pressable style={styles.saveBtn} onPress={handleSave}>
@@ -77,13 +99,29 @@ const EditConsultations = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e9eff5",
     borderRadius: 8,
     margin: 8,
     padding: 8,
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.4,
     shadowRadius: 3.84,
+  },
+  followUps: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 15,
+  },
+  followUpsBtn: {
+    backgroundColor: "#a0c6db",
+    borderRadius: 10,
+    marginHorizontal: "auto",
+    padding: 5,
+    width: 200,
+  },
+  followUpsText: {
+    fontSize: 16,
+    textAlign: "center",
   },
   loadingContainer: {
     alignItems: "center",
