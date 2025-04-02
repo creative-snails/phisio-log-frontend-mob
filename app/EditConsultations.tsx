@@ -22,7 +22,19 @@ const EditConsultations = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showActions, setShowActions] = useState(false);
 
-  const updateConsultation = (index: number, field: string, text: string) => {};
+  const updateConsultation = (index: number, field: string, text: string, followUpsIndex?: number) => {
+    const updatedConsultations = localConsultations?.map((consultation, i) => {
+      if (i !== index) return consultation;
+      if (field === "followUpActions" && followUpsIndex !== undefined) {
+        const updatedFollowUps = consultation.followUpActions?.map((followUps, idx) =>
+          idx === followUpsIndex ? text : followUps
+        );
+        return { ...consultation, followUpActions: updatedFollowUps };
+      }
+      return { ...consultation, [field]: text };
+    });
+    setLocalConsultations(updatedConsultations);
+  };
 
   const handleSave = () => {};
 
@@ -74,12 +86,12 @@ const EditConsultations = () => {
                 </Text>
               </TouchableOpacity>
               {showActions &&
-                consultation.followUpActions?.map((action, actionIndex) => (
+                consultation.followUpActions?.map((action, followUpIndex) => (
                   <TextInput
-                    key={actionIndex}
+                    key={followUpIndex}
                     style={styles.textInput}
                     value={action}
-                    onChangeText={(text) => updateConsultation(index, "followUpActions", text)}
+                    onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
                   />
                 ))}
             </View>
