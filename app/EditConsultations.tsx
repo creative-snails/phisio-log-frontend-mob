@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text
 import { Button } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
+import { isDateBetween } from "react-native-paper-dates/lib/typescript/Date/dateUtils";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
@@ -50,9 +51,9 @@ const EditConsultations = () => {
               value={consultation.consultant}
               onChangeText={(text) => updateConsultation(index, "consultant", text)}
             />
-            <Button onPress={() => datePicker(index)} mode="outlined">
-              {consultation.date ? consultation.date.toString() : ""}
-            </Button>
+            <Pressable style={styles.dateBtn} onPress={() => datePicker(index)}>
+              <Text style={styles.dateText}>{consultation.date ? consultation.date.toString() : ""}</Text>
+            </Pressable>
             <TextInput
               style={styles.textInput}
               value={consultation.diagnosis}
@@ -76,11 +77,11 @@ const EditConsultations = () => {
             </View>
           </ScrollView>
         ))}
-        <Pressable style={styles.saveBtn} onPress={handleSave}>
-          <Text>Save</Text>
+        <Pressable style={styles.button} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save</Text>
         </Pressable>
-        <Pressable style={styles.saveBtn} onPress={router.back}>
-          <Text>Cancel</Text>
+        <Pressable style={styles.button} onPress={router.back}>
+          <Text style={styles.buttonText}>Cancel</Text>
         </Pressable>
         <DatePickerModal
           locale="en-GB"
@@ -98,6 +99,19 @@ const EditConsultations = () => {
 };
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    backgroundColor: "#FBDABB",
+    borderRadius: 10,
+    justifyContent: "center",
+    marginHorizontal: "auto",
+    marginTop: 10,
+    paddingVertical: 5,
+    width: 100,
+  },
+  buttonText: {
+    fontSize: 18,
+  },
   container: {
     backgroundColor: "#e9eff5",
     borderRadius: 8,
@@ -107,17 +121,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 3.84,
   },
+  dateBtn: {
+    backgroundColor: "#afd0e3",
+    borderRadius: 10,
+    marginHorizontal: "auto",
+    marginVertical: 15,
+    padding: 5,
+    width: "50%",
+  },
+  dateText: {
+    fontSize: 16,
+    textAlign: "center",
+  },
   followUps: {
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 15,
   },
   followUpsBtn: {
-    backgroundColor: "#a0c6db",
+    backgroundColor: "#afd0e3",
     borderRadius: 10,
     marginHorizontal: "auto",
     padding: 5,
-    width: 200,
+    width: "50%",
   },
   followUpsText: {
     fontSize: 16,
@@ -132,23 +158,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
   },
-  saveBtn: {
-    alignItems: "center",
-    backgroundColor: "#FBDABB",
-    borderRadius: 10,
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
-    paddingVertical: 5,
-    width: 100,
-  },
   textInput: {
     borderRadius: 8,
     borderWidth: 1,
+    fontSize: 16,
     margin: 8,
     marginHorizontal: "auto",
     padding: 8,
-    width: "50%",
+    width: "70%",
   },
   title: {
     fontSize: 20,
