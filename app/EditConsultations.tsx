@@ -125,7 +125,7 @@ const EditConsultations = () => {
       >
         <Text style={styles.title}>Edit Medical Consultations</Text>
         {localConsultations?.map((consultation, index) => (
-          <ScrollView key={index} style={styles.innerContainer}>
+          <View key={index} style={styles.innerContainer}>
             <TextInput
               style={styles.textInput}
               value={consultation.consultant}
@@ -170,7 +170,7 @@ const EditConsultations = () => {
                 </TouchableOpacity>
               )}
             </View>
-          </ScrollView>
+          </View>
         ))}
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Save</Text>
