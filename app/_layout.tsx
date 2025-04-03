@@ -13,6 +13,18 @@ const RootLayout = () => {
         name="EditSymptoms"
         options={{ title: "Edit Symptoms", headerShown: true, presentation: "formSheet" }}
       />
+      <Stack.Screen
+        name="EditCurrentCondition"
+        options={{ title: "Edit Current Condition", headerShown: true, presentation: "formSheet" }}
+      />
+      <Stack.Screen
+        name="EditTreatments"
+        options={{ title: "Edit Treatments", headerShown: true, presentation: "formSheet" }}
+      />
+      <Stack.Screen
+        name="EditConsultations"
+        options={{ title: "Edit Medical Consultations", headerShown: true, presentation: "formSheet" }}
+      />
     </Stack>
   );
 };
