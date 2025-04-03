@@ -63,7 +63,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
         {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Treatments Tried")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditTreatments")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -78,7 +78,7 @@ const HealthRecordForm = () => {
             <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => console.log("Edit Medical Consultation")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditConsultations")}>
           <Text>Edit</Text>
         </Pressable>
       </View>
