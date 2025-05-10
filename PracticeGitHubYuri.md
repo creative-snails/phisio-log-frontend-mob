@@ -9,6 +9,13 @@ This is a test practice to understand GitHub workflow and collaboration features
 - Review processes
 - Merging changes
 - Project management using GitHub interface
+- Review processes
+- Handling Change Requests
+  - Reviewing feedback from reviewers
+  - Implementing requested changes
+  - Managing file-level comments
+  - Working with inline comments in GitHub
+  - Re-submitting for review after changes
 
 ## Practice Goals
 - Understanding GitHub's web interface
