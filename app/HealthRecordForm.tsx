@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
 import useAppStore from "@/store/useAppStore";
+import { ROUTES } from "@/types/constants";
 
 const HealthRecordForm = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
@@ -28,7 +29,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text> {healthRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditDescription")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.DESCRIPTION)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -41,7 +42,7 @@ const HealthRecordForm = () => {
             <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditSymptoms")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.SYMPTOMS)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -55,7 +56,7 @@ const HealthRecordForm = () => {
             Improvement status: {healthRecord.currentCondition.improvementStatus}
           </Text>
         </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditCurrentCondition")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.CURRENT_CONDITION)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -63,7 +64,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
         {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditTreatments")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.TREATMENTS)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -78,7 +79,7 @@ const HealthRecordForm = () => {
             <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate("/EditConsultations")}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.CONSULTATIONS)}>
           <Text>Edit</Text>
         </Pressable>
       </View>

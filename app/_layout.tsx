@@ -1,9 +1,11 @@
 import { Stack } from "expo-router";
 
+import { ROUTES } from "@/types/constants";
+
 const RootLayout = () => {
   return (
     <Stack>
-      <Stack.Screen name="BodyMap" options={{ title: "Body Map", headerShown: true }} />
+      <Stack.Screen name={`${ROUTES.BODY_MAP}`} options={{ title: "Body Map", headerShown: true }} />
       <Stack.Screen name="HealthRecordForm" options={{ title: "Health Record Form", headerShown: true }} />
       <Stack.Screen
         name="EditDescription"
