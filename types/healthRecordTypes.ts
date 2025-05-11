@@ -10,7 +10,7 @@ export type currentConditionOptionsType = {
 
 export interface Symptom {
   name: string;
-  startDate?: Date;
+  startDate: Date;
 }
 
 export interface MedicalConsultation {
