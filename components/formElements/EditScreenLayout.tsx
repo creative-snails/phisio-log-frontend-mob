@@ -1,5 +1,7 @@
 import { ScrollView, Text, View } from "react-native";
 
+import { commonStyles } from "@/styles/commonStyles";
+
 interface EditScreenLayoutProps {
   title: string;
   children: React.ReactNode;
@@ -7,7 +9,7 @@ interface EditScreenLayoutProps {
 
 export const EditScreenLayout = ({ title, children }: EditScreenLayoutProps) => (
   <ScrollView>
-    <Text>{title}</Text>
+    <Text style={commonStyles.title}>{title}</Text>
     <View>{children}</View>
   </ScrollView>
 );
