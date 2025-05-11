@@ -18,11 +18,14 @@ export const commonStyles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     boxShadow: "2px 2px 0px #000",
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
+    margin: 10,
     paddingVertical: 5,
     width: 100,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
   },
   btnText: {
     color: colors.white,

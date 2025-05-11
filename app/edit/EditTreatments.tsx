@@ -4,7 +4,6 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +12,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
+import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import useAppStore from "@/store/useAppStore";
 
 const EditTreatments = () => {
@@ -70,12 +70,7 @@ const EditTreatments = () => {
             />
           </View>
         ))}
-        <Pressable style={styles.saveBtn} onPress={handleSave}>
-          <Text>Save</Text>
-        </Pressable>
-        <Pressable style={styles.saveBtn} onPress={router.back}>
-          <Text>Cancel</Text>
-        </Pressable>
+        <SaveCancelButtons onSave={handleSave} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -90,17 +85,6 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 20,
     marginTop: 10,
-  },
-  saveBtn: {
-    alignItems: "center",
-    backgroundColor: "#FBDABB",
-    borderRadius: 10,
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
-    paddingVertical: 5,
-
-    width: 100,
   },
   textInput: {
     borderRadius: 8,
