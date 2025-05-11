@@ -15,6 +15,7 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { router } from "expo-router";
 
+import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import useAppStore from "@/store/useAppStore";
 
 const EditConsultations = () => {
@@ -172,12 +173,7 @@ const EditConsultations = () => {
             </View>
           </View>
         ))}
-        <TouchableOpacity style={styles.button} onPress={handleSave}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={router.back}>
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
+        <SaveCancelButtons onSave={handleSave} />
         <DatePickerModal
           locale="en-GB"
           mode="single"
@@ -194,24 +190,6 @@ const EditConsultations = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: "center",
-    backgroundColor: "#d6abb6",
-    borderColor: "#000",
-    borderRadius: 10,
-    borderStyle: "solid",
-    borderWidth: 1,
-    boxShadow: "2px 2px 0px #000",
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
-    paddingVertical: 5,
-    width: 100,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-  },
   container: {
     height: "100%",
   },

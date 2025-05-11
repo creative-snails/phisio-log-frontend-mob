@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { router } from "expo-router";
 
+import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import useAppStore from "@/store/useAppStore";
 
 registerTranslation("en-GB", enGB);
@@ -73,14 +74,9 @@ const EditSymptoms = () => {
           <Button onPress={() => datePicker(index)} mode="outlined">
             {symptom.startDate ? symptom.startDate.toString() : ""}
           </Button>
-          <Pressable style={styles.saveBtn} onPress={handleSave}>
-            <Text>Save</Text>
-          </Pressable>
         </ScrollView>
       ))}
-      <Pressable style={styles.saveBtn} onPress={router.back}>
-        <Text>Cancel</Text>
-      </Pressable>
+      <SaveCancelButtons onSave={handleSave} />
       <DatePickerModal
         locale="en-GB"
         mode="single"
@@ -104,17 +100,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.4,
     shadowRadius: 3.84,
-  },
-  saveBtn: {
-    alignItems: "center",
-    backgroundColor: "#FBDABB",
-    borderRadius: 10,
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
-    paddingVertical: 5,
-
-    width: 100,
   },
   textInput: {
     borderRadius: 8,

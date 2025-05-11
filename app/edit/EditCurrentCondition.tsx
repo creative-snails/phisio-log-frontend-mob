@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Alert, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Platform, StyleSheet, Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 
+import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import useAppStore from "@/store/useAppStore";
 import { currentConditionOptionsType } from "@/types/healthRecordTypes";
 
@@ -106,12 +107,7 @@ const EditCurrentCondition = () => {
         textStyle={styles.items}
         labelStyle={styles.selectedItem}
       />
-      <Pressable style={styles.saveBtn} onPress={handleSave}>
-        <Text>Save</Text>
-      </Pressable>
-      <Pressable style={styles.saveBtn} onPress={router.back}>
-        <Text>Cancel</Text>
-      </Pressable>
+      <SaveCancelButtons onSave={handleSave} />
     </View>
   );
 };
@@ -126,16 +122,6 @@ const styles = StyleSheet.create({
   },
   items: {
     fontSize: 18,
-  },
-  saveBtn: {
-    alignItems: "center",
-    backgroundColor: "#FBDABB",
-    borderRadius: 10,
-    justifyContent: "center",
-    marginHorizontal: "auto",
-    marginTop: 10,
-    paddingVertical: 5,
-    width: 100,
   },
   selectedItem: {
     fontSize: 16,
