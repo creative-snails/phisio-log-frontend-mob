@@ -11,8 +11,8 @@ export const validators = {
     message: "All fields are required!",
   }),
 
-  treatments: (treatments: string[]) => ({
-    valid: treatments.every((treatment) => treatment.trim().length >= 3),
+  treatmentsTried: (treatments: string[] | undefined) => ({
+    valid: treatments && treatments.every((treatment) => treatment.trim().length >= 3),
     message: "Each treatment must be at least 3 characters long!",
   }),
 
@@ -21,14 +21,16 @@ export const validators = {
     message: "Invalid value selected!",
   }),
 
-  medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
-    valid: medicalConsultations.every(
-      (consultation) =>
-        consultation.consultant.trim().length > 0 &&
-        consultation.date &&
-        consultation.diagnosis.trim().length > 0 &&
-        consultation.followUpActions?.every((action) => action.trim().length > 0)
-    ),
+  medicalConsultations: (medicalConsultations: MedicalConsultation[] | undefined) => ({
+    valid:
+      medicalConsultations &&
+      medicalConsultations.every(
+        (consultation) =>
+          consultation.consultant.trim().length > 0 &&
+          consultation.date &&
+          consultation.diagnosis.trim().length > 0 &&
+          consultation.followUpActions?.every((action) => action.trim().length > 0)
+      ),
     message: "All fields are required!",
   }),
 };
