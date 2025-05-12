@@ -6,25 +6,25 @@ const RootLayout = () => {
   return (
     <Stack>
       <Stack.Screen name={`${ROUTES.BODY_MAP}`} options={{ title: "Body Map", headerShown: true }} />
-      <Stack.Screen name="HealthRecordForm" options={{ title: "Health Record Form", headerShown: true }} />
+      <Stack.Screen name={`${ROUTES.HEALTH_RECORD}`} options={{ title: "Health Record Form", headerShown: true }} />
       <Stack.Screen
-        name="EditDescription"
+        name={`${ROUTES.EDIT.DESCRIPTION}`}
         options={{ title: "Edit Description", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
-        name="EditSymptoms"
+        name={`${ROUTES.EDIT.SYMPTOMS}`}
         options={{ title: "Edit Symptoms", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
-        name="EditCurrentCondition"
+        name={`${ROUTES.EDIT.CURRENT_CONDITION}`}
         options={{ title: "Edit Current Condition", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
-        name="EditTreatments"
+        name={`${ROUTES.EDIT.TREATMENTS}`}
         options={{ title: "Edit Treatments", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
-        name="EditConsultations"
+        name={`${ROUTES.EDIT.CONSULTATIONS}`}
         options={{ title: "Edit Medical Consultations", headerShown: true, presentation: "formSheet" }}
       />
     </Stack>

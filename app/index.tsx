@@ -9,8 +9,8 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text>Home Page</Text>
-      <Button title="Body Map" onPress={() => router.push(ROUTES.BODY_MAP)} />
-      <Button title="Health Record" onPress={() => router.push(ROUTES.HEALTH_RECORD)} />
+      <Button title="Body Map" onPress={() => router.push(`/${ROUTES.BODY_MAP}`)} />
+      <Button title="Health Record" onPress={() => router.push(`/${ROUTES.HEALTH_RECORD}`)} />
     </View>
   );
 };

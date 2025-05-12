@@ -29,7 +29,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text> {healthRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.DESCRIPTION)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.DESCRIPTION}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -42,7 +42,7 @@ const HealthRecordForm = () => {
             <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.SYMPTOMS)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -56,7 +56,7 @@ const HealthRecordForm = () => {
             Improvement status: {healthRecord.currentCondition.improvementStatus}
           </Text>
         </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.CURRENT_CONDITION)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CURRENT_CONDITION}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -64,7 +64,7 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
         {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
-        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.TREATMENTS)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -79,7 +79,7 @@ const HealthRecordForm = () => {
             <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate(ROUTES.EDIT.CONSULTATIONS)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
