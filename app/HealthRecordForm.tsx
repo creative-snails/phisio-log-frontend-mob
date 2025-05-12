@@ -20,6 +20,7 @@ const HealthRecordForm = () => {
       }
     };
     fetchHealthRecord();
+    // eslint-disable-next-line
   }, []);
 
   return (

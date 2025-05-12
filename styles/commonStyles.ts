@@ -35,6 +35,15 @@ export const commonStyles = StyleSheet.create({
     flex: 1,
     marginVertical: 20,
   },
+  loadingContainer: {
+    alignItems: "center",
+    height: "100%",
+    justifyContent: "center",
+  },
+  loadingText: {
+    fontSize: 20,
+    marginTop: 10,
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

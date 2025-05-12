@@ -1,15 +1,28 @@
-import { ScrollView, Text, View } from "react-native";
+import { ReactNode } from "react";
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
 
-import { commonStyles } from "@/styles/commonStyles";
+import { colors, commonStyles } from "@/styles/commonStyles";
 
-interface EditScreenLayoutProps {
-  title: string;
-  children: React.ReactNode;
-}
+export const EditScreenLayout = (title: string, children: ReactNode, loading: boolean = false) => {
+  if (loading) {
+    return (
+      <View style={commonStyles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.secondary} />
+        <Text style={commonStyles.loadingText}>Saving changes...</Text>
+      </View>
+    );
+  }
 
-export const EditScreenLayout = ({ title, children }: EditScreenLayoutProps) => (
-  <ScrollView>
-    <Text style={commonStyles.title}>{title}</Text>
-    <View>{children}</View>
-  </ScrollView>
-);
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === "android" ? "height" : "padding"}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        contentInsetAdjustmentBehavior="always"
+      >
+        <Text style={commonStyles.title}>{title}</Text>
+        {children}
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
