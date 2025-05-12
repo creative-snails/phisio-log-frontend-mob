@@ -1,41 +1,25 @@
 import React, { useState } from "react";
-import { Alert, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
-import { router } from "expo-router";
 
+import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
-import useAppStore from "@/store/useAppStore";
+import { useFormEdit } from "@/hooks/useFormEdit";
+import { validators } from "@/utils/validators";
 
 registerTranslation("en-GB", enGB);
 
 const EditSymptoms = () => {
-  const { setHealthRecord, healthRecord } = useAppStore();
-  const [localSymptoms, setLocalSymptoms] = useState(healthRecord.symptoms);
+  const { localValue, setLocalValue, handleSave, loading } = useFormEdit("symptoms", validators.symptoms);
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
   const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = localSymptoms.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));
-    setLocalSymptoms(updatedSymptoms);
-  };
-
-  const handleSave = () => {
-    for (const symptom of localSymptoms) {
-      if (symptom.name.trim().length < 3) {
-        if (Platform.OS === "web") {
-          window.alert("Symptom name must be at least 3 characters long!");
-        } else {
-          Alert.alert("Symptom name must be at least 3 characters long!");
-        }
-        return;
-      }
-    }
-    setHealthRecord({ ...healthRecord, symptoms: localSymptoms });
-    console.log("Saved symptoms:", localSymptoms);
-    router.back();
+    const updatedSymptoms = localValue.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));
+    setLocalValue(updatedSymptoms);
   };
 
   const datePicker = (index: number) => {
@@ -51,21 +35,14 @@ const EditSymptoms = () => {
   };
 
   const getDate = (selectedIndex: number | null) =>
-    selectedIndex !== null && healthRecord.symptoms[selectedIndex].startDate
-      ? new Date(healthRecord.symptoms[selectedIndex].startDate)
+    selectedIndex !== null && localValue[selectedIndex].startDate
+      ? new Date(localValue[selectedIndex].startDate)
       : new Date();
 
   return (
-    <View>
-      <Text style={styles.title}>Edit Symptoms</Text>
-      {localSymptoms.map((symptom, index) => (
-        <ScrollView
-          key={index}
-          style={styles.container}
-          keyboardDismissMode="on-drag"
-          keyboardShouldPersistTaps="handled"
-          contentInsetAdjustmentBehavior="always"
-        >
+    <EditScreenLayout title="Edit Symptoms" loading={loading}>
+      {localValue.map((symptom, index) => (
+        <View key={index} style={styles.container}>
           <TextInput
             style={styles.textInput}
             value={symptom.name}
@@ -74,7 +51,7 @@ const EditSymptoms = () => {
           <Button onPress={() => datePicker(index)} mode="outlined">
             {symptom.startDate ? symptom.startDate.toString() : ""}
           </Button>
-        </ScrollView>
+        </View>
       ))}
       <SaveCancelButtons onSave={handleSave} />
       <DatePickerModal
@@ -87,7 +64,7 @@ const EditSymptoms = () => {
         date={getDate(selectedSymptomIndex)}
         onConfirm={({ date }) => handleConfirmDate(date)}
       />
-    </View>
+    </EditScreenLayout>
   );
 };
 
@@ -106,12 +83,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 8,
     padding: 8,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginHorizontal: "auto",
-    padding: 16,
   },
 });
 
