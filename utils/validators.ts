@@ -11,7 +11,7 @@ export const validators = {
     message: "All fields are required!",
   }),
 
-  treatmentsTried: (treatments: string[] | undefined) => ({
+  treatmentsTried: (treatments: string[]) => ({
     valid: treatments && treatments.every((treatment) => treatment.trim().length >= 3),
     message: "Each treatment must be at least 3 characters long!",
   }),
