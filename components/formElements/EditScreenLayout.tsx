@@ -1,9 +1,14 @@
-import { ReactNode } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
 
 import { colors, commonStyles } from "@/styles/commonStyles";
 
-export const EditScreenLayout = (title: string, children: ReactNode, loading: boolean = false) => {
+type EditScreenLayoutProps = {
+  title: string;
+  loading?: boolean;
+  children?: React.ReactNode;
+};
+
+export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutProps) => {
   if (loading) {
     return (
       <View style={commonStyles.loadingContainer}>
