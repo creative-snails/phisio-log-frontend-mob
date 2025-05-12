@@ -22,10 +22,18 @@ export function useFormEdit<T>(fieldName: keyof HealthRecordType, initialValue: 
       return;
     }
 
-    setHealthRecord({ ...healthRecord, [fieldName]: localValue });
-    console.log(`Saved ${fieldName}:`, localValue);
-    router.back();
+    try {
+      setLoading(true);
+      setHealthRecord({ ...healthRecord, [fieldName]: localValue });
+      console.log(`Saved ${fieldName}:`, localValue);
+      router.back();
+    } catch (error) {
+      console.error(`Error saving ${fieldName}:`, error);
+      Alert.alert("Error", `Failed to save ${fieldName}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return { localValue, setLocalValue, handleSave };
+  return { localValue, setLocalValue, handleSave, loading };
 }
