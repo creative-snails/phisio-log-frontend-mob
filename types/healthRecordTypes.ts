@@ -1,11 +1,11 @@
-type Status = "open" | "closed" | "in-progress";
-type ImprovementStatus = "improving" | "stable" | "worsening" | "variable";
+type Stage = "open" | "closed" | "in-progress";
 type Severity = "mild" | "moderate" | "severe" | "variable";
+type Progression = "improving" | "stable" | "worsening" | "variable";
 
-export type currentConditionOptionsType = {
-  status: { label: string; value: Status }[];
+export type statusOptionsType = {
+  stage: { label: string; value: Stage }[];
   severity: { label: string; value: Severity }[];
-  improvementStatus: { label: string; value: ImprovementStatus }[];
+  progression: { label: string; value: Progression }[];
 };
 
 export interface Symptom {
@@ -23,10 +23,10 @@ export interface MedicalConsultation {
 export interface HealthRecordUpdateType {
   description?: string;
   symptoms?: Symptom[];
-  currentCondition?: {
-    status?: Status;
+  status?: {
+    stage?: Stage;
     severity?: Severity;
-    improvementStatus?: ImprovementStatus;
+    progression?: Progression;
   };
   treatmentsTried?: string[];
   medicalConsultations?: MedicalConsultation[];
@@ -35,10 +35,10 @@ export interface HealthRecordUpdateType {
 export interface HealthRecordType {
   description: string;
   symptoms: Symptom[];
-  currentCondition: {
-    status: Status;
+  status: {
+    stage: Stage;
     severity: Severity;
-    improvementStatus: ImprovementStatus;
+    progression: Progression;
   };
   treatmentsTried?: string[];
   medicalConsultations?: MedicalConsultation[];

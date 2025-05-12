@@ -2,7 +2,7 @@ export const ROUTES = {
   EDIT: {
     DESCRIPTION: "edit/EditDescription" as const,
     SYMPTOMS: "edit/EditSymptoms" as const,
-    CURRENT_CONDITION: "edit/EditCurrentCondition" as const,
+    STATUS: "edit/EditStatus" as const,
     TREATMENTS: "edit/EditTreatments" as const,
     CONSULTATIONS: "edit/EditConsultations" as const,
   },

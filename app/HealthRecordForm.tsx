@@ -14,6 +14,7 @@ const HealthRecordForm = () => {
     const fetchHealthRecord = async () => {
       try {
         const healthRecord = await getHealthRecord(1);
+        console.log("Fetched health record:", healthRecord);
         setHealthRecord(healthRecord);
       } catch (error) {
         console.error("Error fetching health record:", error);
@@ -49,15 +50,13 @@ const HealthRecordForm = () => {
       </View>
 
       <View style={styles.innerContainer}>
-        <Text style={styles.section}>Current Condition</Text>
+        <Text style={styles.section}>Status</Text>
         <View>
-          <Text style={styles.capitalizedText}>Status: {healthRecord.currentCondition.status}</Text>
-          <Text style={styles.capitalizedText}>Severity: {healthRecord.currentCondition.severity}</Text>
-          <Text style={styles.capitalizedText}>
-            Improvement status: {healthRecord.currentCondition.improvementStatus}
-          </Text>
+          <Text style={styles.capitalizedText}>Stage: {healthRecord.status?.stage}</Text>
+          <Text style={styles.capitalizedText}>Severity: {healthRecord.status?.severity}</Text>
+          <Text style={styles.capitalizedText}>Progression: {healthRecord.status?.progression}</Text>
         </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CURRENT_CONDITION}`)}>
+        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.STATUS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>

@@ -5,10 +5,10 @@ import { router } from "expo-router";
 
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import useAppStore from "@/store/useAppStore";
-import { currentConditionOptionsType } from "@/types/healthRecordTypes";
+import { statusOptionsType } from "@/types/healthRecordTypes";
 
-const currentConditionOptions: currentConditionOptionsType = {
-  status: [
+const statusOptions: statusOptionsType = {
+  stage: [
     { label: "Open", value: "open" },
     { label: "Closed", value: "closed" },
     { label: "In Progress", value: "in-progress" },
@@ -19,7 +19,7 @@ const currentConditionOptions: currentConditionOptionsType = {
     { label: "Severe", value: "severe" },
     { label: "Variable", value: "variable" },
   ],
-  improvementStatus: [
+  progression: [
     { label: "Improving", value: "improving" },
     { label: "Stable", value: "stable" },
     { label: "Worsening", value: "worsening" },
@@ -27,18 +27,18 @@ const currentConditionOptions: currentConditionOptionsType = {
   ],
 };
 
-const EditCurrentCondition = () => {
+const EditStatus = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
-  const [localStatus, setLocalStatus] = useState(healthRecord.currentCondition.status);
-  const [localSeverity, setLocalSeverity] = useState(healthRecord.currentCondition.severity);
-  const [localImprovementStatus, setLocalImprovementStatus] = useState(healthRecord.currentCondition.improvementStatus);
-  const [openDropdown, setOpenDropdown] = useState<"status" | "severity" | "improvementStatus" | null>(null);
+  const [localStage, setLocalStage] = useState(healthRecord.status.stage);
+  const [localSeverity, setLocalSeverity] = useState(healthRecord.status.severity);
+  const [localProgression, setLocalProgression] = useState(healthRecord.status.progression);
+  const [openDropdown, setOpenDropdown] = useState<"stage" | "severity" | "progression" | null>(null);
 
   const handleSave = () => {
     if (
-      !currentConditionOptions.status.map((s) => s.value).includes(localStatus) ||
-      !currentConditionOptions.severity.map((s) => s.value).includes(localSeverity) ||
-      !currentConditionOptions.improvementStatus.map((i) => i.value).includes(localImprovementStatus)
+      !statusOptions.stage.map((s) => s.value).includes(localStage) ||
+      !statusOptions.severity.map((s) => s.value).includes(localSeverity) ||
+      !statusOptions.progression.map((i) => i.value).includes(localProgression)
     ) {
       if (Platform.OS === "web") {
         window.alert("Invalid value selected");
@@ -49,20 +49,18 @@ const EditCurrentCondition = () => {
     }
     setHealthRecord({
       ...healthRecord,
-      currentCondition: {
-        ...healthRecord.currentCondition,
+      status: {
+        ...healthRecord.status,
+        stage: localStage,
         severity: localSeverity,
-        status: localStatus,
-        improvementStatus: localImprovementStatus,
+        progression: localProgression,
       },
     });
-    console.log(
-      `Saved --> Status: ${localStatus} | Severity: ${localSeverity} | Improvement Status: ${localImprovementStatus}`
-    );
+    console.log(`Saved --> Stage: ${localStage} | Severity: ${localSeverity} | Progression: ${localProgression}`);
     router.back();
   };
 
-  const handleDropdowns = (dropdown: "status" | "severity" | "improvementStatus") => {
+  const handleDropdowns = (dropdown: "stage" | "severity" | "progression") => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
@@ -70,11 +68,11 @@ const EditCurrentCondition = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Edit Status</Text>
       <DropDownPicker
-        open={openDropdown === "status"}
-        setOpen={() => handleDropdowns("status")}
-        value={localStatus || null}
-        items={currentConditionOptions.status}
-        setValue={setLocalStatus}
+        open={openDropdown === "stage"}
+        setOpen={() => handleDropdowns("stage")}
+        value={localStage || null}
+        items={statusOptions.stage}
+        setValue={setLocalStage}
         zIndex={3000}
         zIndexInverse={1000}
         containerStyle={styles.dropdown}
@@ -86,7 +84,7 @@ const EditCurrentCondition = () => {
         open={openDropdown === "severity"}
         setOpen={() => handleDropdowns("severity")}
         value={localSeverity || null}
-        items={currentConditionOptions.severity}
+        items={statusOptions.severity}
         setValue={setLocalSeverity}
         zIndex={2000}
         zIndexInverse={2000}
@@ -94,13 +92,13 @@ const EditCurrentCondition = () => {
         textStyle={styles.items}
         labelStyle={styles.selectedItem}
       />
-      <Text style={styles.title}>Edit Improvement Status</Text>
+      <Text style={styles.title}>Edit Progression</Text>
       <DropDownPicker
-        open={openDropdown === "improvementStatus"}
-        setOpen={() => handleDropdowns("improvementStatus")}
-        value={localImprovementStatus || null}
-        items={currentConditionOptions.improvementStatus}
-        setValue={setLocalImprovementStatus}
+        open={openDropdown === "progression"}
+        setOpen={() => handleDropdowns("progression")}
+        value={localProgression || null}
+        items={statusOptions.progression}
+        setValue={setLocalProgression}
         zIndex={1000}
         zIndexInverse={3000}
         containerStyle={styles.dropdown}
@@ -136,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditCurrentCondition;
+export default EditStatus;

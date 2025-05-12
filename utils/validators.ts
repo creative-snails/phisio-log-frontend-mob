@@ -1,4 +1,4 @@
-import { currentConditionOptionsType, MedicalConsultation, Symptom } from "@/types/healthRecordTypes";
+import { MedicalConsultation, statusOptionsType, Symptom } from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (value: string) => ({
@@ -16,8 +16,8 @@ export const validators = {
     message: "Each treatment must be at least 3 characters long!",
   }),
 
-  currentCondition: (condition: currentConditionOptionsType) => ({
-    valid: condition.status && condition.severity && condition.improvementStatus,
+  status: (status: statusOptionsType) => ({
+    valid: status.stage && status.severity && status.progression,
     message: "Invalid value selected!",
   }),
 

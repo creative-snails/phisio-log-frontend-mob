@@ -16,10 +16,10 @@
           "duration": "2 days"
         }
       ],
-      "currentCondition": {
-        "status": "in-progress",
+      "status": {
+        "stage": "in-progress",
         "severity": "severe",
-        "improvementStatus": "stable"
+        "progression": "stable"
       },
       "treatmentsTried": ["Painkillers", "Cold compress", "Hydration"],
       "medicalConsultations": [
@@ -40,9 +40,9 @@
               "duration": "3 days"
             }
           ],
-          "status": "open",
+          "stage": "open",
           "treatmentsTried": ["Painkillers"],
-          "improvementStatus": "improving",
+          "progression": "improving",
           "medicalConsultations": []
         }
       ],
@@ -65,10 +65,10 @@
           "duration": "12 days"
         }
       ],
-      "currentCondition": {
-        "status": "open",
+      "status": {
+        "stage": "open",
         "severity": "moderate",
-        "improvementStatus": "variable"
+        "progression": "variable"
       },
       "treatmentsTried": ["Physical therapy", "Hot compress", "Stretching"],
       "medicalConsultations": [
@@ -89,9 +89,9 @@
               "duration": "2 weeks"
             }
           ],
-          "status": "in-progress",
+          "stage": "in-progress",
           "treatmentsTried": ["Physical therapy"],
-          "improvementStatus": "improving",
+          "progression": "improving",
           "medicalConsultations": []
         }
       ],

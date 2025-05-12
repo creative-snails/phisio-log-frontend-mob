@@ -16,8 +16,8 @@ const RootLayout = () => {
         options={{ title: "Edit Symptoms", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
-        name={`${ROUTES.EDIT.CURRENT_CONDITION}`}
-        options={{ title: "Edit Current Condition", headerShown: true, presentation: "formSheet" }}
+        name={`${ROUTES.EDIT.STATUS}`}
+        options={{ title: "Edit Status", headerShown: true, presentation: "formSheet" }}
       />
       <Stack.Screen
         name={`${ROUTES.EDIT.TREATMENTS}`}
