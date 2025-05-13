@@ -2,7 +2,7 @@ export type Stage = "open" | "closed" | "in-progress";
 export type Severity = "mild" | "moderate" | "severe" | "variable";
 export type Progression = "improving" | "stable" | "worsening" | "variable";
 
-export type statusOptionsType = {
+export type StatusOptionsType = {
   stage: { label: string; value: Stage }[];
   severity: { label: string; value: Severity }[];
   progression: { label: string; value: Progression }[];

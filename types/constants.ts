@@ -1,4 +1,4 @@
-import { statusOptionsType } from "./healthRecordTypes";
+import { StatusOptionsType } from "./healthRecordTypes";
 
 export const ROUTES = {
   EDIT: {
@@ -14,7 +14,7 @@ export const ROUTES = {
   HOME: "" as const,
 };
 
-export const statusOptions: statusOptionsType = {
+export const statusOptions: StatusOptionsType = {
   stage: [
     { label: "Open", value: "open" },
     { label: "Closed", value: "closed" },
@@ -33,3 +33,9 @@ export const statusOptions: statusOptionsType = {
     { label: "Variable", value: "variable" },
   ],
 };
+
+export const statusConfigs = [
+  { field: "stage", title: "Stage", zIndex: 3000, zIndexInverse: 1000 },
+  { field: "severity", title: "Severity", zIndex: 2000, zIndexInverse: 2000 },
+  { field: "progression", title: "Progression", zIndex: 1000, zIndexInverse: 3000 },
+] as const;
