@@ -5,28 +5,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useFormEdit } from "@/hooks/useFormEdit";
-import { statusOptionsType } from "@/types/healthRecordTypes";
+import { statusOptions } from "@/types/constants";
 import { validators } from "@/utils/validators";
-
-const statusOptions: statusOptionsType = {
-  stage: [
-    { label: "Open", value: "open" },
-    { label: "Closed", value: "closed" },
-    { label: "In Progress", value: "in-progress" },
-  ],
-  severity: [
-    { label: "Mild", value: "mild" },
-    { label: "Moderate", value: "moderate" },
-    { label: "Severe", value: "severe" },
-    { label: "Variable", value: "variable" },
-  ],
-  progression: [
-    { label: "Improving", value: "improving" },
-    { label: "Stable", value: "stable" },
-    { label: "Worsening", value: "worsening" },
-    { label: "Variable", value: "variable" },
-  ],
-};
 
 const EditStatus = () => {
   const { localValue, setLocalValue, handleSave, loading } = useFormEdit("status", validators.status);
