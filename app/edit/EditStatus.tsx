@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Alert, Platform, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { router } from "expo-router";
 
+import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
-import useAppStore from "@/store/useAppStore";
+import { useFormEdit } from "@/hooks/useFormEdit";
 import { statusOptionsType } from "@/types/healthRecordTypes";
+import { validators } from "@/utils/validators";
 
 const statusOptions: statusOptionsType = {
   stage: [
@@ -28,36 +29,12 @@ const statusOptions: statusOptionsType = {
 };
 
 const EditStatus = () => {
-  const { setHealthRecord, healthRecord } = useAppStore();
-  const [localStage, setLocalStage] = useState(healthRecord.status.stage);
-  const [localSeverity, setLocalSeverity] = useState(healthRecord.status.severity);
-  const [localProgression, setLocalProgression] = useState(healthRecord.status.progression);
+  const { localValue, setLocalValue, handleSave, loading } = useFormEdit("status", validators.status);
   const [openDropdown, setOpenDropdown] = useState<"stage" | "severity" | "progression" | null>(null);
 
-  const handleSave = () => {
-    if (
-      !statusOptions.stage.map((s) => s.value).includes(localStage) ||
-      !statusOptions.severity.map((s) => s.value).includes(localSeverity) ||
-      !statusOptions.progression.map((i) => i.value).includes(localProgression)
-    ) {
-      if (Platform.OS === "web") {
-        window.alert("Invalid value selected");
-      } else {
-        Alert.alert("Invalid value selected");
-      }
-      return;
-    }
-    setHealthRecord({
-      ...healthRecord,
-      status: {
-        ...healthRecord.status,
-        stage: localStage,
-        severity: localSeverity,
-        progression: localProgression,
-      },
-    });
-    console.log(`Saved --> Stage: ${localStage} | Severity: ${localSeverity} | Progression: ${localProgression}`);
-    router.back();
+  const updateStatus = (field: string, value: string) => {
+    const updatedStatus = { ...localValue, [field]: value };
+    setLocalValue(updatedStatus);
   };
 
   const handleDropdowns = (dropdown: "stage" | "severity" | "progression") => {
@@ -65,14 +42,14 @@ const EditStatus = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Edit Status</Text>
+    <EditScreenLayout loading={loading}>
+      <Text style={styles.title}>Edit Stage</Text>
       <DropDownPicker
         open={openDropdown === "stage"}
         setOpen={() => handleDropdowns("stage")}
-        value={localStage || null}
+        value={localValue.stage || null}
         items={statusOptions.stage}
-        setValue={setLocalStage}
+        setValue={(value) => updateStatus("stage", value(localValue.stage))}
         zIndex={3000}
         zIndexInverse={1000}
         containerStyle={styles.dropdown}
@@ -83,9 +60,9 @@ const EditStatus = () => {
       <DropDownPicker
         open={openDropdown === "severity"}
         setOpen={() => handleDropdowns("severity")}
-        value={localSeverity || null}
+        value={localValue.severity || null}
         items={statusOptions.severity}
-        setValue={setLocalSeverity}
+        setValue={(value) => updateStatus("severity", value(localValue.severity))}
         zIndex={2000}
         zIndexInverse={2000}
         containerStyle={styles.dropdown}
@@ -96,9 +73,9 @@ const EditStatus = () => {
       <DropDownPicker
         open={openDropdown === "progression"}
         setOpen={() => handleDropdowns("progression")}
-        value={localProgression || null}
+        value={localValue.progression || null}
         items={statusOptions.progression}
-        setValue={setLocalProgression}
+        setValue={(value) => updateStatus("progression", value(localValue.progression))}
         zIndex={1000}
         zIndexInverse={3000}
         containerStyle={styles.dropdown}
@@ -106,13 +83,10 @@ const EditStatus = () => {
         labelStyle={styles.selectedItem}
       />
       <SaveCancelButtons onSave={handleSave} />
-    </View>
+    </EditScreenLayout>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-  },
   dropdown: {
     marginBottom: 20,
     marginHorizontal: "auto",

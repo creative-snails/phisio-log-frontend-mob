@@ -3,9 +3,9 @@ import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, Vi
 import { colors, commonStyles } from "@/styles/commonStyles";
 
 type EditScreenLayoutProps = {
-  title: string;
+  title?: string;
   loading?: boolean;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutProps) => {

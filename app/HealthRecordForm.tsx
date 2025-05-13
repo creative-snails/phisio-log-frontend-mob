@@ -14,7 +14,6 @@ const HealthRecordForm = () => {
     const fetchHealthRecord = async () => {
       try {
         const healthRecord = await getHealthRecord(1);
-        console.log("Fetched health record:", healthRecord);
         setHealthRecord(healthRecord);
       } catch (error) {
         console.error("Error fetching health record:", error);
