@@ -13,4 +13,4 @@ Then restart the Expo server:
 npx expo start -c
 ```
 
-This clears corrupted installs and resets the cache for a clean start.
+This clears corrupted installs and resets the cache for a clean start. :P
