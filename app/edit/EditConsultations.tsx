@@ -6,6 +6,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
+import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
 import { validators } from "@/utils/validators";
 
@@ -64,7 +65,7 @@ const EditConsultations = () => {
       {localValue?.map((consultation, index) => (
         <View key={index} style={styles.innerContainer}>
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             value={consultation.consultant}
             onChangeText={(text) => updateConsultation(index, "consultant", text)}
           />
@@ -77,7 +78,7 @@ const EditConsultations = () => {
             onPress={() => openDatePicker(index)}
           />
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             value={consultation.diagnosis}
             onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
           />
@@ -93,12 +94,12 @@ const EditConsultations = () => {
                   <View key={followUpIndex} style={styles.followUpsEntry}>
                     <TextInput
                       multiline={true}
-                      style={styles.textInput}
+                      style={commonStyles.textInput}
                       value={action}
                       onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
                     />
                     <TouchableOpacity
-                      style={styles.followUpsBtn}
+                      style={commonStyles.btn}
                       onPress={() => handleRemoveFollowUp(index, followUpIndex)}
                     >
                       <Text>Remove</Text>
@@ -107,7 +108,7 @@ const EditConsultations = () => {
                 ))}
             </View>
             {showActions && (
-              <TouchableOpacity style={styles.followUpsBtn} onPress={() => handleAddFollowUp(index)}>
+              <TouchableOpacity style={commonStyles.btn} onPress={() => handleAddFollowUp(index)}>
                 <Text>Add</Text>
               </TouchableOpacity>
             )}
@@ -122,18 +123,6 @@ const EditConsultations = () => {
 const styles = StyleSheet.create({
   followUps: {
     marginBottom: 10,
-  },
-  followUpsBtn: {
-    alignItems: "center",
-    backgroundColor: "#d6abb6",
-    borderColor: "#000",
-    borderRadius: 10,
-    borderStyle: "solid",
-    borderWidth: 1,
-    boxShadow: "2px 2px 0px #000",
-    marginLeft: 10,
-    paddingVertical: 5,
-    width: 100,
   },
   followUpsContainer: {
     alignItems: "center",
@@ -160,20 +149,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   innerContainer: {
+    alignItems: "center",
     borderRadius: 8,
     boxShadow: "1px 1px 10px #000",
     marginHorizontal: 8,
     marginVertical: 20,
     padding: 8,
-  },
-  textInput: {
-    borderRadius: 8,
-    borderWidth: 1,
-    fontSize: 16,
-    margin: 8,
-    marginHorizontal: "auto",
-    padding: 8,
-    width: "70%",
   },
 });
 

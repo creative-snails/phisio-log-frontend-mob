@@ -33,7 +33,6 @@ export const commonStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginVertical: 20,
   },
   loadingContainer: {
     alignItems: "center",
@@ -43,6 +42,13 @@ export const commonStyles = StyleSheet.create({
   loadingText: {
     fontSize: 20,
     marginTop: 10,
+  },
+  textInput: {
+    borderRadius: 8,
+    borderWidth: 1,
+    margin: 8,
+    padding: 8,
+    width: "50%",
   },
   title: {
     fontSize: 20,

@@ -1,8 +1,9 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useFormEdit } from "@/hooks/useFormEdit";
+import { commonStyles } from "@/styles/commonStyles";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {
@@ -16,29 +17,34 @@ const EditTreatments = () => {
   return (
     <EditScreenLayout title="Edit Treatments" loading={loading}>
       {localValue?.map((treatment, index) => (
-        <View key={index}>
+        <View key={index} style={styles.container}>
           <TextInput
             value={treatment}
             onChangeText={(text) => handleTreatmentChange(text, index)}
             placeholder="Enter treatment"
-            style={styles.textInput}
+            style={commonStyles.textInput}
             multiline={true}
           />
+          <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+            <Text>Remove</Text>
+          </TouchableOpacity>
         </View>
       ))}
+      <View style={styles.container}>
+        <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+          <Text>Add</Text>
+        </TouchableOpacity>
+      </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  textInput: {
-    borderRadius: 8,
-    borderWidth: 1,
-    margin: 8,
-    marginHorizontal: "auto",
-    padding: 8,
-    width: "50%",
+  container: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 

@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { enGB, registerTranslation } from "react-native-paper-dates";
 
 import { DatePicker } from "@/components/formElements/DatePicker";
@@ -6,6 +6,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
+import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
 import { validators } from "@/utils/validators";
 
@@ -33,7 +34,7 @@ const EditSymptoms = () => {
       {localValue.map((symptom, index) => (
         <View key={index} style={styles.container}>
           <TextInput
-            style={styles.textInput}
+            style={commonStyles.textInput}
             value={symptom.name}
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
@@ -45,26 +46,30 @@ const EditSymptoms = () => {
             value={symptom.startDate}
             onPress={() => openDatePicker(index)}
           />
+          <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+            <Text>Remove</Text>
+          </TouchableOpacity>
         </View>
       ))}
+      <View style={styles.btnContainer}>
+        <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+          <Text>Add</Text>
+        </TouchableOpacity>
+      </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
+  btnContainer: {
+    alignItems: "center",
+  },
   container: {
+    alignItems: "center",
     backgroundColor: "#f5f5f5",
     borderRadius: 8,
-    margin: 8,
-    padding: 8,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3.84,
-  },
-  textInput: {
-    borderRadius: 8,
-    borderWidth: 1,
+    boxShadow: "2px 2px 3.84px rgba(0, 0, 0, 0.4)",
     margin: 8,
     padding: 8,
   },
