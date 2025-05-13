@@ -1,4 +1,4 @@
-import { MedicalConsultation, statusOptionsType, Symptom } from "@/types/healthRecordTypes";
+import { MedicalConsultation, Progression, Severity, Stage, Symptom } from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (value: string) => ({
@@ -16,9 +16,15 @@ export const validators = {
     message: "Each treatment must be at least 3 characters long!",
   }),
 
-  status: (status: statusOptionsType) => ({
-    valid: status.stage && status.severity && status.progression,
-    message: "Invalid value selected!",
+  status: (status: { stage?: Stage; severity?: Severity; progression?: Progression }) => ({
+    valid:
+      status.stage &&
+      status.severity &&
+      status.progression &&
+      ["open", "closed", "in-progress"].includes(status.stage) &&
+      ["mild", "moderate", "severe", "variable"].includes(status.severity) &&
+      ["improving", "stable", "worsening", "variable"].includes(status.progression),
+    message: "Invalid status value(s)!",
   }),
 
   medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
