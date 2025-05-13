@@ -21,7 +21,7 @@ export const validators = {
     message: "Invalid value selected!",
   }),
 
-  medicalConsultations: (medicalConsultations: MedicalConsultation[] | undefined) => ({
+  medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
     valid:
       medicalConsultations &&
       medicalConsultations.every(

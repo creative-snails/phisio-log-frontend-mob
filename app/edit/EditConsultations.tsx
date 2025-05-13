@@ -1,32 +1,24 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
-import { router } from "expo-router";
 
+import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
-import useAppStore from "@/store/useAppStore";
+import { useFormEdit } from "@/hooks/useFormEdit";
+import { validators } from "@/utils/validators";
 
 const EditConsultations = () => {
-  const { setHealthRecord, healthRecord, setLoading, loading } = useAppStore();
-  const [localConsultations, setLocalConsultations] = useState(healthRecord.medicalConsultations);
+  const { localValue, setLocalValue, handleSave, loading } = useFormEdit(
+    "medicalConsultations",
+    validators.medicalConsultations
+  );
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showActions, setShowActions] = useState(false);
 
   const updateConsultation = (index: number, field: string, text: string, followUpsIndex?: number) => {
-    const updatedConsultations = localConsultations?.map((consultation, i) => {
+    const updatedConsultations = localValue?.map((consultation, i) => {
       if (i !== index) return consultation;
       if (field === "followUpActions" && followUpsIndex !== undefined) {
         const updatedFollowUps = consultation.followUpActions?.map((followUps, idx) =>
@@ -36,7 +28,7 @@ const EditConsultations = () => {
       }
       return { ...consultation, [field]: text };
     });
-    setLocalConsultations(updatedConsultations);
+    setLocalValue(updatedConsultations);
   };
 
   const datePicker = (index: number) => {
@@ -45,8 +37,8 @@ const EditConsultations = () => {
   };
 
   const getDate = () =>
-    selectedIndex !== null && localConsultations && localConsultations[selectedIndex]?.date
-      ? new Date(localConsultations[selectedIndex].date)
+    selectedIndex !== null && localValue && localValue[selectedIndex]?.date
+      ? new Date(localValue[selectedIndex].date)
       : new Date();
 
   const handleConfirmDate = (date: CalendarDate) => {
@@ -57,142 +49,89 @@ const EditConsultations = () => {
   };
 
   const handleAddFollowUp = (consultationIndex: number) => {
-    const updatedConsultations = localConsultations?.map((consultation, i) => {
+    const updatedConsultations = localValue?.map((consultation, i) => {
       if (i !== consultationIndex) return consultation;
       const currentFollowUps = consultation.followUpActions || [];
       return { ...consultation, followUpActions: [...currentFollowUps, ""] };
     });
-    setLocalConsultations(updatedConsultations);
+    setLocalValue(updatedConsultations);
   };
 
   const handleRemoveFollowUp = (consultationIndex: number, followUpIndex: number) => {
-    const updatedConsultations = localConsultations?.map((consultation, i) => {
+    const updatedConsultations = localValue?.map((consultation, i) => {
       if (i !== consultationIndex) return consultation;
       const updatedFollowUps = consultation.followUpActions?.filter((_, idx) => idx !== followUpIndex);
       return { ...consultation, followUpActions: updatedFollowUps };
     });
-    setLocalConsultations(updatedConsultations);
+    setLocalValue(updatedConsultations);
   };
-
-  const handleSave = () => {
-    if (
-      localConsultations?.some(
-        (consultation) =>
-          consultation.consultant === "" ||
-          consultation.diagnosis === "" ||
-          consultation.followUpActions?.some((action) => action.trim() === "")
-      )
-    ) {
-      if (Platform.OS === "web") {
-        window.alert("Please fill all fields!");
-      } else {
-        Alert.alert("Error", "Please fill all fields!");
-      }
-      return;
-    }
-    try {
-      setLoading(true);
-      setHealthRecord({ ...healthRecord, medicalConsultations: localConsultations });
-      console.log("Saved consultations:", localConsultations);
-      router.back();
-    } catch (error) {
-      console.error("Error saving consultations:", error);
-      Alert.alert("Error", "Failed to save changes to Medical Consultations");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#d6abb6" />
-        <Text style={styles.loadingText}>Saving changes...</Text>
-      </View>
-    );
-  }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={50}
-    >
-      <ScrollView
-        style={styles.container}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps="handled"
-        contentInsetAdjustmentBehavior="always"
-      >
-        <Text style={styles.title}>Edit Medical Consultations</Text>
-        {localConsultations?.map((consultation, index) => (
-          <View key={index} style={styles.innerContainer}>
-            <TextInput
-              style={styles.textInput}
-              value={consultation.consultant}
-              onChangeText={(text) => updateConsultation(index, "consultant", text)}
-            />
-            <TouchableOpacity style={styles.dateBtn} onPress={() => datePicker(index)}>
-              <Text style={styles.dateText}>{consultation.date ? consultation.date.toString() : ""}</Text>
+    <EditScreenLayout title="Edit Medical Consultations" loading={loading}>
+      {localValue?.map((consultation, index) => (
+        <View key={index} style={styles.innerContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={consultation.consultant}
+            onChangeText={(text) => updateConsultation(index, "consultant", text)}
+          />
+          <TouchableOpacity style={styles.dateBtn} onPress={() => datePicker(index)}>
+            <Text style={styles.dateText}>{consultation.date ? consultation.date.toString() : ""}</Text>
+          </TouchableOpacity>
+          <TextInput
+            style={styles.textInput}
+            value={consultation.diagnosis}
+            onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
+          />
+          <View style={styles.followUpsContainer}>
+            <TouchableOpacity style={styles.followUpsToggle} onPress={() => setShowActions(!showActions)}>
+              <Text style={styles.followUpsToggleText}>
+                {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
+              </Text>
             </TouchableOpacity>
-            <TextInput
-              style={styles.textInput}
-              value={consultation.diagnosis}
-              onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
-            />
-            <View style={styles.followUpsContainer}>
-              <TouchableOpacity style={styles.followUpsToggle} onPress={() => setShowActions(!showActions)}>
-                <Text style={styles.followUpsToggleText}>
-                  {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
-                </Text>
-              </TouchableOpacity>
-              <View style={styles.followUps}>
-                {showActions &&
-                  consultation.followUpActions?.map((action, followUpIndex) => (
-                    <View key={followUpIndex} style={styles.followUpsEntry}>
-                      <TextInput
-                        multiline={true}
-                        style={styles.textInput}
-                        value={action}
-                        onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
-                      />
-                      <TouchableOpacity
-                        style={styles.followUpsBtn}
-                        onPress={() => handleRemoveFollowUp(index, followUpIndex)}
-                      >
-                        <Text>Remove</Text>
-                      </TouchableOpacity>
-                    </View>
-                  ))}
-              </View>
-              {showActions && (
-                <TouchableOpacity style={styles.followUpsBtn} onPress={() => handleAddFollowUp(index)}>
-                  <Text>Add</Text>
-                </TouchableOpacity>
-              )}
+            <View style={styles.followUps}>
+              {showActions &&
+                consultation.followUpActions?.map((action, followUpIndex) => (
+                  <View key={followUpIndex} style={styles.followUpsEntry}>
+                    <TextInput
+                      multiline={true}
+                      style={styles.textInput}
+                      value={action}
+                      onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
+                    />
+                    <TouchableOpacity
+                      style={styles.followUpsBtn}
+                      onPress={() => handleRemoveFollowUp(index, followUpIndex)}
+                    >
+                      <Text>Remove</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))}
             </View>
+            {showActions && (
+              <TouchableOpacity style={styles.followUpsBtn} onPress={() => handleAddFollowUp(index)}>
+                <Text>Add</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        ))}
-        <SaveCancelButtons onSave={handleSave} />
-        <DatePickerModal
-          locale="en-GB"
-          mode="single"
-          label="Select date"
-          saveLabel="   SAVE"
-          visible={openDatePicker}
-          onDismiss={() => setOpenDatePicker(false)}
-          date={getDate()}
-          onConfirm={({ date }) => handleConfirmDate(date)}
-        />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </View>
+      ))}
+      <SaveCancelButtons onSave={handleSave} />
+      <DatePickerModal
+        locale="en-GB"
+        mode="single"
+        label="Select date"
+        saveLabel="   SAVE"
+        visible={openDatePicker}
+        onDismiss={() => setOpenDatePicker(false)}
+        date={getDate()}
+        onConfirm={({ date }) => handleConfirmDate(date)}
+      />
+    </EditScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-  },
   dateBtn: {
     backgroundColor: "#afd0e3",
     borderRadius: 10,
@@ -252,15 +191,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     padding: 8,
   },
-  loadingContainer: {
-    alignItems: "center",
-    height: "100%",
-    justifyContent: "center",
-  },
-  loadingText: {
-    fontSize: 20,
-    marginTop: 10,
-  },
   textInput: {
     borderRadius: 8,
     borderWidth: 1,
@@ -269,12 +199,6 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
     padding: 8,
     width: "70%",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginHorizontal: "auto",
-    padding: 16,
   },
 });
 
