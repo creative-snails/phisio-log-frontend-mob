@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { DatePickerModal } from "react-native-paper-dates";
-import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 
+import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
+import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
+import { MedicalConsultation } from "@/types/healthRecordTypes";
 import { validators } from "@/utils/validators";
 
 const EditConsultations = () => {
@@ -13,8 +14,6 @@ const EditConsultations = () => {
     "medicalConsultations",
     validators.medicalConsultations
   );
-  const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showActions, setShowActions] = useState(false);
 
   const updateConsultation = (index: number, field: string, text: string, followUpsIndex?: number) => {
@@ -31,22 +30,16 @@ const EditConsultations = () => {
     setLocalValue(updatedConsultations);
   };
 
-  const datePicker = (index: number) => {
-    setSelectedIndex(index);
-    setOpenDatePicker(true);
-  };
+  const handleDateChange = (index: number, dateString: string) => updateConsultation(index, "date", dateString);
 
-  const getDate = () =>
-    selectedIndex !== null && localValue && localValue[selectedIndex]?.date
-      ? new Date(localValue[selectedIndex].date)
-      : new Date();
+  const getConsultationDate = (consultation: MedicalConsultation) =>
+    consultation.date ? new Date(consultation.date) : null;
 
-  const handleConfirmDate = (date: CalendarDate) => {
-    if (selectedIndex !== null && date) {
-      updateConsultation(selectedIndex, "date", date.toISOString().split("T")[0]);
-    }
-    setOpenDatePicker(false);
-  };
+  const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
+    useDatePicker({
+      onDateChange: handleDateChange,
+      getItemDate: getConsultationDate,
+    });
 
   const handleAddFollowUp = (consultationIndex: number) => {
     const updatedConsultations = localValue?.map((consultation, i) => {
@@ -75,9 +68,14 @@ const EditConsultations = () => {
             value={consultation.consultant}
             onChangeText={(text) => updateConsultation(index, "consultant", text)}
           />
-          <TouchableOpacity style={styles.dateBtn} onPress={() => datePicker(index)}>
-            <Text style={styles.dateText}>{consultation.date ? consultation.date.toString() : ""}</Text>
-          </TouchableOpacity>
+          <DatePicker
+            isOpen={isOpen && selectedItemIndex === index}
+            onDismiss={closeDatePicker}
+            onConfirm={({ date }) => handleConfirmDate(date)}
+            date={getCurrentDate(localValue)}
+            value={consultation.date}
+            onPress={() => openDatePicker(index)}
+          />
           <TextInput
             style={styles.textInput}
             value={consultation.diagnosis}
@@ -117,34 +115,11 @@ const EditConsultations = () => {
         </View>
       ))}
       <SaveCancelButtons onSave={handleSave} />
-      <DatePickerModal
-        locale="en-GB"
-        mode="single"
-        label="Select date"
-        saveLabel="   SAVE"
-        visible={openDatePicker}
-        onDismiss={() => setOpenDatePicker(false)}
-        date={getDate()}
-        onConfirm={({ date }) => handleConfirmDate(date)}
-      />
     </EditScreenLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  dateBtn: {
-    backgroundColor: "#afd0e3",
-    borderRadius: 10,
-    boxShadow: "2px 2px 0px #000",
-    marginHorizontal: "auto",
-    marginVertical: 15,
-    padding: 5,
-    width: "50%",
-  },
-  dateText: {
-    fontSize: 16,
-    textAlign: "center",
-  },
   followUps: {
     marginBottom: 10,
   },
