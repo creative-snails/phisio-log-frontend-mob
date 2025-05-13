@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
-import { DatePickerModal } from "react-native-paper-dates/lib/typescript/Date/DatePickerModal";
 
 type DatePickerProps = {
   isOpen: boolean;

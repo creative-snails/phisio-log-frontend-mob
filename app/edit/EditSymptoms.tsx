@@ -1,43 +1,32 @@
-import React, { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { Button } from "react-native-paper";
-import { DatePickerModal } from "react-native-paper-dates";
 import { enGB, registerTranslation } from "react-native-paper-dates";
-import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 
+import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
+import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
+import { Symptom } from "@/types/healthRecordTypes";
 import { validators } from "@/utils/validators";
 
 registerTranslation("en-GB", enGB);
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useFormEdit("symptoms", validators.symptoms);
-  const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [selectedSymptomIndex, setSelectedSymptomIndex] = useState<number | null>(null);
 
   const updateSymptom = (index: number, key: string, value: string) => {
     const updatedSymptoms = localValue.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));
     setLocalValue(updatedSymptoms);
   };
 
-  const datePicker = (index: number) => {
-    setSelectedSymptomIndex(index);
-    setOpenDatePicker(true);
+  const handleDateChange = (index: number, dateString: string) => {
+    updateSymptom(index, "startDate", dateString);
   };
 
-  const handleConfirmDate = (date: CalendarDate) => {
-    if (selectedSymptomIndex !== null && date) {
-      updateSymptom(selectedSymptomIndex, "startDate", date.toISOString().split("T")[0]);
-    }
-    setOpenDatePicker(false);
-  };
+  const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : null);
 
-  const getDate = (selectedIndex: number | null) =>
-    selectedIndex !== null && localValue[selectedIndex].startDate
-      ? new Date(localValue[selectedIndex].startDate)
-      : new Date();
+  const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
+    useDatePicker({ onDateChange: handleDateChange, getItemDate: getSymptomDate });
 
   return (
     <EditScreenLayout title="Edit Symptoms" loading={loading}>
@@ -48,22 +37,17 @@ const EditSymptoms = () => {
             value={symptom.name}
             onChangeText={(text) => updateSymptom(index, "name", text)}
           />
-          <Button onPress={() => datePicker(index)} mode="outlined">
-            {symptom.startDate ? symptom.startDate.toString() : ""}
-          </Button>
+          <DatePicker
+            isOpen={isOpen && selectedItemIndex === index}
+            onDismiss={closeDatePicker}
+            onConfirm={({ date }) => handleConfirmDate(date)}
+            date={getCurrentDate(localValue)}
+            value={symptom.startDate}
+            onPress={() => openDatePicker(index)}
+          />
         </View>
       ))}
       <SaveCancelButtons onSave={handleSave} />
-      <DatePickerModal
-        locale="en-GB"
-        mode="single"
-        label="Select date"
-        saveLabel="   SAVE"
-        visible={openDatePicker}
-        onDismiss={() => setOpenDatePicker(false)}
-        date={getDate(selectedSymptomIndex)}
-        onConfirm={({ date }) => handleConfirmDate(date)}
-      />
     </EditScreenLayout>
   );
 };
