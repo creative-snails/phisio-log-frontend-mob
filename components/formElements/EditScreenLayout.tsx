@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Text } from "react-native";
 import { LoadingIndicator } from "../LoadingIndicator";
 
 import { commonStyles } from "@/styles/commonStyles";
@@ -15,7 +15,7 @@ export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutP
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "android" ? "height" : "padding"}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
       <ScrollView
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
