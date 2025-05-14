@@ -4,7 +4,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
-import { addField, removeField } from "@/utils/helpers";
+import { addField, removeField } from "@/utils/arrayHelpers";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {

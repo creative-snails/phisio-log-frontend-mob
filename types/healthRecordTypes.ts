@@ -15,7 +15,7 @@ export interface Symptom {
 
 export interface MedicalConsultation {
   consultant: string;
-  date: Date;
+  date: string;
   diagnosis: string;
   followUpActions?: string[];
 }

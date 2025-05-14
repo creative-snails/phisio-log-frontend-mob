@@ -8,6 +8,7 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
+import { addField, addNestedField, removeField, removeNestedField } from "@/utils/arrayHelpers";
 import { validators } from "@/utils/validators";
 
 const EditConsultations = () => {
@@ -49,29 +50,12 @@ const EditConsultations = () => {
       getItemDate: getConsultationDate,
     });
 
-  const handleAddFollowUp = (consultationIndex: number) => {
-    const updatedConsultations = localValue?.map((consultation, i) => {
-      if (i !== consultationIndex) return consultation;
-      const currentFollowUps = consultation.followUpActions || [];
-      return { ...consultation, followUpActions: [...currentFollowUps, ""] };
-    });
-    setLocalValue(updatedConsultations);
-  };
-
-  const handleRemoveFollowUp = (consultationIndex: number, followUpIndex: number) => {
-    const updatedConsultations = localValue?.map((consultation, i) => {
-      if (i !== consultationIndex) return consultation;
-      const updatedFollowUps = consultation.followUpActions?.filter((_, idx) => idx !== followUpIndex);
-      return { ...consultation, followUpActions: updatedFollowUps };
-    });
-    setLocalValue(updatedConsultations);
-  };
-
   return (
     <EditScreenLayout title="Edit Medical Consultations" loading={loading}>
       {localValue?.map((consultation, index) => (
         <View key={index} style={styles.innerContainer}>
           <TextInput
+            placeholder="Enter consultant name"
             style={commonStyles.textInput}
             value={consultation.consultant}
             onChangeText={(text) => updateConsultation(index, "consultant", text)}
@@ -85,6 +69,7 @@ const EditConsultations = () => {
             onPress={() => openDatePicker(index)}
           />
           <TextInput
+            placeholder="Enter diagnosis"
             style={commonStyles.textInput}
             value={consultation.diagnosis}
             onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
@@ -100,6 +85,7 @@ const EditConsultations = () => {
                 consultation.followUpActions?.map((action, followUpIndex) => (
                   <View key={followUpIndex} style={styles.followUpsEntry}>
                     <TextInput
+                      placeholder="Enter follow-up"
                       multiline={true}
                       style={commonStyles.textInput}
                       value={action}
@@ -107,7 +93,9 @@ const EditConsultations = () => {
                     />
                     <TouchableOpacity
                       style={commonStyles.btn}
-                      onPress={() => handleRemoveFollowUp(index, followUpIndex)}
+                      onPress={() =>
+                        setLocalValue(removeNestedField(localValue, index, "followUpActions", followUpIndex))
+                      }
                     >
                       <Text>Remove</Text>
                     </TouchableOpacity>
@@ -115,16 +103,36 @@ const EditConsultations = () => {
                 ))}
             </View>
             {showActionsMap[index] && (
-              <TouchableOpacity style={commonStyles.btn} onPress={() => handleAddFollowUp(index)}>
+              <TouchableOpacity
+                style={commonStyles.btn}
+                onPress={() => setLocalValue(addNestedField(localValue, index, "followUpActions", ""))}
+              >
                 <Text>Add Follow-Up Action</Text>
               </TouchableOpacity>
             )}
           </View>
-          <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeField(localValue, index))}>
             <Text>Remove Consultation</Text>
           </TouchableOpacity>
         </View>
       ))}
+      <View style={commonStyles.btnContainer}>
+        <TouchableOpacity
+          style={commonStyles.btn}
+          onPress={() =>
+            setLocalValue(
+              addField(localValue, {
+                consultant: "",
+                date: new Date().toISOString().split("T")[0],
+                diagnosis: "",
+                followUpActions: [],
+              })
+            )
+          }
+        >
+          <Text>Add Consultation</Text>
+        </TouchableOpacity>
+      </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>
   );

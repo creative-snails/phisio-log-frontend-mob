@@ -7,7 +7,7 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
-import { addField, removeField } from "@/utils/helpers";
+import { addField, removeField } from "@/utils/arrayHelpers";
 import { validators } from "@/utils/validators";
 
 const EditSymptoms = () => {
