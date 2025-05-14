@@ -32,7 +32,7 @@ export const commonStyles = StyleSheet.create({
     fontSize: 18,
   },
   container: {
-    flex: 1,
+    height: "100%",
   },
   textInput: {
     borderRadius: 8,

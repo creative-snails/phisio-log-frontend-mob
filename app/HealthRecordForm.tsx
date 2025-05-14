@@ -70,7 +70,7 @@ const HealthRecordForm = () => {
       </View>
 
       <View style={styles.innerContainer}>
-        <Text style={styles.section}>Medical Consultation</Text>
+        <Text style={styles.section}>Medical Consultations</Text>
         {healthRecord.medicalConsultations?.map((consultation, index) => (
           <View key={index}>
             <Text>Consultant: {consultation.consultant}</Text>
@@ -78,6 +78,9 @@ const HealthRecordForm = () => {
             <Text>Diagnosis: {consultation.diagnosis}</Text>
             <Text>Follow Up Actions:</Text>
             {consultation.followUpActions?.map((action, actionIndex) => <Text key={actionIndex}> - {action}</Text>)}
+            {healthRecord.medicalConsultations && index < healthRecord.medicalConsultations.length - 1 && (
+              <View style={styles.separator} />
+            )}
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>

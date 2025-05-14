@@ -15,7 +15,14 @@ const EditConsultations = () => {
     "medicalConsultations",
     validators.medicalConsultations
   );
-  const [showActions, setShowActions] = useState(false);
+  const [showActionsMap, setShowActionsMap] = useState<Record<number, boolean>>({});
+
+  const toggleShowActions = (index: number) => {
+    setShowActionsMap((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   const updateConsultation = (index: number, field: string, text: string, followUpsIndex?: number) => {
     const updatedConsultations = localValue?.map((consultation, i) => {
@@ -83,13 +90,13 @@ const EditConsultations = () => {
             onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
           />
           <View style={styles.followUpsContainer}>
-            <TouchableOpacity style={styles.followUpsToggle} onPress={() => setShowActions(!showActions)}>
+            <TouchableOpacity style={styles.followUpsToggle} onPress={() => toggleShowActions(index)}>
               <Text style={styles.followUpsToggleText}>
-                {!showActions ? "Show Follow-Up Actions" : "Hide Follow-Up Actions"}
+                {showActionsMap[index] ? "Hide Follow Up Actions" : "Show Follow Up Actions"}
               </Text>
             </TouchableOpacity>
             <View style={styles.followUps}>
-              {showActions &&
+              {showActionsMap[index] &&
                 consultation.followUpActions?.map((action, followUpIndex) => (
                   <View key={followUpIndex} style={styles.followUpsEntry}>
                     <TextInput
@@ -107,7 +114,7 @@ const EditConsultations = () => {
                   </View>
                 ))}
             </View>
-            {showActions && (
+            {showActionsMap[index] && (
               <TouchableOpacity style={commonStyles.btn} onPress={() => handleAddFollowUp(index)}>
                 <Text>Add</Text>
               </TouchableOpacity>

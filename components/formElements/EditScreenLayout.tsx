@@ -15,7 +15,7 @@ export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutP
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={commonStyles.container}>
       <ScrollView
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
