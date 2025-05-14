@@ -116,10 +116,13 @@ const EditConsultations = () => {
             </View>
             {showActionsMap[index] && (
               <TouchableOpacity style={commonStyles.btn} onPress={() => handleAddFollowUp(index)}>
-                <Text>Add</Text>
+                <Text>Add Follow-Up Action</Text>
               </TouchableOpacity>
             )}
           </View>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+            <Text>Remove Consultation</Text>
+          </TouchableOpacity>
         </View>
       ))}
       <SaveCancelButtons onSave={handleSave} />

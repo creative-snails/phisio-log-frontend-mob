@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
 import useAppStore from "@/store/useAppStore";
+import { commonStyles } from "@/styles/commonStyles";
 import { ROUTES } from "@/utils/constants";
 
 const HealthRecordForm = () => {
@@ -29,8 +30,8 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
-        <Text> {healthRecord.description}</Text>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.DESCRIPTION}`)}>
+        <Text style={styles.item}> {healthRecord.description}</Text>
+        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.DESCRIPTION}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -38,33 +39,34 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Symptoms</Text>
         {healthRecord.symptoms.map((symptom, index) => (
-          <View key={index}>
+          <View key={index} style={styles.item}>
             <Text>Name: {symptom.name}</Text>
             <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
-            {index < healthRecord.symptoms.length - 1 && <View style={styles.separator} />}
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
+        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Status</Text>
-        <View>
+        <View style={styles.item}>
           <Text style={styles.capitalizedText}>Stage: {healthRecord.status?.stage}</Text>
           <Text style={styles.capitalizedText}>Severity: {healthRecord.status?.severity}</Text>
           <Text style={styles.capitalizedText}>Progression: {healthRecord.status?.progression}</Text>
         </View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.STATUS}`)}>
+        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.STATUS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
-        <View>{healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}</View>
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)}>
+        <View style={styles.item}>
+          {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
+        </View>
+        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -72,18 +74,15 @@ const HealthRecordForm = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Medical Consultations</Text>
         {healthRecord.medicalConsultations?.map((consultation, index) => (
-          <View key={index}>
+          <View key={index} style={styles.item}>
             <Text>Consultant: {consultation.consultant}</Text>
             <Text>Date: {consultation.date ? consultation.date.toString() : ""}</Text>
             <Text>Diagnosis: {consultation.diagnosis}</Text>
             <Text>Follow Up Actions:</Text>
             {consultation.followUpActions?.map((action, actionIndex) => <Text key={actionIndex}> - {action}</Text>)}
-            {healthRecord.medicalConsultations && index < healthRecord.medicalConsultations.length - 1 && (
-              <View style={styles.separator} />
-            )}
           </View>
         ))}
-        <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>
+        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>
           <Text>Edit</Text>
         </Pressable>
       </View>
@@ -99,14 +98,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 20,
   },
-  editButton: {
-    alignItems: "center",
-    backgroundColor: "#FBDABB",
-    borderRadius: 10,
-    marginVertical: 10,
-    paddingVertical: 5,
-    width: 100,
-  },
   innerContainer: {
     alignItems: "center",
     borderRadius: 10,
@@ -117,15 +108,16 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+  item: {
+    boxShadow: "2px 2px 12px rgba(0, 0, 0, 0.4)",
+    marginVertical: 10,
+    paddingHorizontal: 30,
+    paddingVertical: 5,
+  },
   section: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
-  },
-  separator: {
-    borderBottomColor: "#000",
-    borderBottomWidth: 1,
-    marginVertical: 10,
   },
   title: {
     fontSize: 20,

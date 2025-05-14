@@ -19,8 +19,9 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 1,
     boxShadow: "2px 2px 0px #000",
     margin: 10,
+    paddingHorizontal: 20,
     paddingVertical: 5,
-    width: 100,
+    width: "auto",
   },
   btnContainer: {
     flexDirection: "row",
