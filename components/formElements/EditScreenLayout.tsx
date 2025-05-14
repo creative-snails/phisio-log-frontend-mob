@@ -1,6 +1,7 @@
-import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, Text } from "react-native";
+import { LoadingIndicator } from "../LoadingIndicator";
 
-import { colors, commonStyles } from "@/styles/commonStyles";
+import { commonStyles } from "@/styles/commonStyles";
 
 type EditScreenLayoutProps = {
   title?: string;
@@ -10,12 +11,7 @@ type EditScreenLayoutProps = {
 
 export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutProps) => {
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.secondary} />
-        <Text style={styles.loadingText}>Saving changes...</Text>
-      </View>
-    );
+    return <LoadingIndicator />;
   }
 
   return (
@@ -25,21 +21,9 @@ export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutP
         keyboardShouldPersistTaps="handled"
         contentInsetAdjustmentBehavior="always"
       >
-        <Text style={commonStyles.title}>{title}</Text>
+        {title && <Text style={commonStyles.title}>{title}</Text>}
         {children}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    alignItems: "center",
-    height: "100%",
-    justifyContent: "center",
-  },
-  loadingText: {
-    fontSize: 20,
-    marginTop: 10,
-  },
-});
