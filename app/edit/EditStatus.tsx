@@ -4,8 +4,8 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { StatusDropdown } from "@/components/formElements/StatusDropdown";
 import { useFormEdit } from "@/hooks/useFormEdit";
-import { statusConfigs, statusOptions } from "@/types/constants";
 import { StatusOptionsType } from "@/types/healthRecordTypes";
+import { statusConfigs, statusOptions } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditStatus = () => {

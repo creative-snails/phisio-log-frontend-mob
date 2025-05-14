@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import { ROUTES } from "@/types/constants";
+import { ROUTES } from "@/utils/constants";
 
 const RootLayout = () => {
   return (

@@ -1,4 +1,4 @@
-import { StatusOptionsType } from "./healthRecordTypes";
+import { StatusOptionsType } from "../types/healthRecordTypes";
 
 export const ROUTES = {
   EDIT: {

@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
   },
   followUpsContainer: {
     alignItems: "center",
-    justifyContent: "center",
     marginVertical: 15,
   },
   followUpsEntry: {
@@ -142,10 +141,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: "auto",
     padding: 5,
-    width: "50%",
+    width: "auto",
   },
   followUpsToggleText: {
     fontSize: 16,
+    paddingHorizontal: 10,
     textAlign: "center",
   },
   innerContainer: {

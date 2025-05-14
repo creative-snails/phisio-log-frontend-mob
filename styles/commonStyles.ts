@@ -34,15 +34,6 @@ export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  loadingContainer: {
-    alignItems: "center",
-    height: "100%",
-    justifyContent: "center",
-  },
-  loadingText: {
-    fontSize: 20,
-    marginTop: 10,
-  },
   textInput: {
     borderRadius: 8,
     borderWidth: 1,

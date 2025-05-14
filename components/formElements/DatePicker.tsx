@@ -39,10 +39,11 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
     marginVertical: 15,
     padding: 5,
-    width: "50%",
+    width: "auto",
   },
   dateText: {
     fontSize: 16,
+    paddingHorizontal: 10,
     textAlign: "center",
   },
 });

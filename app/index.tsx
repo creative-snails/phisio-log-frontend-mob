@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import { ROUTES } from "@/types/constants";
+import { ROUTES } from "@/utils/constants";
 
 const App = () => {
   const router = useRouter();

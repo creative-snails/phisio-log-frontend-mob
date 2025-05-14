@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
 import useAppStore from "@/store/useAppStore";
-import { ROUTES } from "@/types/constants";
+import { ROUTES } from "@/utils/constants";
 
 const HealthRecordForm = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
