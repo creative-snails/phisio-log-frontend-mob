@@ -1,5 +1,4 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { enGB, registerTranslation } from "react-native-paper-dates";
 
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
@@ -9,8 +8,6 @@ import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
 import { validators } from "@/utils/validators";
-
-registerTranslation("en-GB", enGB);
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useFormEdit("symptoms", validators.symptoms);

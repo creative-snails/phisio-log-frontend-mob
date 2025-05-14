@@ -41,6 +41,7 @@ const HealthRecordForm = () => {
           <View key={index}>
             <Text>Name: {symptom.name}</Text>
             <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
+            {index < healthRecord.symptoms.length - 1 && <View style={styles.separator} />}
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
@@ -62,7 +63,7 @@ const HealthRecordForm = () => {
 
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Treatments Tried</Text>
-        {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
+        <View>{healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}</View>
         <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)}>
           <Text>Edit</Text>
         </Pressable>
@@ -75,7 +76,8 @@ const HealthRecordForm = () => {
             <Text>Consultant: {consultation.consultant}</Text>
             <Text>Date: {consultation.date ? consultation.date.toString() : ""}</Text>
             <Text>Diagnosis: {consultation.diagnosis}</Text>
-            <Text>Follow-up action: {consultation.followUpActions?.join(", ")}</Text>
+            <Text>Follow Up Actions:</Text>
+            {consultation.followUpActions?.map((action, actionIndex) => <Text key={actionIndex}> - {action}</Text>)}
           </View>
         ))}
         <Pressable style={styles.editButton} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>
@@ -115,6 +117,12 @@ const styles = StyleSheet.create({
   section: {
     fontSize: 16,
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  separator: {
+    borderBottomColor: "#000",
+    borderBottomWidth: 1,
+    marginVertical: 10,
   },
   title: {
     fontSize: 20,

@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
   followUpsEntry: {
     alignItems: "center",
     flexDirection: "row",
-    marginHorizontal: 10,
     verticalAlign: "middle",
   },
   followUpsToggle: {
