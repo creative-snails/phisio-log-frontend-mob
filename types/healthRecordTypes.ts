@@ -10,7 +10,7 @@ export type StatusOptionsType = {
 
 export interface Symptom {
   name: string;
-  startDate: Date;
+  startDate: string;
 }
 
 export interface MedicalConsultation {

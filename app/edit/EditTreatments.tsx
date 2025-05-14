@@ -4,6 +4,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
+import { addField, removeField } from "@/utils/helpers";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {
@@ -25,13 +26,13 @@ const EditTreatments = () => {
             style={commonStyles.textInput}
             multiline={true}
           />
-          <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeField(localValue, index))}>
             <Text>Remove</Text>
           </TouchableOpacity>
         </View>
       ))}
       <View style={styles.container}>
-        <TouchableOpacity style={commonStyles.btn} onPress={() => null}>
+        <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(addField(localValue, ""))}>
           <Text>Add</Text>
         </TouchableOpacity>
       </View>
