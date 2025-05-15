@@ -28,6 +28,12 @@
           "date": "2025-02-22",
           "diagnosis": "Tension headache",
           "followUpActions": ["Rest", "Reduce screen time"]
+        },
+        {
+          "consultant": "Dr. Lee",
+          "date": "2025-02-23",
+          "diagnosis": "Migraine",
+          "followUpActions": ["Try new medication", "Monitor symptoms"]
         }
       ],
       "updates": [
