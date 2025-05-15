@@ -10,7 +10,7 @@ import { validators } from "@/utils/validators";
 const EditTreatments = () => {
   const { localValue, setLocalValue, handleSave, loading } = useFormEdit("treatmentsTried", validators.treatmentsTried);
 
-  const handleTreatmentChange = (text: string, index: number) => {
+  const updateTreatments = (text: string, index: number) => {
     const updatedTreatments = localValue?.map((treatment, i) => (i === index ? text : treatment));
     setLocalValue(updatedTreatments);
   };
@@ -21,7 +21,7 @@ const EditTreatments = () => {
         <View key={index} style={styles.container}>
           <TextInput
             value={treatment}
-            onChangeText={(text) => handleTreatmentChange(text, index)}
+            onChangeText={(text) => updateTreatments(text, index)}
             placeholder="Enter treatment"
             style={commonStyles.textInput}
             multiline={true}

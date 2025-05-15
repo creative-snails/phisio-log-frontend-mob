@@ -10,8 +10,8 @@ export function addNestedField<T>(array: T[], index: number, field: keyof T, new
   return array.map((item, i) => {
     if (i !== index) return item;
 
-    const currentArray = (item[field] as []) || [];
-    return { ...item, [field]: [...currentArray, newFieldValue] };
+    const existingNestedArray = (item[field] as []) || [];
+    return { ...item, [field]: [...existingNestedArray, newFieldValue] };
   });
 }
 
@@ -19,10 +19,10 @@ export function removeNestedField<T>(array: T[], index: number, field: keyof T, 
   return array.map((item, i) => {
     if (i !== index) return item;
 
-    const currentArray = item[field] as [];
-    if (!currentArray || !Array.isArray(currentArray)) return item;
+    const existingNestedArray = item[field] as [];
+    if (!existingNestedArray || !Array.isArray(existingNestedArray)) return item;
 
-    const updatedArray = currentArray.filter((_, idx) => idx !== nestedIndex);
-    return { ...item, [field]: updatedArray };
+    const updatedNestedArray = existingNestedArray.filter((_, idx) => idx !== nestedIndex);
+    return { ...item, [field]: updatedNestedArray };
   });
 }

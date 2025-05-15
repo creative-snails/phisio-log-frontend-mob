@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
@@ -8,12 +8,10 @@ import { validators } from "@/utils/validators";
 const EditDescription = () => {
   const { localValue, setLocalValue, handleSave, loading } = useFormEdit("description", validators.description);
   return (
-    <View>
-      <EditScreenLayout title="Edit Description" loading={loading}>
-        <TextInput style={styles.inputDescription} multiline={true} value={localValue} onChangeText={setLocalValue} />
-        <SaveCancelButtons onSave={handleSave} />
-      </EditScreenLayout>
-    </View>
+    <EditScreenLayout title="Edit Description" loading={loading}>
+      <TextInput style={styles.inputDescription} multiline={true} value={localValue} onChangeText={setLocalValue} />
+      <SaveCancelButtons onSave={handleSave} />
+    </EditScreenLayout>
   );
 };
 
