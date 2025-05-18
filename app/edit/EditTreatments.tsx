@@ -5,6 +5,7 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { addField, removeField } from "@/utils/arrayHelpers";
+import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {
@@ -16,7 +17,7 @@ const EditTreatments = () => {
   };
 
   return (
-    <EditScreenLayout title="Edit Treatments" loading={loading}>
+    <EditScreenLayout title={SCREEN_LABELS.EDIT.TREATMENTS} loading={loading}>
       {localValue?.map((treatment, index) => (
         <View key={index} style={styles.container}>
           <TextInput

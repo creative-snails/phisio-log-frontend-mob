@@ -8,6 +8,7 @@ import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
 import { addField, removeField } from "@/utils/arrayHelpers";
+import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditSymptoms = () => {
@@ -28,7 +29,7 @@ const EditSymptoms = () => {
     useDatePicker({ onDateChange: handleDateChange, getItemDate: getSymptomDate });
 
   return (
-    <EditScreenLayout title="Edit Symptoms" loading={loading}>
+    <EditScreenLayout title={SCREEN_LABELS.EDIT.SYMPTOMS} loading={loading}>
       {localValue.map((symptom, index) => (
         <View key={index} style={styles.container}>
           <TextInput

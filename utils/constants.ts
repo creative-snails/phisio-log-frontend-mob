@@ -14,6 +14,18 @@ export const ROUTES = {
   HOME: "" as const,
 };
 
+export const SCREEN_LABELS = {
+  BODY_MAP: "Body Map",
+  HEALTH_RECORD: "Health Record",
+  EDIT: {
+    DESCRIPTION: "Edit Description",
+    SYMPTOMS: "Edit Symptoms",
+    STATUS: "Edit Status",
+    TREATMENTS: "Edit Treatments",
+    CONSULTATIONS: "Edit Medical Consultations",
+  },
+};
+
 export const statusOptions: StatusOptionsType = {
   stage: [
     { label: "Open", value: "open" },

@@ -9,6 +9,7 @@ import { useFormEdit } from "@/hooks/useFormEdit";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
 import { addField, addNestedField, removeField, removeNestedField } from "@/utils/arrayHelpers";
+import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditConsultations = () => {
@@ -51,7 +52,7 @@ const EditConsultations = () => {
     });
 
   return (
-    <EditScreenLayout title="Edit Medical Consultations" loading={loading}>
+    <EditScreenLayout title={SCREEN_LABELS.EDIT.CONSULTATIONS} loading={loading}>
       {localValue?.map((consultation, index) => (
         <View key={index} style={styles.innerContainer}>
           <TextInput
