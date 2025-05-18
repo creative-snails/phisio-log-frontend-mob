@@ -7,7 +7,7 @@ import useAppStore from "@/store/useAppStore";
 import { commonStyles } from "@/styles/commonStyles";
 import { ROUTES } from "@/utils/constants";
 
-const HealthRecordForm = () => {
+const HealthRecord = () => {
   const { setHealthRecord, healthRecord } = useAppStore();
   const router = useRouter();
 
@@ -21,7 +21,6 @@ const HealthRecordForm = () => {
       }
     };
     fetchHealthRecord();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -126,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HealthRecordForm;
+export default HealthRecord;

@@ -8,10 +8,10 @@ import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactNative from "eslint-plugin-react-native";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,6 +80,7 @@ export default [
       "react-native/no-inline-styles": "warn",
       "react-native/no-color-literals": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
+      "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": ["error"],
       "react/jsx-key": ["error"],
       "react/jsx-tag-spacing": [

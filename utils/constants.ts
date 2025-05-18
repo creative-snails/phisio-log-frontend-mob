@@ -8,7 +8,7 @@ export const ROUTES = {
     TREATMENTS: "edit/EditTreatments" as const,
     CONSULTATIONS: "edit/EditConsultations" as const,
   },
-  HEALTH_RECORD: "HealthRecordForm" as const,
+  HEALTH_RECORD: "HealthRecord" as const,
   BODY_MAP: "BodyMap" as const,
   BODY_PART: "BodyPart" as const,
   HOME: "" as const,
