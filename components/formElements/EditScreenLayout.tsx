@@ -10,11 +10,9 @@ type EditScreenLayoutProps = {
 };
 
 export const EditScreenLayout = ({ title, loading, children }: EditScreenLayoutProps) => {
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
-  return (
+  return loading ? (
+    <LoadingIndicator />
+  ) : (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={commonStyles.container}>
       <ScrollView
         keyboardDismissMode="on-drag"
