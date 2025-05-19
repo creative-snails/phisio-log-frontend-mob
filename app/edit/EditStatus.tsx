@@ -13,20 +13,13 @@ const EditStatus = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("status", validators.status);
   const [openDropdown, setOpenDropdown] = useState<keyof StatusOptionsType | null>(null);
 
-  const updateStatus = (field: string, value: keyof StatusOptionsType) => {
-    const updatedStatus = { ...localValue, [field]: value };
-    setLocalValue(updatedStatus);
-  };
-
   const handleDropdowns = (dropdown: keyof StatusOptionsType) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
-  return (
+  return loading ? (
+    <LoadingIndicator />
+  ) : (
     <View style={styles.statusContainer}>
       {statusConfigs.map(({ field, title, zIndex, zIndexInverse }) => (
         <View key={field}>
@@ -36,7 +29,7 @@ const EditStatus = () => {
             setOpen={() => handleDropdowns(field)}
             value={localValue[field] || null}
             items={statusOptions[field]}
-            setValue={(val) => updateStatus(field, val(localValue[field]))}
+            setValue={(val) => setLocalValue({ ...localValue, [field]: val(localValue[field]) })}
             zIndex={zIndex}
             zIndexInverse={zIndexInverse}
             containerStyle={styles.dropdown}
