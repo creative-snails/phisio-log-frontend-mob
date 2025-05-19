@@ -7,7 +7,7 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
-import { addField, removeField, updateItemField } from "@/utils/arrayHelpers";
+import { addItem, removeItem, updateItemField } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
@@ -40,7 +40,7 @@ const EditSymptoms = () => {
             value={symptom.startDate}
             onPress={() => openDatePicker(index)}
           />
-          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeField(localValue, index))}>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
             <Text>Remove Symptom</Text>
           </TouchableOpacity>
         </View>
@@ -49,7 +49,7 @@ const EditSymptoms = () => {
         <TouchableOpacity
           style={commonStyles.btn}
           onPress={() =>
-            setLocalValue(addField(localValue, { name: "", startDate: new Date().toISOString().split("T")[0] }))
+            setLocalValue(addItem(localValue, { name: "", startDate: new Date().toISOString().split("T")[0] }))
           }
         >
           <Text>Add Symptom</Text>

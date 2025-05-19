@@ -4,7 +4,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { addField, removeField } from "@/utils/arrayHelpers";
+import { addItem, removeItem } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
@@ -27,13 +27,13 @@ const EditTreatments = () => {
             style={commonStyles.textInput}
             multiline={true}
           />
-          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeField(localValue, index))}>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
             <Text>Remove</Text>
           </TouchableOpacity>
         </View>
       ))}
       <View style={styles.container}>
-        <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(addField(localValue, ""))}>
+        <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(addItem(localValue, ""))}>
           <Text>Add</Text>
         </TouchableOpacity>
       </View>

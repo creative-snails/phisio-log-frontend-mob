@@ -9,12 +9,12 @@ import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
 import {
-  addField,
-  addNestedField,
-  removeField,
-  removeNestedField,
+  addItem,
+  addNestedItem,
+  removeItem,
+  removeNestedItem,
   updateItemField,
-  updateNestedField,
+  updateNestedItem,
 } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
@@ -85,13 +85,13 @@ const EditConsultations = () => {
                       style={commonStyles.textInput}
                       value={action}
                       onChangeText={(text) =>
-                        setLocalValue(updateNestedField(localValue, index, "followUpActions", followUpIndex, text))
+                        setLocalValue(updateNestedItem(localValue, index, "followUpActions", followUpIndex, text))
                       }
                     />
                     <TouchableOpacity
                       style={commonStyles.btn}
                       onPress={() =>
-                        setLocalValue(removeNestedField(localValue, index, "followUpActions", followUpIndex))
+                        setLocalValue(removeNestedItem(localValue, index, "followUpActions", followUpIndex))
                       }
                     >
                       <Text>Remove</Text>
@@ -102,13 +102,13 @@ const EditConsultations = () => {
             {showActionsMap[index] && (
               <TouchableOpacity
                 style={commonStyles.btn}
-                onPress={() => setLocalValue(addNestedField(localValue, index, "followUpActions", ""))}
+                onPress={() => setLocalValue(addNestedItem(localValue, index, "followUpActions", ""))}
               >
                 <Text>Add Follow-Up Action</Text>
               </TouchableOpacity>
             )}
           </View>
-          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeField(localValue, index))}>
+          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
             <Text>Remove Consultation</Text>
           </TouchableOpacity>
         </View>
@@ -118,7 +118,7 @@ const EditConsultations = () => {
           style={commonStyles.btn}
           onPress={() =>
             setLocalValue(
-              addField(localValue, {
+              addItem(localValue, {
                 consultant: "",
                 date: new Date().toISOString().split("T")[0],
                 diagnosis: "",
