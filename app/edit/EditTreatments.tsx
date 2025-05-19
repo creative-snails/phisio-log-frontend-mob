@@ -4,17 +4,12 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { addItem, removeItem } from "@/utils/arrayHelpers";
+import { addItem, removeItem, updateItem } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("treatmentsTried", validators.treatmentsTried);
-
-  const updateTreatments = (text: string, index: number) => {
-    const updatedTreatments = localValue?.map((treatment, i) => (i === index ? text : treatment));
-    setLocalValue(updatedTreatments);
-  };
 
   return (
     <EditScreenLayout title={SCREEN_LABELS.EDIT.TREATMENTS} loading={loading}>
@@ -22,7 +17,7 @@ const EditTreatments = () => {
         <View key={index} style={styles.container}>
           <TextInput
             value={treatment}
-            onChangeText={(text) => updateTreatments(text, index)}
+            onChangeText={(text) => setLocalValue(updateItem(localValue, index, text))}
             placeholder="Enter treatment"
             style={commonStyles.textInput}
             multiline={true}
