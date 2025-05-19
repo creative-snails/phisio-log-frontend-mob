@@ -30,3 +30,22 @@ export function removeNestedField<T>(array: T[], index: number, field: keyof T, 
     return { ...item, [field]: updatedNestedArray };
   });
 }
+
+export function updateNestedField<T>(
+  array: T[],
+  index: number,
+  field: keyof T,
+  nestedIndex: number,
+  newValue: unknown
+): T[] {
+  return array.map((item, i) => {
+    if (i !== index) return item;
+
+    if (!item[field]) return { ...item, [field]: [newValue] } as T;
+
+    const nestedArray = [...(item[field] as unknown[])];
+    nestedArray[nestedIndex] = newValue;
+
+    return { ...item, [field]: nestedArray } as T;
+  });
+}

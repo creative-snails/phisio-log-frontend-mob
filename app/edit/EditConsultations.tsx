@@ -8,7 +8,14 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
-import { addField, addNestedField, removeField, removeNestedField, updateItemField } from "@/utils/arrayHelpers";
+import {
+  addField,
+  addNestedField,
+  removeField,
+  removeNestedField,
+  updateItemField,
+  updateNestedField,
+} from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
@@ -24,20 +31,6 @@ const EditConsultations = () => {
       ...prev,
       [index]: !prev[index],
     }));
-  };
-
-  const updateConsultation = (index: number, field: string, text: string, followUpsIndex?: number) => {
-    const updatedConsultations = localValue?.map((consultation, i) => {
-      if (i !== index) return consultation;
-      if (field === "followUpActions" && followUpsIndex !== undefined) {
-        const updatedFollowUps = consultation.followUpActions?.map((followUps, idx) =>
-          idx === followUpsIndex ? text : followUps
-        );
-        return { ...consultation, followUpActions: updatedFollowUps };
-      }
-      return { ...consultation, [field]: text };
-    });
-    setLocalValue(updatedConsultations);
   };
 
   const handleDateChange = (index: number, dateString: string) =>
@@ -91,7 +84,9 @@ const EditConsultations = () => {
                       multiline={true}
                       style={commonStyles.textInput}
                       value={action}
-                      onChangeText={(text) => updateConsultation(index, "followUpActions", text, followUpIndex)}
+                      onChangeText={(text) =>
+                        setLocalValue(updateNestedField(localValue, index, "followUpActions", followUpIndex, text))
+                      }
                     />
                     <TouchableOpacity
                       style={commonStyles.btn}
