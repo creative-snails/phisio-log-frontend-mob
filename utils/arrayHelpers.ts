@@ -6,7 +6,11 @@ export function removeField<T>(array: T[], index: number): T[] {
   return array.filter((_, i) => i !== index);
 }
 
-export function addNestedField<T>(array: T[], index: number, field: keyof T, newValue: keyof T | string): T[] {
+export function updateItemField<T>(array: T[], index: number, field: keyof T, newValue: unknown): T[] {
+  return array.map((item, i) => (i === index ? { ...item, [field]: newValue } : item));
+}
+
+export function addNestedField<T>(array: T[], index: number, field: keyof T, newValue: unknown): T[] {
   return array.map((item, i) => {
     if (i !== index) return item;
 

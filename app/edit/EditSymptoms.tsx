@@ -7,20 +7,15 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
-import { addField, removeField } from "@/utils/arrayHelpers";
+import { addField, removeField, updateItemField } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
 
-  const updateSymptom = (index: number, key: string, value: string) => {
-    const updatedSymptoms = localValue.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));
-    setLocalValue(updatedSymptoms);
-  };
-
   const handleDateChange = (index: number, dateString: string) => {
-    updateSymptom(index, "startDate", dateString);
+    setLocalValue(updateItemField(localValue, index, "startDate", dateString));
   };
 
   const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
@@ -35,7 +30,7 @@ const EditSymptoms = () => {
           <TextInput
             style={commonStyles.textInput}
             value={symptom.name}
-            onChangeText={(text) => updateSymptom(index, "name", text)}
+            onChangeText={(text) => setLocalValue(updateItemField(localValue, index, "name", text))}
           />
           <DatePicker
             isOpen={isOpen && selectedItemIndex === index}

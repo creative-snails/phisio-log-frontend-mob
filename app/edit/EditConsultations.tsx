@@ -8,7 +8,7 @@ import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
-import { addField, addNestedField, removeField, removeNestedField } from "@/utils/arrayHelpers";
+import { addField, addNestedField, removeField, removeNestedField, updateItemField } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
@@ -40,7 +40,8 @@ const EditConsultations = () => {
     setLocalValue(updatedConsultations);
   };
 
-  const handleDateChange = (index: number, dateString: string) => updateConsultation(index, "date", dateString);
+  const handleDateChange = (index: number, dateString: string) =>
+    setLocalValue(updateItemField(localValue, index, "date", dateString));
 
   const getConsultationDate = (consultation: MedicalConsultation) =>
     consultation.date ? new Date(consultation.date) : new Date();
@@ -59,7 +60,7 @@ const EditConsultations = () => {
             placeholder="Enter consultant name"
             style={commonStyles.textInput}
             value={consultation.consultant}
-            onChangeText={(text) => updateConsultation(index, "consultant", text)}
+            onChangeText={(text) => setLocalValue(updateItemField(localValue, index, "consultant", text))}
           />
           <DatePicker
             isOpen={isOpen && selectedItemIndex === index}
@@ -73,7 +74,7 @@ const EditConsultations = () => {
             placeholder="Enter diagnosis"
             style={commonStyles.textInput}
             value={consultation.diagnosis}
-            onChangeText={(text) => updateConsultation(index, "diagnosis", text)}
+            onChangeText={(text) => setLocalValue(updateItemField(localValue, index, "diagnosis", text))}
           />
           <View style={styles.followUpsContainer}>
             <TouchableOpacity style={styles.followUpsToggle} onPress={() => toggleShowActions(index)}>
