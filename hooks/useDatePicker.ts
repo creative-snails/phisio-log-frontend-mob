@@ -3,7 +3,7 @@ import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calen
 
 type UseDatePickerProps<T> = {
   onDateChange: (index: number, date: string) => void;
-  getItemDate: (item: T, index: number) => Date | null;
+  getItemDate: (item: T) => Date;
 };
 
 export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerProps<T>) {
@@ -29,7 +29,7 @@ export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerPro
       return new Date();
     }
     const item = items[selectedItemIndex];
-    return getItemDate(item, selectedItemIndex) || new Date();
+    return getItemDate(item);
   };
 
   return {

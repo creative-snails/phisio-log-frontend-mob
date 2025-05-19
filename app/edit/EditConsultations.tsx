@@ -43,7 +43,7 @@ const EditConsultations = () => {
   const handleDateChange = (index: number, dateString: string) => updateConsultation(index, "date", dateString);
 
   const getConsultationDate = (consultation: MedicalConsultation) =>
-    consultation.date ? new Date(consultation.date) : null;
+    consultation.date ? new Date(consultation.date) : new Date();
 
   const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
     useDatePicker({

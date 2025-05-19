@@ -23,7 +23,7 @@ const EditSymptoms = () => {
     updateSymptom(index, "startDate", dateString);
   };
 
-  const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : null);
+  const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
 
   const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
     useDatePicker({ onDateChange: handleDateChange, getItemDate: getSymptomDate });
