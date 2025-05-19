@@ -7,7 +7,7 @@ import { HealthRecordType } from "@/types/healthRecordTypes";
 
 type Validator<T> = (value: T) => { valid: boolean; message: string };
 
-export function useFormEdit<T>(fieldName: keyof HealthRecordType, validator: Validator<T>) {
+export function useEditForm<T>(fieldName: keyof HealthRecordType, validator: Validator<T>) {
   const { setHealthRecord, healthRecord, setLoading, loading } = useAppStore();
   const [localValue, setLocalValue] = useState<T>(healthRecord[fieldName] as T);
 

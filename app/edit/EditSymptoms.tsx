@@ -4,7 +4,7 @@ import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
-import { useFormEdit } from "@/hooks/useFormEdit";
+import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { Symptom } from "@/types/healthRecordTypes";
 import { addField, removeField } from "@/utils/arrayHelpers";
@@ -12,7 +12,7 @@ import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditSymptoms = () => {
-  const { localValue, setLocalValue, handleSave, loading } = useFormEdit("symptoms", validators.symptoms);
+  const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
 
   const updateSymptom = (index: number, key: string, value: string) => {
     const updatedSymptoms = localValue.map((symptom, i) => (i === index ? { ...symptom, [key]: value } : symptom));

@@ -5,7 +5,7 @@ import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
-import { useFormEdit } from "@/hooks/useFormEdit";
+import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultation } from "@/types/healthRecordTypes";
 import { addField, addNestedField, removeField, removeNestedField } from "@/utils/arrayHelpers";
@@ -13,7 +13,7 @@ import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditConsultations = () => {
-  const { localValue, setLocalValue, handleSave, loading } = useFormEdit(
+  const { localValue, setLocalValue, handleSave, loading } = useEditForm(
     "medicalConsultations",
     validators.medicalConsultations
   );

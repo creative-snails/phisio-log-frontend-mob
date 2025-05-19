@@ -4,13 +4,13 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { useFormEdit } from "@/hooks/useFormEdit";
+import { useEditForm } from "@/hooks/useEditForm";
 import { StatusOptionsType } from "@/types/healthRecordTypes";
 import { statusConfigs, statusOptions } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditStatus = () => {
-  const { localValue, setLocalValue, handleSave, loading } = useFormEdit("status", validators.status);
+  const { localValue, setLocalValue, handleSave, loading } = useEditForm("status", validators.status);
   const [openDropdown, setOpenDropdown] = useState<keyof StatusOptionsType | null>(null);
 
   const updateStatus = (field: string, value: keyof StatusOptionsType) => {

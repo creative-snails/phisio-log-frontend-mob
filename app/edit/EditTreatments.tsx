@@ -2,14 +2,14 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
-import { useFormEdit } from "@/hooks/useFormEdit";
+import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { addField, removeField } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
 const EditTreatments = () => {
-  const { localValue, setLocalValue, handleSave, loading } = useFormEdit("treatmentsTried", validators.treatmentsTried);
+  const { localValue, setLocalValue, handleSave, loading } = useEditForm("treatmentsTried", validators.treatmentsTried);
 
   const updateTreatments = (text: string, index: number) => {
     const updatedTreatments = localValue?.map((treatment, i) => (i === index ? text : treatment));

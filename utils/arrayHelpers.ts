@@ -1,17 +1,17 @@
-export function addField<T>(array: T[], newFieldValue: T): T[] {
-  return [...array, newFieldValue];
+export function addField<T>(array: T[], newValue: T): T[] {
+  return [...array, newValue];
 }
 
 export function removeField<T>(array: T[], index: number): T[] {
   return array.filter((_, i) => i !== index);
 }
 
-export function addNestedField<T>(array: T[], index: number, field: keyof T, newFieldValue: keyof T | string): T[] {
+export function addNestedField<T>(array: T[], index: number, field: keyof T, newValue: keyof T | string): T[] {
   return array.map((item, i) => {
     if (i !== index) return item;
 
     const existingNestedArray = (item[field] as []) || [];
-    return { ...item, [field]: [...existingNestedArray, newFieldValue] };
+    return { ...item, [field]: [...existingNestedArray, newValue] };
   });
 }
 
