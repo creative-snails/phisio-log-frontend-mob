@@ -7,15 +7,15 @@ export function removeItem<T>(array: T[], index: number): T[] {
 }
 
 export function updateItemField<T>(array: T[], index: number, field: keyof T, newValue: unknown): T[] {
-  return array.map((item, i) => (i === index ? { ...item, [field]: newValue } : item));
+  return array.map((item, i) => (i === index ? ({ ...item, [field]: newValue } as T) : item));
 }
 
 export function addNestedItem<T>(array: T[], index: number, field: keyof T, newValue: unknown): T[] {
   return array.map((item, i) => {
     if (i !== index) return item;
 
-    const existingNestedArray = (item[field] as []) || [];
-    return { ...item, [field]: [...existingNestedArray, newValue] };
+    const nestedArray = (item[field] as []) || [];
+    return { ...item, [field]: [...nestedArray, newValue] } as T;
   });
 }
 
@@ -23,11 +23,11 @@ export function removeNestedItem<T>(array: T[], index: number, field: keyof T, n
   return array.map((item, i) => {
     if (i !== index) return item;
 
-    const existingNestedArray = item[field] as [];
-    if (!existingNestedArray || !Array.isArray(existingNestedArray)) return item;
+    const nestedArray = item[field] as [];
+    if (!nestedArray || !Array.isArray(nestedArray)) return item;
 
-    const updatedNestedArray = existingNestedArray.filter((_, idx) => idx !== nestedIndex);
-    return { ...item, [field]: updatedNestedArray };
+    const updatedNestedArray = nestedArray.filter((_, idx) => idx !== nestedIndex);
+    return { ...item, [field]: updatedNestedArray } as T;
   });
 }
 
