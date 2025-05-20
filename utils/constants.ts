@@ -2,17 +2,17 @@ import { StatusOptionsType } from "../types/healthRecordTypes";
 
 export const ROUTES = {
   EDIT: {
-    DESCRIPTION: "edit/EditDescription" as const,
-    SYMPTOMS: "edit/EditSymptoms" as const,
-    STATUS: "edit/EditStatus" as const,
-    TREATMENTS: "edit/EditTreatments" as const,
-    CONSULTATIONS: "edit/EditConsultations" as const,
+    DESCRIPTION: "edit/EditDescription",
+    SYMPTOMS: "edit/EditSymptoms",
+    STATUS: "edit/EditStatus",
+    TREATMENTS: "edit/EditTreatments",
+    CONSULTATIONS: "edit/EditConsultations",
   },
-  HEALTH_RECORD: "HealthRecord" as const,
-  BODY_MAP: "BodyMap" as const,
-  BODY_PART: "BodyPart" as const,
-  HOME: "" as const,
-};
+  HEALTH_RECORD: "HealthRecord",
+  BODY_MAP: "BodyMap",
+  BODY_PART: "BodyPart",
+  HOME: "",
+} as const;
 
 export const SCREEN_LABELS = {
   BODY_MAP: "Body Map",
@@ -24,7 +24,7 @@ export const SCREEN_LABELS = {
     TREATMENTS: "Edit Treatments",
     CONSULTATIONS: "Edit Medical Consultations",
   },
-};
+} as const;
 
 export const statusOptions: StatusOptionsType = {
   stage: [
@@ -44,7 +44,7 @@ export const statusOptions: StatusOptionsType = {
     { label: "Worsening", value: "worsening" },
     { label: "Variable", value: "variable" },
   ],
-};
+} as const;
 
 export const statusConfigs = [
   { field: "stage", title: "Stage", zIndex: 3000, zIndexInverse: 1000 },

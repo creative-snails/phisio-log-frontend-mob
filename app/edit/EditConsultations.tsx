@@ -13,7 +13,7 @@ import {
   addNestedItem,
   removeItem,
   removeNestedItem,
-  updateItemField,
+  updateItemProperty,
   updateNestedItem,
 } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
@@ -27,14 +27,11 @@ const EditConsultations = () => {
   const [showActionsMap, setShowActionsMap] = useState<Record<number, boolean>>({});
 
   const toggleShowActions = (index: number) => {
-    setShowActionsMap((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    setShowActionsMap((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
   const handleDateChange = (index: number, dateString: string) =>
-    setLocalValue(updateItemField(localValue, index, "date", dateString));
+    setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
   const getConsultationDate = (consultation: MedicalConsultation) =>
     consultation.date ? new Date(consultation.date) : new Date();
@@ -53,7 +50,7 @@ const EditConsultations = () => {
             placeholder="Enter consultant name"
             style={commonStyles.textInput}
             value={consultation.consultant}
-            onChangeText={(text) => setLocalValue(updateItemField(localValue, index, "consultant", text))}
+            onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "consultant", text))}
           />
           <DatePicker
             isOpen={isOpen && selectedItemIndex === index}
@@ -67,7 +64,7 @@ const EditConsultations = () => {
             placeholder="Enter diagnosis"
             style={commonStyles.textInput}
             value={consultation.diagnosis}
-            onChangeText={(text) => setLocalValue(updateItemField(localValue, index, "diagnosis", text))}
+            onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "diagnosis", text))}
           />
           <View style={styles.followUpsContainer}>
             <TouchableOpacity style={styles.followUpsToggle} onPress={() => toggleShowActions(index)}>
