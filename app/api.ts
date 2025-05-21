@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { HealthRecordType } from "@/types/healthRecordTypes";
 
-const API_URL = "http://localhost:5000/health-records";
+const API_URL = "http://localhost:5555/health-records";
 
 export const getHealthRecord = async (id: number) => {
   try {
