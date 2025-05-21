@@ -14,8 +14,8 @@ import { validators } from "@/utils/validators";
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
 
-  const handleDateChange = (index: number, dateString: string) => {
-    setLocalValue(updateItemProperty(localValue, index, "startDate", dateString));
+  const handleDateChange = (index: number, date: Date) => {
+    setLocalValue(updateItemProperty(localValue, index, "startDate", date));
   };
 
   const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
@@ -49,7 +49,7 @@ const EditSymptoms = () => {
         <TouchableOpacity
           style={commonStyles.btn}
           onPress={() =>
-            setLocalValue(addItem(localValue, { name: "", startDate: new Date().toISOString().split("T")[0] }))
+            setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))
           }
         >
           <Text>Add Symptom</Text>

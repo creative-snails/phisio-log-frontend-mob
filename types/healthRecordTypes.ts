@@ -26,7 +26,7 @@ const Z_Symptoms = z.object({
     .trim()
     .min(1, "Symptom name is required")
     .max(MAX_CHAR_MEDIUM, maxValidationMessage("Symptom", MAX_CHAR_MEDIUM)),
-  startDate: z.string().optional(),
+  startDate: z.date().optional(),
   // TODO: This is causing some strange behaviour, will address it in the future
   // startDate: z.date().max(new Date(), "Start date cannot be in the future").optional(),
 });
@@ -37,6 +37,32 @@ export type Symptom = z.infer<typeof Z_Symptoms>;
 //   name: string;
 //   startDate: string;
 // }
+
+// const Z_MedicalConsultation = z.object({
+//   consultant: z
+//     .string()
+//     .trim()
+//     .min(2, minValidationMessage("Consultant", 2))
+//     .max(MAX_CHAR_SHORT, maxValidationMessage("Consultant", MAX_CHAR_SHORT)),
+//   date: z.date().max(new Date(), "Consultation date cannot be in the future"),
+//   diagnosis: z
+//     .string()
+//     .trim()
+//     .min(1, "Diagnosis is required")
+//     .max(MAX_CHAR_LONG, maxValidationMessage("Diagnosis", MAX_CHAR_LONG)),
+//   followUpActions: z
+//     .array(
+//       z
+//         .string()
+//         .trim()
+//         .min(2, minValidationMessage("Follow-up actions", 2))
+//         .max(MAX_CHAR_LONG, maxValidationMessage("Follow-up actions", MAX_CHAR_LONG))
+//     )
+//     .optional()
+//     .default([]),
+// });
+
+// export type MedicalConsultation = z.infer<typeof Z_MedicalConsultation>;
 
 export interface MedicalConsultation {
   consultant: string;

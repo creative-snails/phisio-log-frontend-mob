@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 
 type UseDatePickerProps<T> = {
-  onDateChange: (index: number, date: string) => void;
+  onDateChange: (index: number, date: Date) => void;
   getItemDate: (item: T) => Date;
 };
 
@@ -19,7 +19,7 @@ export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerPro
 
   const handleConfirmDate = (date: CalendarDate) => {
     if (selectedItemIndex !== null && date) {
-      onDateChange(selectedItemIndex, date.toISOString().split("T")[0]);
+      onDateChange(selectedItemIndex, date);
     }
     closeDatePicker();
   };

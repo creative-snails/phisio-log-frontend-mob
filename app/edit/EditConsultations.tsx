@@ -19,6 +19,7 @@ import {
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
+
 const EditConsultations = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm(
     "medicalConsultations",
@@ -30,8 +31,8 @@ const EditConsultations = () => {
     setShowActionsMap((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const handleDateChange = (index: number, dateString: string) =>
-    setLocalValue(updateItemProperty(localValue, index, "date", dateString));
+  const handleDateChange = (index: number, date: Date) =>
+    setLocalValue(updateItemProperty(localValue, index, "date", new Date(date)));
 
   const getConsultationDate = (consultation: MedicalConsultation) =>
     consultation.date ? new Date(consultation.date) : new Date();
