@@ -64,3 +64,7 @@ export function maxValidationMessage(item: string, max: number) {
 export function minValidationMessage(item: string, min: number) {
   return `${item} should be more than ${min} characters`;
 }
+
+export const STATUS_TYPES = ["open", "closed", "in-progress"] as const;
+export const IMPROVEMENT_STATUS = ["improving", "stable", "worsening", "variable"] as const;
+export const SEVERITY_TYPES = ["mild", "moderate", "severe", "variable"] as const;
