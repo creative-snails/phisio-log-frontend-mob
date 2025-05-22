@@ -145,6 +145,8 @@ export const Z_HealthRecord = z.object({
 // }
 
 export const Z_SymptomsArray = z.array(Z_Symptom);
+export const Z_MedicalConsultationArray = z.array(Z_MedicalConsultation);
+
 
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;

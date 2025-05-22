@@ -1,4 +1,4 @@
-import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_SymptomsArray, Z_Status } from "@/types/healthRecordTypes";
+import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_Status, Z_SymptomsArray, Z_MedicalConsultationArray } from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (description: Description) => ({
@@ -38,16 +38,19 @@ export const validators = {
     };
   },
 
-  medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
-    valid:
-      medicalConsultations &&
-      medicalConsultations.every(
-        (consultation) =>
-          consultation.consultant.trim().length > 0 &&
-          consultation.date &&
-          consultation.diagnosis.trim().length > 0 &&
-          consultation.followUpActions?.every((action) => action.trim().length > 0)
-      ),
-    message: "All fields are required!",
-  }),
+  medicalConsultations: (consultations: MedicalConsultation[]) => {
+    const normalized = consultations.map((c) => ({
+      ...c,
+      date: typeof c.date === "string" ? new Date(c.date) : c.date,
+    }));
+
+    const result = Z_MedicalConsultationArray.safeParse(normalized);
+
+    return {
+      valid: result.success,
+      message: result.success
+        ? ""
+        : result.error.errors.map((e) => e.message).join(", "),
+    };
+  },
 };
