@@ -118,7 +118,7 @@ const EditConsultations = () => {
             setLocalValue(
               addItem(localValue, {
                 consultant: "",
-                date: new Date().toISOString().split("T")[0],
+                date: new Date(),
                 diagnosis: "",
                 followUpActions: [],
               })
