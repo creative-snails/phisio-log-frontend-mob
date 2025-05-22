@@ -1,4 +1,4 @@
-import { MedicalConsultation, Progression, Severity, Stage, Symptom } from "@/types/healthRecordTypes";
+import { MedicalConsultationType, Progression, Severity, Stage, SymptomType } from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (value: string) => ({
@@ -6,7 +6,7 @@ export const validators = {
     message: "Description must be at least 10 characters long!",
   }),
 
-  symptoms: (symptoms: Symptom[]) => ({
+  symptoms: (symptoms: SymptomType[]) => ({
     valid: symptoms.every((symptom) => symptom.startDate && symptom.name.trim().length > 0),
     message: "All fields are required!",
   }),
@@ -27,7 +27,7 @@ export const validators = {
     message: "Invalid status value(s)!",
   }),
 
-  medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
+  medicalConsultations: (medicalConsultations: MedicalConsultationType[]) => ({
     valid:
       medicalConsultations &&
       medicalConsultations.every(

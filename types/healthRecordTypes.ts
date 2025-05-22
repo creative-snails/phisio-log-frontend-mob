@@ -8,12 +8,12 @@ export type StatusOptionsType = {
   progression: { label: string; value: Progression }[];
 };
 
-export interface Symptom {
+export interface SymptomType {
   name: string;
   startDate: string;
 }
 
-export interface MedicalConsultation {
+export interface MedicalConsultationType {
   consultant: string;
   date: string;
   diagnosis: string;
@@ -22,25 +22,25 @@ export interface MedicalConsultation {
 
 export interface HealthRecordUpdateType {
   description?: string;
-  symptoms?: Symptom[];
+  symptoms?: SymptomType[];
   status?: {
     stage?: Stage;
     severity?: Severity;
     progression?: Progression;
   };
   treatmentsTried?: string[];
-  medicalConsultations?: MedicalConsultation[];
+  medicalConsultations?: MedicalConsultationType[];
 }
 
 export interface HealthRecordType {
   description: string;
-  symptoms: Symptom[];
+  symptoms: SymptomType[];
   status: {
     stage: Stage;
     severity: Severity;
     progression: Progression;
   };
   treatmentsTried?: string[];
-  medicalConsultations?: MedicalConsultation[];
+  medicalConsultations?: MedicalConsultationType[];
   updates?: HealthRecordUpdateType[];
 }
