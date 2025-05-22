@@ -6,6 +6,7 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
+import { MedicalConsultationType } from "@/types/healthRecordTypes";
 import { addItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
@@ -19,7 +20,7 @@ const EditConsultations = () => {
   const handleDateChange = (index: number, dateString: string) =>
     setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
-  const getConsultationDate = (consultation: MedicalConsultation) =>
+  const getConsultationDate = (consultation: MedicalConsultationType) =>
     consultation.date ? new Date(consultation.date) : new Date();
 
   const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =

@@ -1,16 +1,17 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { DatePicker } from "../formElements/DatePicker";
+import FollowUpActions from "./FollowUpActions";
 
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultation } from "@/types/healthRecordTypes";
+import { MedicalConsultationType } from "@/types/healthRecordTypes";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 
 type MedicalConsultationProps = {
-  consultation: MedicalConsultation;
+  consultation: MedicalConsultationType;
   index: number;
-  localValue: MedicalConsultation[];
-  setLocalValue: (value: MedicalConsultation[]) => void;
+  localValue: MedicalConsultationType[];
+  setLocalValue: (value: MedicalConsultationType[]) => void;
   datePickerProps: {
     isOpen: boolean;
     onDismiss: () => void;
@@ -49,6 +50,12 @@ const MedicalConsultation = ({
         style={commonStyles.textInput}
         value={consultation.diagnosis}
         onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "diagnosis", text))}
+      />
+      <FollowUpActions
+        consultationIndex={index}
+        followUpActions={consultation.followUpActions}
+        localValue={localValue}
+        setLocalValue={setLocalValue}
       />
       <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
         <Text>Remove Consultation</Text>

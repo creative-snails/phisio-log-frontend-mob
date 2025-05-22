@@ -6,7 +6,7 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { Symptom } from "@/types/healthRecordTypes";
+import { SymptomType } from "@/types/healthRecordTypes";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
@@ -18,7 +18,7 @@ const EditSymptoms = () => {
     setLocalValue(updateItemProperty(localValue, index, "startDate", dateString));
   };
 
-  const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
+  const getSymptomDate = (symptom: SymptomType) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
 
   const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
     useDatePicker({ onDateChange: handleDateChange, getItemDate: getSymptomDate });
