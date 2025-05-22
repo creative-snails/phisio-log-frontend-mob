@@ -1,15 +1,27 @@
-import { MedicalConsultation, Progression, Severity, Stage, Symptom } from "@/types/healthRecordTypes";
+import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_SymptomsArray } from "@/types/healthRecordTypes";
 
 export const validators = {
-  description: (value: string) => ({
-    valid: value.trim().length >= 10,
+  description: (description: Description) => ({
+    valid: description.description,
     message: "Description must be at least 10 characters long!",
   }),
 
-  symptoms: (symptoms: Symptom[]) => ({
-    valid: symptoms.every((symptom) => symptom.startDate && symptom.name.trim().length > 0),
-    message: "All fields are required!",
-  }),
+  symptoms: (symptoms: Symptom[]) => {
+    const normalized = symptoms.map((s) => ({
+      ...s,
+      startDate:
+        typeof s.startDate === "string" ? new Date(s.startDate) : s.startDate,
+    }));
+
+    const result = Z_SymptomsArray.safeParse(normalized);
+
+    return {
+      valid: result.success,
+      message: result.success
+        ? ""
+        : result.error.errors.map((e) => e.message).join(", "),
+    };
+  },
 
   treatmentsTried: (treatments: string[]) => ({
     valid: treatments && treatments.every((treatment) => treatment.trim().length >= 3),

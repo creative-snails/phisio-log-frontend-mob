@@ -21,6 +21,14 @@ export type StatusOptionsType = {
   progression: { label: string; value: Progression }[];
 };
 
+export const Z_Description = z.object({
+  description: z
+    .string()
+    .min(10, "Longer description is required")
+    .max(MAX_CHAR_MEDIUM, "Maximum length for description reached"),
+});
+
+
 export const Z_Symptom = z.object({
   name: z
     .string()
@@ -118,9 +126,12 @@ export const Z_HealthRecord = z.object({
 //   updates?: HealthRecordUpdateType[];
 // }
 
+export const Z_SymptomsArray = z.array(Z_Symptom);
+
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;
 export type Progression = z.infer<typeof Z_Progression>;
+export type Description = z.infer<typeof Z_Description>;
 export type Symptom = z.infer<typeof Z_Symptom>;
 export type MedicalConsultation = z.infer<typeof Z_MedicalConsultation>;
 export type HealthRecordUpdateType = z.infer<typeof Z_HealthRecordUpdate>;
