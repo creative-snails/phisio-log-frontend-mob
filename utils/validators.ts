@@ -1,4 +1,4 @@
-import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_SymptomsArray } from "@/types/healthRecordTypes";
+import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_SymptomsArray, Z_Status } from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (description: Description) => ({
@@ -12,7 +12,6 @@ export const validators = {
       startDate:
         typeof s.startDate === "string" ? new Date(s.startDate) : s.startDate,
     }));
-
     const result = Z_SymptomsArray.safeParse(normalized);
 
     return {
@@ -28,16 +27,16 @@ export const validators = {
     message: "Each treatment must be at least 3 characters long!",
   }),
 
-  status: (status: { stage: Stage; severity: Severity; progression: Progression }) => ({
-    valid:
-      status.stage &&
-      status.severity &&
-      status.progression &&
-      ["open", "closed", "in-progress"].includes(status.stage) &&
-      ["mild", "moderate", "severe", "variable"].includes(status.severity) &&
-      ["improving", "stable", "worsening", "variable"].includes(status.progression),
-    message: "Invalid status value(s)!",
-  }),
+  status: (status: { stage: Stage; severity: Severity; progression: Progression }) => {
+    const result = Z_Status.safeParse(status);
+
+    return {
+      valid: result.success,
+      message: result.success
+        ? ""
+        : result.error.errors.map((e) => e.message).join(", "),
+    };
+  },
 
   medicalConsultations: (medicalConsultations: MedicalConsultation[]) => ({
     valid:

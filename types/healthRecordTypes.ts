@@ -11,15 +11,33 @@ export const Z_Stage = z.enum(["open", "closed", "in-progress"]);
 export const Z_Severity = z.enum(["mild", "moderate", "severe", "variable"]);
 export const Z_Progression = z.enum(["improving", "stable", "worsening", "variable"]);
 
+const Z_LabeledEnumOption = <T extends z.ZodTypeAny>(enumSchema: T) =>
+  z.object({
+    label: z.string(),
+    value: enumSchema,
+  });
+
+  export const Z_StatusOptions = z.object({
+    stage: z.array(Z_LabeledEnumOption(Z_Stage)),
+    severity: z.array(Z_LabeledEnumOption(Z_Severity)),
+    progression: z.array(Z_LabeledEnumOption(Z_Progression)),
+  });
+
+  export const Z_Status = z.object({
+    stage: Z_Stage,
+    severity: Z_Severity,
+    progression: Z_Progression,
+  });
+
 // export type Stage = "open" | "closed" | "in-progress";
 // export type Severity = "mild" | "moderate" | "severe" | "variable";
 // export type Progression = "improving" | "stable" | "worsening" | "variable";
 
-export type StatusOptionsType = {
-  stage: { label: string; value: Stage }[];
-  severity: { label: string; value: Severity }[];
-  progression: { label: string; value: Progression }[];
-};
+// export type StatusOptionsType = {
+//   stage: { label: string; value: Stage }[];
+//   severity: { label: string; value: Severity }[];
+//   progression: { label: string; value: Progression }[];
+// };
 
 export const Z_Description = z.object({
   description: z
@@ -131,6 +149,8 @@ export const Z_SymptomsArray = z.array(Z_Symptom);
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;
 export type Progression = z.infer<typeof Z_Progression>;
+export type StatusOptionsType = z.infer<typeof Z_StatusOptions>;
+export type Status = z.infer<typeof Z_Status>;
 export type Description = z.infer<typeof Z_Description>;
 export type Symptom = z.infer<typeof Z_Symptom>;
 export type MedicalConsultation = z.infer<typeof Z_MedicalConsultation>;
