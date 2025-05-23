@@ -27,8 +27,8 @@ export const Z_Status = z.object({
 
 export const Z_Description = z
   .string()
-  .min(10, "Longer description is required")
-  .max(MAX_CHAR_MEDIUM, "Maximum length for description reached");
+  .min(10, minValidationMessage("Description", 10))
+  .max(MAX_CHAR_MEDIUM, maxValidationMessage("Description", MAX_CHAR_MEDIUM));
 
 export const Z_Symptom = z.object({
   name: z
