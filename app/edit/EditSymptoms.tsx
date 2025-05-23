@@ -6,9 +6,9 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { Symptom } from "@/validation/healthRecordSchema";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
+import { Symptom } from "@/validation/healthRecordSchema";
 import { validators } from "@/validation/validators";
 
 const EditSymptoms = () => {

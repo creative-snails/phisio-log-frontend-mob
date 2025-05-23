@@ -5,16 +5,20 @@ import {
   Severity,
   Stage,
   Symptom,
+  Z_Description,
   Z_MedicalConsultationArray,
   Z_Status,
   Z_SymptomsArray,
 } from "@/validation/healthRecordSchema";
 
 export const validators = {
-  description: (description: Description) => ({
-    valid: description.length >= 10,
-    message: "Description must be at least 10 characters long!",
-  }),
+  description: (description: Description) => {
+    const result = Z_Description.safeParse(description);
+    return {
+      valid: result.success,
+      message: result.success ? "" : result.error.errors.map((e) => e.message).join(", "),
+    };
+  },
 
   symptoms: (symptoms: Symptom[]) => {
     const normalized = symptoms.map((s) => ({
