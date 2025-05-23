@@ -7,7 +7,6 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultation } from "@/types/healthRecordTypes";
 import {
   addItem,
   addNestedItem,
@@ -17,7 +16,8 @@ import {
   updateNestedItem,
 } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { MedicalConsultation } from "@/validation/healthRecordSchema";
+import { validators } from "@/validation/validators";
 
 const EditConsultations = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm(
@@ -30,8 +30,8 @@ const EditConsultations = () => {
     setShowActionsMap((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const handleDateChange = (index: number, dateString: string) =>
-    setLocalValue(updateItemProperty(localValue, index, "date", dateString));
+  const handleDateChange = (index: number, date: Date) =>
+    setLocalValue(updateItemProperty(localValue, index, "date", new Date(date)));
 
   const getConsultationDate = (consultation: MedicalConsultation) =>
     consultation.date ? new Date(consultation.date) : new Date();
@@ -52,12 +52,13 @@ const EditConsultations = () => {
             value={consultation.consultant}
             onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "consultant", text))}
           />
+
           <DatePicker
             isOpen={isOpen && selectedItemIndex === index}
             onDismiss={closeDatePicker}
             onConfirm={({ date }) => handleConfirmDate(date)}
             date={getCurrentDate(localValue)}
-            value={consultation.date}
+            value={new Date(consultation.date).toISOString().split("T")[0]}
             onPress={() => openDatePicker(index)}
           />
           <TextInput
@@ -74,7 +75,7 @@ const EditConsultations = () => {
             </TouchableOpacity>
             <View style={styles.followUps}>
               {showActionsMap[index] &&
-                consultation.followUpActions?.map((action, followUpIndex) => (
+                consultation.followUpActions?.map((action: string, followUpIndex: number) => (
                   <View key={followUpIndex} style={styles.followUpsEntry}>
                     <TextInput
                       placeholder="Enter follow-up"
@@ -117,7 +118,7 @@ const EditConsultations = () => {
             setLocalValue(
               addItem(localValue, {
                 consultant: "",
-                date: new Date().toISOString().split("T")[0],
+                date: new Date(),
                 diagnosis: "",
                 followUpActions: [],
               })

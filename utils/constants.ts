@@ -1,4 +1,4 @@
-import { StatusOptionsType } from "../types/healthRecordTypes";
+import { StatusOptionsType } from "../validation/healthRecordSchema";
 
 export const ROUTES = {
   EDIT: {
@@ -51,3 +51,7 @@ export const statusConfigs = [
   { field: "severity", title: "Severity", zIndex: 2000, zIndexInverse: 2000 },
   { field: "progression", title: "Progression", zIndex: 1000, zIndexInverse: 3000 },
 ] as const;
+
+export const MAX_CHAR_SHORT = 100;
+export const MAX_CHAR_MEDIUM = 1000;
+export const MAX_CHAR_LONG = 10_000;

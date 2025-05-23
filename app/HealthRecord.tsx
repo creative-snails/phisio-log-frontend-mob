@@ -40,7 +40,10 @@ const HealthRecord = () => {
         {healthRecord.symptoms.map((symptom, index) => (
           <View key={index} style={styles.item}>
             <Text>Name: {symptom.name}</Text>
-            <Text>Start Date: {symptom.startDate ? symptom.startDate.toString() : ""}</Text>
+            <Text>
+              Start Date:
+              {symptom.startDate ? new Date(symptom.startDate).toISOString().split("T")[0] : ""}
+            </Text>
           </View>
         ))}
         <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
@@ -75,7 +78,7 @@ const HealthRecord = () => {
         {healthRecord.medicalConsultations?.map((consultation, index) => (
           <View key={index} style={styles.item}>
             <Text>Consultant: {consultation.consultant}</Text>
-            <Text>Date: {consultation.date ? consultation.date.toString() : ""}</Text>
+            <Text>Date: {consultation.date ? new Date(consultation.date).toISOString().split("T")[0] : ""}</Text>
             <Text>Diagnosis: {consultation.diagnosis}</Text>
             <Text>Follow Up Actions:</Text>
             {consultation.followUpActions?.map((action, actionIndex) => <Text key={actionIndex}> - {action}</Text>)}

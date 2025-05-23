@@ -6,16 +6,16 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { Symptom } from "@/types/healthRecordTypes";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { Symptom } from "@/validation/healthRecordSchema";
+import { validators } from "@/validation/validators";
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
 
-  const handleDateChange = (index: number, dateString: string) => {
-    setLocalValue(updateItemProperty(localValue, index, "startDate", dateString));
+  const handleDateChange = (index: number, date: Date) => {
+    setLocalValue(updateItemProperty(localValue, index, "startDate", date));
   };
 
   const getSymptomDate = (symptom: Symptom) => (symptom.startDate ? new Date(symptom.startDate) : new Date());
@@ -37,7 +37,7 @@ const EditSymptoms = () => {
             onDismiss={closeDatePicker}
             onConfirm={({ date }) => handleConfirmDate(date)}
             date={getCurrentDate(localValue)}
-            value={symptom.startDate}
+            value={symptom.startDate ? new Date(symptom.startDate).toISOString().split("T")[0] : ""}
             onPress={() => openDatePicker(index)}
           />
           <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
@@ -48,9 +48,7 @@ const EditSymptoms = () => {
       <View style={styles.btnContainer}>
         <TouchableOpacity
           style={commonStyles.btn}
-          onPress={() =>
-            setLocalValue(addItem(localValue, { name: "", startDate: new Date().toISOString().split("T")[0] }))
-          }
+          onPress={() => setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))}
         >
           <Text>Add Symptom</Text>
         </TouchableOpacity>

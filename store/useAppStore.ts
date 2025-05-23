@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { HealthRecordType } from "@/types/healthRecordTypes";
+import { HealthRecordType } from "@/validation/healthRecordSchema";
 
 interface AppStore {
   loading: boolean;

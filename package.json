@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "start:mock": "json-server --watch db.json --port 5000",
+    "start:mock": "json-server --watch db.json --port 5555",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -50,6 +50,7 @@
     "react-native-svg": "15.8.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
+    "zod": "^3.25.23",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

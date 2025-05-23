@@ -6,7 +6,7 @@ import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { addItem, removeItem, updateItem } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { validators } from "@/validation/validators";
 
 const EditTreatments = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("treatmentsTried", validators.treatmentsTried);
