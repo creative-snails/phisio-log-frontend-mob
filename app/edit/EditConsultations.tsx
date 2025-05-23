@@ -7,7 +7,7 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultation } from "@/types/healthRecordValidationSchemas";
+import { MedicalConsultation } from "@/validation/healthRecordSchema";
 import {
   addItem,
   addNestedItem,
@@ -17,7 +17,7 @@ import {
   updateNestedItem,
 } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { validators } from "@/validation/validators";
 
 const EditConsultations = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm(

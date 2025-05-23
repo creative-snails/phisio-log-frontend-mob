@@ -4,7 +4,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useEditForm } from "@/hooks/useEditForm";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { validators } from "@/validation/validators";
 
 const EditDescription = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("description", validators.description);

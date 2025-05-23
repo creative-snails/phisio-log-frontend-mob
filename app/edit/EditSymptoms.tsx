@@ -6,10 +6,10 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { Symptom } from "@/types/healthRecordValidationSchemas";
+import { Symptom } from "@/validation/healthRecordSchema";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
-import { validators } from "@/utils/validators";
+import { validators } from "@/validation/validators";
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);

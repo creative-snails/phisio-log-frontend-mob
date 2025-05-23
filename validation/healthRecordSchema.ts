@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { MAX_CHAR_LONG, MAX_CHAR_MEDIUM, MAX_CHAR_SHORT } from "@/utils/constants";
-import { maxValidationMessage, minValidationMessage } from "@/utils/validationHelpers";
+import { maxValidationMessage, minValidationMessage } from "@/validation/helpers";
 
 export const Z_Stage = z.enum(["open", "closed", "in-progress"]);
 export const Z_Severity = z.enum(["mild", "moderate", "severe", "variable"]);

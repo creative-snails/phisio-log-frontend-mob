@@ -8,7 +8,7 @@ import {
   Z_MedicalConsultationArray,
   Z_Status,
   Z_SymptomsArray,
-} from "@/types/healthRecordValidationSchemas";
+} from "@/validation/healthRecordSchema";
 
 export const validators = {
   description: (description: Description) => ({
