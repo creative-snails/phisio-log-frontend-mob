@@ -3,7 +3,7 @@ import { Alert, Platform } from "react-native";
 import { router } from "expo-router";
 
 import useAppStore from "@/store/useAppStore";
-import { HealthRecordType } from "@/types/healthRecordTypes";
+import { HealthRecordType } from "@/types/healthRecordValidationSchemas";
 
 type Validator<T> = (value: T) => { valid: boolean; message: string };
 

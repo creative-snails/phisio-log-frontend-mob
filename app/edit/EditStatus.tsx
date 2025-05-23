@@ -5,7 +5,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { useEditForm } from "@/hooks/useEditForm";
-import { StatusOptionsType } from "@/types/healthRecordTypes";
+import { StatusOptionsType } from "@/types/healthRecordValidationSchemas";
 import { statusConfigs, statusOptions } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 

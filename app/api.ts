@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { HealthRecordType } from "@/types/healthRecordTypes";
+import { HealthRecordType } from "@/types/healthRecordValidationSchemas";
 
 const API_URL = "http://localhost:5000/health-records";
 

@@ -7,7 +7,7 @@ import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultation } from "@/types/healthRecordTypes";
+import { MedicalConsultation } from "@/types/healthRecordValidationSchemas";
 import {
   addItem,
   addNestedItem,

@@ -1,4 +1,4 @@
-import { StatusOptionsType } from "../types/healthRecordTypes";
+import { StatusOptionsType } from "../types/healthRecordValidationSchemas";
 
 export const ROUTES = {
   EDIT: {
@@ -55,11 +55,3 @@ export const statusConfigs = [
 export const MAX_CHAR_SHORT = 100;
 export const MAX_CHAR_MEDIUM = 1000;
 export const MAX_CHAR_LONG = 10_000;
-
-export function maxValidationMessage(item: string, max: number) {
-  return `${item} must be less than ${max} characters`;
-}
-
-export function minValidationMessage(item: string, min: number) {
-  return `${item} should be more than ${min} characters`;
-}
