@@ -1,24 +1,31 @@
-import { MedicalConsultation, Progression, Severity, Stage, Description, Symptom, Z_Status, Z_SymptomsArray, Z_MedicalConsultationArray } from "@/types/healthRecordTypes";
+import {
+  Description,
+  MedicalConsultation,
+  Progression,
+  Severity,
+  Stage,
+  Symptom,
+  Z_MedicalConsultationArray,
+  Z_Status,
+  Z_SymptomsArray,
+} from "@/types/healthRecordTypes";
 
 export const validators = {
   description: (description: Description) => ({
-    valid: description.description,
+    valid: description.length >= 10,
     message: "Description must be at least 10 characters long!",
   }),
 
   symptoms: (symptoms: Symptom[]) => {
     const normalized = symptoms.map((s) => ({
       ...s,
-      startDate:
-        typeof s.startDate === "string" ? new Date(s.startDate) : s.startDate,
+      startDate: typeof s.startDate === "string" ? new Date(s.startDate) : s.startDate,
     }));
     const result = Z_SymptomsArray.safeParse(normalized);
 
     return {
       valid: result.success,
-      message: result.success
-        ? ""
-        : result.error.errors.map((e) => e.message).join(", "),
+      message: result.success ? "" : result.error.errors.map((e) => e.message).join(", "),
     };
   },
 
@@ -32,9 +39,7 @@ export const validators = {
 
     return {
       valid: result.success,
-      message: result.success
-        ? ""
-        : result.error.errors.map((e) => e.message).join(", "),
+      message: result.success ? "" : result.error.errors.map((e) => e.message).join(", "),
     };
   },
 
@@ -48,9 +53,7 @@ export const validators = {
 
     return {
       valid: result.success,
-      message: result.success
-        ? ""
-        : result.error.errors.map((e) => e.message).join(", "),
+      message: result.success ? "" : result.error.errors.map((e) => e.message).join(", "),
     };
   },
 };

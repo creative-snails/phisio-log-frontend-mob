@@ -1,10 +1,11 @@
 import { z } from "zod";
+
 import {
-  MAX_CHAR_SHORT,
-  MAX_CHAR_MEDIUM,
   MAX_CHAR_LONG,
-  minValidationMessage,
+  MAX_CHAR_MEDIUM,
+  MAX_CHAR_SHORT,
   maxValidationMessage,
+  minValidationMessage,
 } from "@/utils/constants";
 
 export const Z_Stage = z.enum(["open", "closed", "in-progress"]);
@@ -17,17 +18,17 @@ const Z_LabeledEnumOption = <T extends z.ZodTypeAny>(enumSchema: T) =>
     value: enumSchema,
   });
 
-  export const Z_StatusOptions = z.object({
-    stage: z.array(Z_LabeledEnumOption(Z_Stage)),
-    severity: z.array(Z_LabeledEnumOption(Z_Severity)),
-    progression: z.array(Z_LabeledEnumOption(Z_Progression)),
-  });
+export const Z_StatusOptions = z.object({
+  stage: z.array(Z_LabeledEnumOption(Z_Stage)),
+  severity: z.array(Z_LabeledEnumOption(Z_Severity)),
+  progression: z.array(Z_LabeledEnumOption(Z_Progression)),
+});
 
-  export const Z_Status = z.object({
-    stage: Z_Stage,
-    severity: Z_Severity,
-    progression: Z_Progression,
-  });
+export const Z_Status = z.object({
+  stage: Z_Stage,
+  severity: Z_Severity,
+  progression: Z_Progression,
+});
 
 // export type Stage = "open" | "closed" | "in-progress";
 // export type Severity = "mild" | "moderate" | "severe" | "variable";
@@ -39,13 +40,17 @@ const Z_LabeledEnumOption = <T extends z.ZodTypeAny>(enumSchema: T) =>
 //   progression: { label: string; value: Progression }[];
 // };
 
-export const Z_Description = z.object({
-  description: z
-    .string()
-    .min(10, "Longer description is required")
-    .max(MAX_CHAR_MEDIUM, "Maximum length for description reached"),
-});
+// export const Z_Description = z.object({
+//   description: z
+//     .string()
+//     .min(10, "Longer description is required")
+//     .max(MAX_CHAR_MEDIUM, "Maximum length for description reached"),
+// });
 
+export const Z_Description = z
+  .string()
+  .min(10, "Longer description is required")
+  .max(MAX_CHAR_MEDIUM, "Maximum length for description reached");
 
 export const Z_Symptom = z.object({
   name: z
@@ -97,11 +102,13 @@ export const Z_MedicalConsultation = z.object({
 export const Z_HealthRecordUpdate = z.object({
   description: z.string().optional(),
   symptoms: z.array(Z_Symptom).optional(),
-  status: z.object({
-    stage: Z_Stage.optional(),
-    severity: Z_Severity.optional(),
-    progression: Z_Progression.optional(),
-  }).optional(),
+  status: z
+    .object({
+      stage: Z_Stage.optional(),
+      severity: Z_Severity.optional(),
+      progression: Z_Progression.optional(),
+    })
+    .optional(),
   treatmentsTried: z.array(z.string()).optional(),
   medicalConsultations: z.array(Z_MedicalConsultation).optional(),
 });
@@ -146,7 +153,6 @@ export const Z_HealthRecord = z.object({
 
 export const Z_SymptomsArray = z.array(Z_Symptom);
 export const Z_MedicalConsultationArray = z.array(Z_MedicalConsultation);
-
 
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;

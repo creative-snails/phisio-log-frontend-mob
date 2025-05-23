@@ -48,9 +48,7 @@ const EditSymptoms = () => {
       <View style={styles.btnContainer}>
         <TouchableOpacity
           style={commonStyles.btn}
-          onPress={() =>
-            setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))
-          }
+          onPress={() => setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))}
         >
           <Text>Add Symptom</Text>
         </TouchableOpacity>

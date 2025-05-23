@@ -19,7 +19,6 @@ import {
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
-
 const EditConsultations = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm(
     "medicalConsultations",
@@ -75,7 +74,7 @@ const EditConsultations = () => {
             </TouchableOpacity>
             <View style={styles.followUps}>
               {showActionsMap[index] &&
-                consultation.followUpActions?.map((action, followUpIndex) => (
+                consultation.followUpActions?.map((action: string, followUpIndex: number) => (
                   <View key={followUpIndex} style={styles.followUpsEntry}>
                     <TextInput
                       placeholder="Enter follow-up"
