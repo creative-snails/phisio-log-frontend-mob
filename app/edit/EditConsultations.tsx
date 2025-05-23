@@ -52,12 +52,13 @@ const EditConsultations = () => {
             value={consultation.consultant}
             onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "consultant", text))}
           />
+
           <DatePicker
             isOpen={isOpen && selectedItemIndex === index}
             onDismiss={closeDatePicker}
             onConfirm={({ date }) => handleConfirmDate(date)}
             date={getCurrentDate(localValue)}
-            value={consultation.date}
+            value={new Date(consultation.date).toISOString().split("T")[0]}
             onPress={() => openDatePicker(index)}
           />
           <TextInput
