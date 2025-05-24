@@ -15,7 +15,10 @@ export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerPro
     setIsOpen(true);
   };
 
-  const closeDatePicker = () => setIsOpen(false);
+  const closeDatePicker = () => {
+    setIsOpen(false);
+    setSelectedItemIndex(null);
+  };
 
   const handleConfirmDate = (date: CalendarDate) => {
     if (selectedItemIndex !== null && date) {
@@ -25,7 +28,7 @@ export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerPro
   };
 
   const getCurrentDate = (items?: T[]) => {
-    if (selectedItemIndex === null || !items) {
+    if (selectedItemIndex === null || !items || selectedItemIndex >= items.length) {
       return new Date();
     }
     const item = items[selectedItemIndex];

@@ -40,7 +40,13 @@ const EditSymptoms = () => {
             value={symptom.startDate ? new Date(symptom.startDate).toISOString().split("T")[0] : ""}
             onPress={() => openDatePicker(index)}
           />
-          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
+          <TouchableOpacity
+            style={commonStyles.btn}
+            onPress={() => {
+              closeDatePicker();
+              setLocalValue(removeItem(localValue, index));
+            }}
+          >
             <Text>Remove Symptom</Text>
           </TouchableOpacity>
         </View>
