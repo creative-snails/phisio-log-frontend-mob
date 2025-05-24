@@ -3,11 +3,9 @@ import { Text, TouchableOpacity, View } from "react-native";
 import MedicalConsultation from "@/components/consultations/MedicalConsultation";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
-import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultationType } from "@/types/healthRecordTypes";
-import { addItem, updateItemProperty } from "@/utils/arrayHelpers";
+import { addItem } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
 import { validators } from "@/utils/validators";
 
@@ -16,18 +14,6 @@ const EditConsultations = () => {
     "medicalConsultations",
     validators.medicalConsultations
   );
-
-  const handleDateChange = (index: number, dateString: string) =>
-    setLocalValue(updateItemProperty(localValue, index, "date", dateString));
-
-  const getConsultationDate = (consultation: MedicalConsultationType) =>
-    consultation.date ? new Date(consultation.date) : new Date();
-
-  const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
-    useDatePicker({
-      onDateChange: handleDateChange,
-      getItemDate: getConsultationDate,
-    });
 
   return (
     <EditScreenLayout title={SCREEN_LABELS.EDIT.CONSULTATIONS} loading={loading}>
@@ -38,14 +24,6 @@ const EditConsultations = () => {
           index={index}
           localValue={localValue}
           setLocalValue={setLocalValue}
-          datePickerProps={{
-            isOpen: isOpen && selectedItemIndex === index,
-            onDismiss: closeDatePicker,
-            onConfirm: ({ date }) => handleConfirmDate(date),
-            date: getCurrentDate(localValue),
-            value: consultation.date,
-            onPress: () => openDatePicker(index),
-          }}
         />
       ))}
       <View style={commonStyles.btnContainer}>

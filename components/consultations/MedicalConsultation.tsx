@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { DatePicker } from "../formElements/DatePicker";
 import FollowUpActions from "./FollowUpActions";
 
+import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";
 import { MedicalConsultationType } from "@/types/healthRecordTypes";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
@@ -12,23 +12,20 @@ type MedicalConsultationProps = {
   index: number;
   localValue: MedicalConsultationType[];
   setLocalValue: (value: MedicalConsultationType[]) => void;
-  datePickerProps: {
-    isOpen: boolean;
-    onDismiss: () => void;
-    onConfirm: ({ date }: { date: CalendarDate }) => void;
-    date: Date;
-    value?: string;
-    onPress: () => void;
-  };
 };
 
-const MedicalConsultation = ({
-  consultation,
-  index,
-  localValue,
-  setLocalValue,
-  datePickerProps,
-}: MedicalConsultationProps) => {
+const MedicalConsultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
+  const handleDateChange = (index: number, dateString: string) =>
+    setLocalValue(updateItemProperty(localValue, index, "date", dateString));
+
+  const getConsultationDate = (consultation: MedicalConsultationType) =>
+    consultation.date ? new Date(consultation.date) : new Date();
+
+  const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
+    useDatePicker({
+      onDateChange: handleDateChange,
+      getItemDate: getConsultationDate,
+    });
   return (
     <View style={styles.innerContainer}>
       <TextInput
@@ -38,12 +35,12 @@ const MedicalConsultation = ({
         onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "consultant", text))}
       />
       <DatePicker
-        isOpen={datePickerProps.isOpen}
-        onDismiss={datePickerProps.onDismiss}
-        onConfirm={datePickerProps.onConfirm}
-        date={datePickerProps.date}
+        isOpen={isOpen && selectedItemIndex === index}
+        onDismiss={closeDatePicker}
+        onConfirm={({ date }) => handleConfirmDate(date)}
+        date={getCurrentDate(localValue)}
         value={consultation.date}
-        onPress={datePickerProps.onPress}
+        onPress={() => openDatePicker(index)}
       />
       <TextInput
         placeholder="Enter diagnosis"
