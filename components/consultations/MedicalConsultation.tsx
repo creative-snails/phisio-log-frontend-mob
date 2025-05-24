@@ -26,6 +26,7 @@ const MedicalConsultation = ({ consultation, index, localValue, setLocalValue }:
       onDateChange: handleDateChange,
       getItemDate: getConsultationDate,
     });
+
   return (
     <View style={styles.innerContainer}>
       <TextInput

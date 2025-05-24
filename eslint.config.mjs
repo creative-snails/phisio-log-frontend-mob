@@ -77,6 +77,7 @@ export default [
       "react/no-unescaped-entities": "off",
       "react/prop-types": "off",
       "react-native/no-raw-text": "off",
+      "padding-line-between-statements": ["error", { blankLine: "always", prev: "*", next: "return" }],
       "react-native/no-inline-styles": "warn",
       "react-native/no-color-literals": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
