@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { MAX_CHAR_LONG, MAX_CHAR_MEDIUM, MAX_CHAR_SHORT } from "@/utils/constants";
+import { MAX_CHAR_LONG, MAX_CHAR_MEDIUM, MAX_CHAR_SHORT, MIN_CHAR_MEDIUM, MIN_CHAR_SHORT } from "@/utils/constants";
 import { maxValidationMessage, minValidationMessage } from "@/validation/helpers";
 
 export const Z_Stage = z.enum(["open", "closed", "in-progress"]);
@@ -27,15 +27,15 @@ export const Z_Status = z.object({
 
 export const Z_Description = z
   .string()
-  .min(10, minValidationMessage("Description", 10))
-  .max(MAX_CHAR_MEDIUM, maxValidationMessage("Description", MAX_CHAR_MEDIUM));
+  .min(MIN_CHAR_MEDIUM, minValidationMessage("Description", MIN_CHAR_MEDIUM))
+  .max(MAX_CHAR_LONG, maxValidationMessage("Description", MAX_CHAR_LONG));
 
 export const Z_Symptom = z.object({
   name: z
     .string()
     .trim()
-    .min(2, minValidationMessage("Symptom", 2))
-    .max(MAX_CHAR_MEDIUM, maxValidationMessage("Symptom", MAX_CHAR_MEDIUM)),
+    .min(MIN_CHAR_SHORT, minValidationMessage("Symptom", MIN_CHAR_SHORT))
+    .max(MAX_CHAR_SHORT, maxValidationMessage("Symptom", MAX_CHAR_SHORT)),
   startDate: z.date().optional(),
   // TODO: This is causing some strange behaviour, will address it in the future
   // startDate: z.date().max(new Date(), "Start date cannot be in the future").optional(),
@@ -45,21 +45,21 @@ export const Z_MedicalConsultation = z.object({
   consultant: z
     .string()
     .trim()
-    .min(2, minValidationMessage("Consultant", 2))
+    .min(MIN_CHAR_SHORT, minValidationMessage("Consultant", MIN_CHAR_SHORT))
     .max(MAX_CHAR_SHORT, maxValidationMessage("Consultant", MAX_CHAR_SHORT)),
   date: z.date().refine((date) => date <= new Date(), "Consultation date cannot be in the future"),
   diagnosis: z
     .string()
     .trim()
-    .min(2, minValidationMessage("Diagnosis", 10))
-    .max(MAX_CHAR_LONG, maxValidationMessage("Diagnosis", MAX_CHAR_LONG)),
+    .min(MIN_CHAR_SHORT, minValidationMessage("Diagnosis", MIN_CHAR_SHORT))
+    .max(MAX_CHAR_SHORT, maxValidationMessage("Diagnosis", MAX_CHAR_SHORT)),
   followUpActions: z
     .array(
       z
         .string()
         .trim()
-        .min(2, minValidationMessage("Follow-up actions", 2))
-        .max(MAX_CHAR_LONG, maxValidationMessage("Follow-up actions", MAX_CHAR_LONG))
+        .min(MIN_CHAR_SHORT, minValidationMessage("Follow-up actions", MIN_CHAR_SHORT))
+        .max(MAX_CHAR_MEDIUM, maxValidationMessage("Follow-up actions", MAX_CHAR_MEDIUM))
     )
     .optional()
     .default([]),
@@ -80,8 +80,8 @@ export const Z_HealthRecordUpdate = z.object({
       z
         .string()
         .trim()
-        .min(2, minValidationMessage("Treatments tried", 2))
-        .max(MAX_CHAR_LONG, maxValidationMessage("Treatments tried", MAX_CHAR_LONG))
+        .min(MIN_CHAR_SHORT, minValidationMessage("Treatments tried", MIN_CHAR_SHORT))
+        .max(MAX_CHAR_SHORT, maxValidationMessage("Treatments tried", MAX_CHAR_SHORT))
     )
     .optional()
     .default([]),
@@ -101,8 +101,8 @@ export const Z_HealthRecord = z.object({
       z
         .string()
         .trim()
-        .min(2, minValidationMessage("Treatments tried", 2))
-        .max(MAX_CHAR_LONG, maxValidationMessage("Treatments tried", MAX_CHAR_LONG))
+        .min(MIN_CHAR_SHORT, minValidationMessage("Treatments tried", MIN_CHAR_SHORT))
+        .max(MAX_CHAR_SHORT, maxValidationMessage("Treatments tried", MAX_CHAR_SHORT))
     )
     .optional()
     .default([]),
