@@ -4,21 +4,21 @@ import FollowUpActions from "./FollowUpActions";
 
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultationType } from "@/types/healthRecordTypes";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
+import { MedicalConsultation } from "@/validation/healthRecordSchema";
 
 type MedicalConsultationProps = {
-  consultation: MedicalConsultationType;
+  consultation: MedicalConsultation;
   index: number;
-  localValue: MedicalConsultationType[];
-  setLocalValue: (value: MedicalConsultationType[]) => void;
+  localValue: MedicalConsultation[];
+  setLocalValue: (value: MedicalConsultation[]) => void;
 };
 
 const MedicalConsultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
-  const handleDateChange = (index: number, dateString: string) =>
+  const handleDateChange = (index: number, dateString: Date) =>
     setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
-  const getConsultationDate = (consultation: MedicalConsultationType) =>
+  const getConsultationDate = (consultation: MedicalConsultation) =>
     consultation.date ? new Date(consultation.date) : new Date();
 
   const { isOpen, selectedItemIndex, openDatePicker, closeDatePicker, handleConfirmDate, getCurrentDate } =
