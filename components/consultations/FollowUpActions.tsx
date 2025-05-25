@@ -2,14 +2,14 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { commonStyles } from "@/styles/commonStyles";
-import { MedicalConsultationType } from "@/types/healthRecordTypes";
 import { addNestedItem, removeNestedItem, updateNestedItem } from "@/utils/arrayHelpers";
+import { MedicalConsultation } from "@/validation/healthRecordSchema";
 
 type FollowUpActionsProps = {
   consultationIndex: number;
   followUpActions?: string[];
-  localValue: MedicalConsultationType[];
-  setLocalValue: (value: MedicalConsultationType[]) => void;
+  localValue: MedicalConsultation[];
+  setLocalValue: (value: MedicalConsultation[]) => void;
 };
 
 const FollowUpActions = ({

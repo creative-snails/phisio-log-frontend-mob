@@ -51,7 +51,7 @@ export const Z_MedicalConsultation = z.object({
   diagnosis: z
     .string()
     .trim()
-    .min(10, minValidationMessage("Diagnosis", 10))
+    .min(2, minValidationMessage("Diagnosis", 10))
     .max(MAX_CHAR_LONG, maxValidationMessage("Diagnosis", MAX_CHAR_LONG)),
   followUpActions: z
     .array(
@@ -66,7 +66,7 @@ export const Z_MedicalConsultation = z.object({
 });
 
 export const Z_HealthRecordUpdate = z.object({
-  description: z.string().optional(),
+  description: Z_Description.optional(),
   symptoms: z.array(Z_Symptom).optional(),
   status: z
     .object({
@@ -89,7 +89,7 @@ export const Z_HealthRecordUpdate = z.object({
 });
 
 export const Z_HealthRecord = z.object({
-  description: z.string(),
+  description: Z_Description,
   symptoms: z.array(Z_Symptom).min(1, "At least one symptom is required"),
   status: z.object({
     stage: Z_Stage,
