@@ -32,6 +32,7 @@ export function useDatePicker<T>({ onDateChange, getItemDate }: UseDatePickerPro
       return new Date();
     }
     const item = items[selectedItemIndex];
+
     return getItemDate(item);
   };
 

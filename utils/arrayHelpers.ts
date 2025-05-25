@@ -19,6 +19,7 @@ export function addNestedItem<T>(array: T[], index: number, key: keyof T, newVal
     if (i !== index) return item;
 
     const nestedArray = (item[key] as []) || [];
+
     return { ...item, [key]: [...nestedArray, newValue] } as T;
   });
 }
@@ -31,6 +32,7 @@ export function removeNestedItem<T>(array: T[], index: number, key: keyof T, nes
     if (!nestedArray || !Array.isArray(nestedArray)) return item;
 
     const updatedNestedArray = nestedArray.filter((_, idx) => idx !== nestedIndex);
+
     return { ...item, [key]: updatedNestedArray } as T;
   });
 }

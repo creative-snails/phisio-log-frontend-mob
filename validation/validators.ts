@@ -14,6 +14,7 @@ import {
 export const validators = {
   description: (description: Description) => {
     const result = Z_Description.safeParse(description);
+
     return {
       valid: result.success,
       message: result.success ? "" : result.error.errors.map((e) => e.message).join(", "),

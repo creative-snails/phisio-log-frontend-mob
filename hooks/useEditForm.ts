@@ -19,6 +19,7 @@ export function useEditForm<T>(fieldName: keyof HealthRecordType, validator: Val
       } else {
         Alert.alert("Error", validation.message);
       }
+
       return;
     }
 
