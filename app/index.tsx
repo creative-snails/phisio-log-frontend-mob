@@ -11,6 +11,7 @@ const App = () => {
       <Text>Home Page</Text>
       <Button title="Body Map" onPress={() => router.push(`/${ROUTES.BODY_MAP}`)} />
       <Button title="Health Record" onPress={() => router.push(`/${ROUTES.HEALTH_RECORD}`)} />
+      <Button title="Record" onPress={() => router.push("/Audio-Recorder")} />
     </View>
   );
 };

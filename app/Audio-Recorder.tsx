@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Animated, Button, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
 import { Audio } from "expo-av";
+import { useRouter } from "expo-router";
 
-type NavigationProp = StackNavigationProp<RootStackParamList, "Recorder">;
+//type NavigationProp = StackNavigationProp<RootStackParamList, "Recorder">;
 
-type RootStackParamList = {
+/*type RootStackParamList = {
   Recorder: undefined;
   Playback: { recordingURI: string };
-};
+};*/
 
 export default function AudioRecorder() {
   const [recording, setRecording] = useState<Audio.Recording | null>(null); // Keep track of the audio recording instance
@@ -18,7 +17,8 @@ export default function AudioRecorder() {
   const [hasPermission, setHasPermission] = useState(true);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const navigation = useNavigation<NavigationProp>();
+  //const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
 
   // Request microphone permissions.
   useEffect(() => {
@@ -146,7 +146,7 @@ export default function AudioRecorder() {
           Animated.timing(blinkAnim, {
             toValue: 0,
             duration: 500,
-            useNativeDriver: true,
+            useNativeDriver: false, //was true and was causing an issue to animation on moblie
           }),
         ])
       );
@@ -187,7 +187,8 @@ export default function AudioRecorder() {
       {recordedURI && (
         <TouchableOpacity
           style={styles.playButton}
-          onPress={() => navigation.navigate("Playback", { recordingURI: recordedURI })}
+          //onPress={() => navigation.navigate("Playback", { recordingURI: recordedURI })}
+          onPress={() => router.push({ pathname: "/Playback", params: { recordingURI: recordedURI } })}
         >
           <Text style={styles.buttonText}>{isPlaying ? "Stop Playback" : "Play Recording"}</Text>
         </TouchableOpacity>
