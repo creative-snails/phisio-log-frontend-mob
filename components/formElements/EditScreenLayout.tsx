@@ -1,6 +1,6 @@
 import { KeyboardAvoidingView, ScrollView, Text } from "react-native";
-import { LoadingIndicator } from "../LoadingIndicator";
 
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { commonStyles } from "@/styles/commonStyles";
 
 type EditScreenLayoutProps = {

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { DatePicker } from "../formElements/DatePicker";
 import FollowUpActions from "./FollowUpActions";
 
+import { DatePicker } from "@/components/formElements/DatePicker";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
