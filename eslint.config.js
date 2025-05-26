@@ -63,6 +63,8 @@ export default tseslint.config(
       ],
       // Apply React Hooks recommended rules
       ...reactHooks.configs.recommended.rules,
+      // Enforce blank lines between statements
+      "padding-line-between-statements": ["error", { blankLine: "always", prev: "*", next: "return" }],
       // Import sorting config
       "simple-import-sort/imports": [
         "error",
@@ -73,7 +75,6 @@ export default tseslint.config(
               "^expo",
               "^@expo", // Expo packages
               "^@?\\w", // Third-party packages
-              "^@/", // Absolute imports
               "^\\.\\.(?!/?$)", // Parent imports
               "^\\.\\./?$", // Parent folder index
               "^\\./(?=.*/)(?!/?$)", // Nested relative imports
@@ -85,6 +86,7 @@ export default tseslint.config(
       ],
       // React specific rules
       "react-hooks/rules-of-hooks": ["error"],
+      "react-hooks/exhaustive-deps": "off",
       "react/jsx-key": ["error"],
       "react/jsx-tag-spacing": [
         "error",
@@ -100,7 +102,6 @@ export default tseslint.config(
       "react-native/no-inline-styles": "warn",
       "react-native/no-color-literals": "off",
       "react-native/no-raw-text": "off",
-
       // Format code with Prettier
       "prettier/prettier": "error",
     },
