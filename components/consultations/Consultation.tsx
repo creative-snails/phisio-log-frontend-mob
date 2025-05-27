@@ -7,14 +7,14 @@ import { commonStyles } from "@/styles/commonStyles";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { MedicalConsultation } from "@/validation/healthRecordSchema";
 
-type MedicalConsultationProps = {
+type ConsultationProps = {
   consultation: MedicalConsultation;
   index: number;
   localValue: MedicalConsultation[];
   setLocalValue: (value: MedicalConsultation[]) => void;
 };
 
-const Consultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
+const Consultation = ({ consultation, index, localValue, setLocalValue }: ConsultationProps) => {
   const handleDateChange = (index: number, dateString: Date) =>
     setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
