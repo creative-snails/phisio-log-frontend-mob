@@ -1,3 +1,27 @@
-package-lock.json
+# Build outputs
 dist
 build
+web-build
+
+# Dependencies
+node_modules
+
+# Expo
+.expo
+
+# Package management
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Generated files
+*.tsbuildinfo
+expo-env.d.ts
+
+# Cache
+.cache

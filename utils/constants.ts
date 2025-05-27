@@ -1,4 +1,4 @@
-import { StatusOptionsType } from "../validation/healthRecordSchema";
+import { StatusOptionsType } from "@/validation/healthRecordSchema";
 
 export const ROUTES = {
   EDIT: {

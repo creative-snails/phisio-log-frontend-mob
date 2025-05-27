@@ -1,20 +1,20 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { DatePicker } from "../formElements/DatePicker";
 import FollowUpActions from "./FollowUpActions";
 
+import { DatePicker } from "@/components/formElements/DatePicker";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";
 import { removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { MedicalConsultation } from "@/validation/healthRecordSchema";
 
-type MedicalConsultationProps = {
+type ConsultationProps = {
   consultation: MedicalConsultation;
   index: number;
   localValue: MedicalConsultation[];
   setLocalValue: (value: MedicalConsultation[]) => void;
 };
 
-const MedicalConsultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
+const Consultation = ({ consultation, index, localValue, setLocalValue }: ConsultationProps) => {
   const handleDateChange = (index: number, dateString: Date) =>
     setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MedicalConsultation;
+export default Consultation;
