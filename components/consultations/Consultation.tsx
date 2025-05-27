@@ -14,7 +14,7 @@ type MedicalConsultationProps = {
   setLocalValue: (value: MedicalConsultation[]) => void;
 };
 
-const MedicalConsultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
+const Consultation = ({ consultation, index, localValue, setLocalValue }: MedicalConsultationProps) => {
   const handleDateChange = (index: number, dateString: Date) =>
     setLocalValue(updateItemProperty(localValue, index, "date", dateString));
 
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MedicalConsultation;
+export default Consultation;

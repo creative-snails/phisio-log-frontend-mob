@@ -1,5 +1,5 @@
 import { StatusOptionsType } from "@/validation/healthRecordSchema";
-// Route paths and screen labels for the health record module
+
 export const ROUTES = {
   EDIT: {
     DESCRIPTION: "edit/EditDescription",

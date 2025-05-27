@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 
-import MedicalConsultation from "@/components/consultations/MedicalConsultation";
+import Consultation from "@/components/consultations/Consultation";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useEditForm } from "@/hooks/useEditForm";
@@ -18,7 +18,7 @@ const EditConsultations = () => {
   return (
     <EditScreenLayout title={SCREEN_LABELS.EDIT.CONSULTATIONS} loading={loading}>
       {localValue?.map((consultation, index) => (
-        <MedicalConsultation
+        <Consultation
           key={index}
           consultation={consultation}
           index={index}
