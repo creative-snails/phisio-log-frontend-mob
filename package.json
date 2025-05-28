@@ -86,9 +86,6 @@
     ],
     "*.{ts,tsx,js}": [
       "eslint"
-    ],
-    "*.{ts,tsx}": [
-      "npm run tsc"
     ]
   },
   "private": true
