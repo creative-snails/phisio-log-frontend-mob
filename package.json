@@ -84,7 +84,7 @@
       "prettier --write"
     ],
     "*.{ts,tsx,js}": [
-      "eslint --fix"
+      "eslint"
     ]
   },
   "private": true
