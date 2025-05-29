@@ -15,6 +15,7 @@
     "lint:es": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "tsc": "tsc",
     "prepare": "husky && husky install"
   },
   "jest": {
@@ -84,7 +85,7 @@
       "prettier --write"
     ],
     "*.{ts,tsx,js}": [
-      "eslint --fix"
+      "eslint"
     ]
   },
   "private": true
