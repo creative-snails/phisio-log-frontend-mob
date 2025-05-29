@@ -6,7 +6,6 @@
   "scripts": {
     "start": "expo start",
     "start:mock": "json-server --watch db.json --port 5555",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -15,6 +14,7 @@
     "lint:es": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "tsc": "tsc",
     "prepare": "husky && husky install"
   },
   "jest": {
@@ -84,7 +84,7 @@
       "prettier --write"
     ],
     "*.{ts,tsx,js}": [
-      "eslint --fix"
+      "eslint"
     ]
   },
   "private": true
