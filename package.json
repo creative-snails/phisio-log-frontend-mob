@@ -6,7 +6,6 @@
   "scripts": {
     "start": "expo start",
     "start:mock": "json-server --watch db.json --port 5555",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
