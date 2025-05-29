@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
+import CustomButton from "@/components/Button";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useEditForm } from "@/hooks/useEditForm";
@@ -22,15 +23,15 @@ const EditTreatments = () => {
             style={commonStyles.textInput}
             multiline={true}
           />
-          <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
-            <Text>Remove</Text>
-          </TouchableOpacity>
+          <CustomButton
+            title="Remove"
+            variant="tertiary"
+            onPress={() => setLocalValue(removeItem(localValue, index))}
+          />
         </View>
       ))}
       <View style={styles.container}>
-        <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(addItem(localValue, ""))}>
-          <Text>Add</Text>
-        </TouchableOpacity>
+        <CustomButton title="Add" variant="secondary" onPress={() => setLocalValue(addItem(localValue, ""))} />
       </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>
