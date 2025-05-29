@@ -1,6 +1,7 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import FollowUpActions from "./FollowUpActions";
 
+import CustomButton from "@/components/Button";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";
@@ -55,9 +56,11 @@ const Consultation = ({ consultation, index, localValue, setLocalValue }: Consul
         localValue={localValue}
         setLocalValue={setLocalValue}
       />
-      <TouchableOpacity style={commonStyles.btn} onPress={() => setLocalValue(removeItem(localValue, index))}>
-        <Text>Remove Consultation</Text>
-      </TouchableOpacity>
+      <CustomButton
+        title="Remove Consultation"
+        variant="tertiary"
+        onPress={() => setLocalValue(removeItem(localValue, index))}
+      />
     </View>
   );
 };

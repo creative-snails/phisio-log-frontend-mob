@@ -1,5 +1,6 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
+import CustomButton from "@/components/Button";
 import Consultation from "@/components/consultations/Consultation";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
@@ -27,8 +28,9 @@ const EditConsultations = () => {
         />
       ))}
       <View style={commonStyles.btnContainer}>
-        <TouchableOpacity
-          style={commonStyles.btn}
+        <CustomButton
+          title="Add Consultation"
+          variant="secondary"
           onPress={() =>
             setLocalValue(
               addItem(localValue, {
@@ -39,9 +41,7 @@ const EditConsultations = () => {
               })
             )
           }
-        >
-          <Text>Add Consultation</Text>
-        </TouchableOpacity>
+        />
       </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>
