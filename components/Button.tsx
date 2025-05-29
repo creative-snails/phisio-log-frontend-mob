@@ -8,11 +8,11 @@ interface ButtonProps {
   size?: "small" | "large" | "default";
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle; // allows passing custom button styles
-  textStyle?: TextStyle; // allows passing custom text styles
+  style?: ViewStyle;
+  textStyle?: TextStyle;
 }
 
-export const AppButton: React.FC<ButtonProps> = ({
+export const CustomButton: React.FC<ButtonProps> = ({
   title,
   onPress,
   variant = "primary",
@@ -22,13 +22,7 @@ export const AppButton: React.FC<ButtonProps> = ({
   style,
   textStyle,
 }) => {
-  const combinedStyles = [
-    styles.base,
-    styles[variant],
-    styles[size],
-    disabled && styles.disabled,
-    style, // custom styles passed in
-  ];
+  const combinedStyles = [styles.base, styles[variant], styles[size], disabled && styles.disabled, style];
 
   const getTextColor = (v: string) => {
     if (v === "tertiary") {
@@ -56,7 +50,7 @@ export const AppButton: React.FC<ButtonProps> = ({
   );
 };
 
-export default AppButton;
+export default CustomButton;
 
 const styles = StyleSheet.create({
   base: {
@@ -65,6 +59,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 8,
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // for Android
   },
   primary: {
     backgroundColor: "#007bff",
@@ -74,6 +74,8 @@ const styles = StyleSheet.create({
   },
   tertiary: {
     backgroundColor: "transparent",
+    textDecorationLine: "underline",
+    shadowOpacity: 0,
   },
   small: {
     paddingVertical: 8,
@@ -83,7 +85,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
   },
-  default: {},
+  default: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
   disabled: {
     opacity: 0.6,
   },
