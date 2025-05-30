@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import FollowUpActions from "./FollowUpActions";
 
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { commonStyles } from "@/styles/commonStyles";

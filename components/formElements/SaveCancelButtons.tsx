@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { router } from "expo-router";
 
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/CustomButton";
 import { commonStyles } from "@/styles/commonStyles";
 
 export const SaveCancelButtons = ({ onSave }: { onSave: () => void }) => {

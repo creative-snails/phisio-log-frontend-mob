@@ -1,7 +1,7 @@
 import { DatePickerModal, enGB, registerTranslation } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/CustomButton";
 
 registerTranslation("en-GB", enGB);
 

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import { CustomButton } from "@/components/Button";
+import { CustomButton } from "@/components/CustomButton";
 import { ROUTES } from "@/utils/constants";
 
 const App = () => {

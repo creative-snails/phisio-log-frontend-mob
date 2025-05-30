@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/CustomButton";
 import useAppStore from "@/store/useAppStore";
 import { ROUTES } from "@/utils/constants";
 

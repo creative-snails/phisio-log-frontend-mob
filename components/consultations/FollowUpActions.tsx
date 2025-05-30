@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
-import CustomButton from "@/components/Button";
+import CustomButton from "@/components/CustomButton";
 import { commonStyles } from "@/styles/commonStyles";
 import { addNestedItem, removeNestedItem, updateNestedItem } from "@/utils/arrayHelpers";
 import { MedicalConsultation } from "@/validation/healthRecordSchema";
