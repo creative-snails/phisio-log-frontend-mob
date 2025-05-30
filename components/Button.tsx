@@ -22,16 +22,18 @@ export const CustomButton: React.FC<ButtonProps> = ({
   style,
   textStyle,
 }) => {
-  const combinedStyles = [styles.base, styles[variant], styles[size], disabled && styles.disabled, style];
+  const combinedStyles = [
+    variant === "tertiary" ? styles.baseNoShadow : styles.base,
+    styles[variant],
+    styles[size],
+    disabled && styles.disabled,
+    style,
+  ];
 
-  const getTextColor = (v: string) => {
-    if (v === "tertiary") {
-      return "#000";
-    } else {
-      return "#fff";
-    }
+  const textStyles = {
+    color: variant === "tertiary" ? "#000" : "#fff",
+    textDecorationLine: variant === "tertiary" ? ("underline" as const) : ("none" as const),
   };
-  const textColor = getTextColor(variant);
 
   return (
     <TouchableOpacity
@@ -42,9 +44,9 @@ export const CustomButton: React.FC<ButtonProps> = ({
       accessibilityRole="button"
     >
       {loading ? (
-        <ActivityIndicator color={textColor} />
+        <ActivityIndicator color={textStyles.color} />
       ) : (
-        <Text style={[styles.text, { color: textColor }, textStyle]}>{title}</Text>
+        <Text style={[styles.text, textStyles, textStyle]}>{title}</Text>
       )}
     </TouchableOpacity>
   );
@@ -65,7 +67,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, // for Android
+    elevation: 5,
+  },
+  baseNoShadow: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    margin: 4,
   },
   primary: {
     backgroundColor: "#007bff",
@@ -75,8 +85,6 @@ const styles = StyleSheet.create({
   },
   tertiary: {
     backgroundColor: "transparent",
-    textDecorationLine: "underline",
-    shadowOpacity: 0,
   },
   small: {
     paddingVertical: 8,
