@@ -37,7 +37,7 @@ const EditSymptoms = () => {
             onDismiss={closeDatePicker}
             onConfirm={({ date }) => handleConfirmDate(date)}
             date={getCurrentDate(localValue)}
-            value={symptom.startDate}
+            value={symptom.startDate ? new Date(symptom.startDate) : null}
             onPress={() => openDatePicker(index)}
           />
           <TouchableOpacity

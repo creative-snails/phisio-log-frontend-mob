@@ -1,8 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { DatePickerModal, enGB, registerTranslation } from "react-native-paper-dates";
+import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
-
-registerTranslation("en-GB", enGB);
+import * as Localization from "expo-localization";
 
 type DatePickerProps = {
   isOpen: boolean;
@@ -14,13 +13,18 @@ type DatePickerProps = {
 };
 
 export const DatePicker = ({ isOpen, onDismiss, onConfirm, date, value, onPress }: DatePickerProps) => {
+  const deviceLocale = Localization.getLocales()[0].languageTag;
+
+  const formattedValue =
+    value instanceof Date ? value.toLocaleDateString(deviceLocale) : value?.toString() || "Select Date";
+
   return (
     <>
       <TouchableOpacity style={styles.dateBtn} onPress={onPress}>
-        <Text style={styles.dateText}>{value ? value.toString() : "Select Date"}</Text>
+        <Text style={styles.dateText}>{formattedValue}</Text>
       </TouchableOpacity>
       <DatePickerModal
-        locale="en-GB"
+        locale={deviceLocale}
         mode="single"
         label="Select date"
         saveLabel="   SAVE"

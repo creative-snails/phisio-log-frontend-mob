@@ -40,7 +40,7 @@ const Consultation = ({ consultation, index, localValue, setLocalValue }: Consul
         onDismiss={closeDatePicker}
         onConfirm={({ date }) => handleConfirmDate(date)}
         date={getCurrentDate(localValue)}
-        value={consultation.date ? new Date(consultation.date).toLocaleDateString() : ""}
+        value={consultation.date ? new Date(consultation.date) : null}
         onPress={() => openDatePicker(index)}
       />
       <TextInput
