@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
+import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
@@ -40,24 +41,22 @@ const EditSymptoms = () => {
             value={symptom.startDate ? new Date(symptom.startDate) : null}
             onPress={() => openDatePicker(index)}
           />
-          <TouchableOpacity
-            style={commonStyles.btn}
+          <CustomButton
+            title="Remove Symptom"
+            variant="tertiary"
             onPress={() => {
               closeDatePicker();
               setLocalValue(removeItem(localValue, index));
             }}
-          >
-            <Text>Remove Symptom</Text>
-          </TouchableOpacity>
+          />
         </View>
       ))}
       <View style={styles.btnContainer}>
-        <TouchableOpacity
-          style={commonStyles.btn}
+        <CustomButton
+          title="Add Symptom"
+          variant="secondary"
           onPress={() => setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))}
-        >
-          <Text>Add Symptom</Text>
-        </TouchableOpacity>
+        />
       </View>
       <SaveCancelButtons onSave={handleSave} />
     </EditScreenLayout>

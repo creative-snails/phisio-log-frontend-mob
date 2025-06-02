@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { getHealthRecord } from "./api";
 
+import CustomButton from "@/components/CustomButton";
 import useAppStore from "@/store/useAppStore";
-import { commonStyles } from "@/styles/commonStyles";
 import { ROUTES } from "@/utils/constants";
 
 const HealthRecord = () => {
@@ -30,9 +30,7 @@ const HealthRecord = () => {
       <View style={styles.innerContainer}>
         <Text style={styles.section}>Description</Text>
         <Text style={styles.item}> {healthRecord.description}</Text>
-        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.DESCRIPTION}`)}>
-          <Text>Edit</Text>
-        </Pressable>
+        <CustomButton title="Edit" size="small" onPress={() => router.navigate(`/${ROUTES.EDIT.DESCRIPTION}`)} />
       </View>
 
       <View style={styles.innerContainer}>
@@ -46,9 +44,7 @@ const HealthRecord = () => {
             </Text>
           </View>
         ))}
-        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)}>
-          <Text>Edit</Text>
-        </Pressable>
+        <CustomButton title="Edit" size="small" onPress={() => router.navigate(`/${ROUTES.EDIT.SYMPTOMS}`)} />
       </View>
 
       <View style={styles.innerContainer}>
@@ -58,9 +54,7 @@ const HealthRecord = () => {
           <Text style={styles.capitalizedText}>Severity: {healthRecord.status?.severity}</Text>
           <Text style={styles.capitalizedText}>Progression: {healthRecord.status?.progression}</Text>
         </View>
-        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.STATUS}`)}>
-          <Text>Edit</Text>
-        </Pressable>
+        <CustomButton title="Edit" size="small" onPress={() => router.navigate(`/${ROUTES.EDIT.STATUS}`)} />
       </View>
 
       <View style={styles.innerContainer}>
@@ -68,9 +62,7 @@ const HealthRecord = () => {
         <View style={styles.item}>
           {healthRecord.treatmentsTried?.map((treatment, index) => <Text key={index}>{treatment}</Text>)}
         </View>
-        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)}>
-          <Text>Edit</Text>
-        </Pressable>
+        <CustomButton title="Edit" size="small" onPress={() => router.navigate(`/${ROUTES.EDIT.TREATMENTS}`)} />
       </View>
 
       <View style={styles.innerContainer}>
@@ -84,9 +76,7 @@ const HealthRecord = () => {
             {consultation.followUpActions?.map((action, actionIndex) => <Text key={actionIndex}> - {action}</Text>)}
           </View>
         ))}
-        <Pressable style={commonStyles.btn} onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)}>
-          <Text>Edit</Text>
-        </Pressable>
+        <CustomButton title="Edit" size="small" onPress={() => router.navigate(`/${ROUTES.EDIT.CONSULTATIONS}`)} />
       </View>
     </ScrollView>
   );

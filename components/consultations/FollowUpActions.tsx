@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
+import CustomButton from "@/components/CustomButton";
 import { commonStyles } from "@/styles/commonStyles";
 import { addNestedItem, removeNestedItem, updateNestedItem } from "@/utils/arrayHelpers";
 import { MedicalConsultation } from "@/validation/healthRecordSchema";
@@ -22,11 +23,11 @@ const FollowUpActions = ({
 
   return (
     <View style={styles.followUpsContainer}>
-      <TouchableOpacity style={styles.followUpsToggle} onPress={() => setShowActions((prev) => !prev)}>
-        <Text style={styles.followUpsToggleText}>
-          {showActions ? "Hide Follow-Up Actions" : "Show Follow-Up Actions"}
-        </Text>
-      </TouchableOpacity>
+      <CustomButton
+        title={showActions ? "Hide Follow-Up Actions" : "Show Follow-Up Actions"}
+        variant="secondary"
+        onPress={() => setShowActions((prev) => !prev)}
+      />
       <View style={styles.followUps}>
         {showActions &&
           followUpActions.map((action, actionIndex) => (
@@ -40,24 +41,21 @@ const FollowUpActions = ({
                   setLocalValue(updateNestedItem(localValue, consultationIndex, "followUpActions", actionIndex, text))
                 }
               />
-              <TouchableOpacity
-                style={commonStyles.btn}
+              <CustomButton
+                title="Remove"
+                variant="tertiary"
                 onPress={() =>
                   setLocalValue(removeNestedItem(localValue, consultationIndex, "followUpActions", actionIndex))
                 }
-              >
-                <Text>Remove</Text>
-              </TouchableOpacity>
+              />
             </View>
           ))}
       </View>
       {showActions && (
-        <TouchableOpacity
-          style={commonStyles.btn}
+        <CustomButton
+          title="Add Follow-Up Action"
           onPress={() => setLocalValue(addNestedItem(localValue, consultationIndex, "followUpActions", ""))}
-        >
-          <Text>Add Follow-Up Action</Text>
-        </TouchableOpacity>
+        />
       )}
     </View>
   );
@@ -75,20 +73,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     verticalAlign: "middle",
-  },
-  followUpsToggle: {
-    backgroundColor: "#afd0e3",
-    borderRadius: 10,
-    boxShadow: "2px 2px 0px #000",
-    marginBottom: 10,
-    marginHorizontal: "auto",
-    padding: 5,
-    width: "auto",
-  },
-  followUpsToggleText: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    textAlign: "center",
   },
 });
 
