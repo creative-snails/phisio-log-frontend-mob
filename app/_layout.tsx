@@ -1,6 +1,12 @@
+import { en, enGB, registerTranslation } from "react-native-paper-dates";
 import { Stack } from "expo-router";
 
 import { ROUTES, SCREEN_LABELS } from "@/utils/constants";
+
+// Register translations for date picker to prevent warnings about missing translations
+registerTranslation("en-US", en);
+registerTranslation("en-GB", enGB);
+registerTranslation("en-IE", enGB);
 
 const RootLayout = () => {
   return (
