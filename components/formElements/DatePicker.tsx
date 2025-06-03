@@ -1,9 +1,8 @@
-import { DatePickerModal, enGB, registerTranslation } from "react-native-paper-dates";
+import { DatePickerModal } from "react-native-paper-dates";
 import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
+import * as Localization from "expo-localization";
 
 import CustomButton from "@/components/CustomButton";
-
-registerTranslation("en-GB", enGB);
 
 type DatePickerProps = {
   isOpen: boolean;
@@ -15,11 +14,17 @@ type DatePickerProps = {
 };
 
 export const DatePicker = ({ isOpen, onDismiss, onConfirm, date, value, onPress }: DatePickerProps) => {
+  const deviceLocale = Localization.getLocales()[0].languageTag;
+
+  const formattedValue =
+    value instanceof Date ? value.toLocaleDateString(deviceLocale) : value?.toString() || "Select Date";
+
   return (
     <>
-      <CustomButton title={value ? value.toString() : "Select Date"} onPress={onPress} />
+      <CustomButton title={formattedValue} onPress={onPress} />
+
       <DatePickerModal
-        locale="en-GB"
+        locale={deviceLocale}
         mode="single"
         label="Select date"
         saveLabel="   SAVE"
