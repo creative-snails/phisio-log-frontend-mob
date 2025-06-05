@@ -8,12 +8,28 @@
         {
           "name": "Migraine",
           "startDate": "2025-02-20",
-          "duration": "3 days"
+          "duration": "3 days",
+          "affectedParts": [
+            {
+              "key": "head",
+              "state": "2"
+            }
+          ]
         },
         {
           "name": "Nausea",
           "startDate": "2025-02-21",
-          "duration": "2 days"
+          "duration": "2 days",
+          "affectedParts": [
+            {
+              "key": "stomach-left",
+              "state": "2"
+            },
+            {
+              "key": "stomach-right",
+              "state": "2"
+            }
+          ]
         }
       ],
       "status": {

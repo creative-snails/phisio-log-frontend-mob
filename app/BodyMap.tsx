@@ -14,10 +14,15 @@ import BodyPart from "./BodyPart";
 
 import { backSide, frontSide } from "@/services/bodyParts";
 
-const BodyMap = () => {
+type BodyMapProps = {
+  initialSize?: number;
+};
+
+const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
   // State for front/back view toggle
   const [flip, setFlip] = useState(true);
   // States from zoom and pan transformations
+  // const [size, setSize] = useState(initialSize);
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
@@ -92,7 +97,7 @@ const BodyMap = () => {
               preserveAspectRatio="xMidYMid meet"
               style={{
                 transform: [
-                  { scale },
+                  { scale: initialSize },
                   { scaleX: 1 },
                   { scaleY: -1 },
                   { translateX: translateX / scale }, // reduce pan speed as scale grows

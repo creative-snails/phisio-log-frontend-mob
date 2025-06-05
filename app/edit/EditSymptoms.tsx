@@ -1,5 +1,6 @@
 import { StyleSheet, TextInput, View } from "react-native";
 
+import BodyMap from "@/app/BodyMap";
 import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
@@ -27,28 +28,37 @@ const EditSymptoms = () => {
   return (
     <EditScreenLayout title={SCREEN_LABELS.EDIT.SYMPTOMS} loading={loading}>
       {localValue.map((symptom, index) => (
-        <View key={index} style={styles.container}>
-          <TextInput
-            style={commonStyles.textInput}
-            value={symptom.name}
-            onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "name", text))}
-          />
-          <DatePicker
-            isOpen={isOpen && selectedItemIndex === index}
-            onDismiss={closeDatePicker}
-            onConfirm={({ date }) => handleConfirmDate(date)}
-            date={getCurrentDate(localValue)}
-            value={symptom.startDate ? new Date(symptom.startDate) : null}
-            onPress={() => openDatePicker(index)}
-          />
-          <CustomButton
-            title="Remove Symptom"
-            variant="tertiary"
-            onPress={() => {
-              closeDatePicker();
-              setLocalValue(removeItem(localValue, index));
-            }}
-          />
+        <View key={index} style={styles.row}>
+          {/* Left Column: Name and Date */}
+          <View style={styles.leftColumn}>
+            <TextInput
+              style={commonStyles.textInput}
+              value={symptom.name}
+              placeholder="Symptom name"
+              onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "name", text))}
+            />
+            <DatePicker
+              isOpen={isOpen && selectedItemIndex === index}
+              onDismiss={closeDatePicker}
+              onConfirm={({ date }) => handleConfirmDate(date)}
+              date={getCurrentDate(localValue)}
+              value={symptom.startDate ? new Date(symptom.startDate) : null}
+              onPress={() => openDatePicker(index)}
+            />
+            <CustomButton
+              title="Remove Symptom"
+              variant="tertiary"
+              onPress={() => {
+                closeDatePicker();
+                setLocalValue(removeItem(localValue, index));
+              }}
+            />
+          </View>
+
+          {/* Right Column: BodyMap */}
+          <View style={styles.rightColumn}>
+            <BodyMap initialSize={0.3} />
+          </View>
         </View>
       ))}
       <View style={styles.btnContainer}>
@@ -74,6 +84,32 @@ const styles = StyleSheet.create({
     boxShadow: "2px 2px 3.84px rgba(0, 0, 0, 0.4)",
     margin: 8,
     padding: 8,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    margin: 8,
+    padding: 8,
+    borderRadius: 8,
+  },
+
+  leftColumn: {
+    flex: 1,
+    justifyContent: "space-between",
+    height: 300,
+    paddingRight: 16,
+  },
+
+  rightColumn: {
+    width: 200,
+    height: 300,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
   },
 });
 
