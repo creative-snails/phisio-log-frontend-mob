@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View } from "react-native";
+import { useRouter } from "expo-router";
 
-import BodyMap from "@/app/BodyMap";
 import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
@@ -10,11 +10,13 @@ import { useEditForm } from "@/hooks/useEditForm";
 import { commonStyles } from "@/styles/commonStyles";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
+import { ROUTES } from "@/utils/constants";
 import { Symptom } from "@/validation/healthRecordSchema";
 import { validators } from "@/validation/validators";
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
+  const router = useRouter();
 
   const handleDateChange = (index: number, date: Date) => {
     setLocalValue(updateItemProperty(localValue, index, "startDate", date));
@@ -28,37 +30,36 @@ const EditSymptoms = () => {
   return (
     <EditScreenLayout title={SCREEN_LABELS.EDIT.SYMPTOMS} loading={loading}>
       {localValue.map((symptom, index) => (
-        <View key={index} style={styles.row}>
+        <View key={index} style={styles.container}>
           {/* Left Column: Name and Date */}
-          <View style={styles.leftColumn}>
-            <TextInput
-              style={commonStyles.textInput}
-              value={symptom.name}
-              placeholder="Symptom name"
-              onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "name", text))}
-            />
-            <DatePicker
-              isOpen={isOpen && selectedItemIndex === index}
-              onDismiss={closeDatePicker}
-              onConfirm={({ date }) => handleConfirmDate(date)}
-              date={getCurrentDate(localValue)}
-              value={symptom.startDate ? new Date(symptom.startDate) : null}
-              onPress={() => openDatePicker(index)}
-            />
-            <CustomButton
-              title="Remove Symptom"
-              variant="tertiary"
-              onPress={() => {
-                closeDatePicker();
-                setLocalValue(removeItem(localValue, index));
-              }}
-            />
-          </View>
 
-          {/* Right Column: BodyMap */}
-          <View style={styles.rightColumn}>
-            <BodyMap initialSize={0.3} />
-          </View>
+          <TextInput
+            style={commonStyles.textInput}
+            value={symptom.name}
+            placeholder="Symptom name"
+            onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "name", text))}
+          />
+          <DatePicker
+            isOpen={isOpen && selectedItemIndex === index}
+            onDismiss={closeDatePicker}
+            onConfirm={({ date }) => handleConfirmDate(date)}
+            date={getCurrentDate(localValue)}
+            value={symptom.startDate ? new Date(symptom.startDate) : null}
+            onPress={() => openDatePicker(index)}
+          />
+          <CustomButton
+            title="Edit Body parts affected"
+            variant="secondary"
+            onPress={() => router.navigate(`/${ROUTES.BODY_MAP}`)}
+          />
+          <CustomButton
+            title="Remove Symptom"
+            variant="tertiary"
+            onPress={() => {
+              closeDatePicker();
+              setLocalValue(removeItem(localValue, index));
+            }}
+          />
         </View>
       ))}
       <View style={styles.btnContainer}>
@@ -93,23 +94,6 @@ const styles = StyleSheet.create({
     margin: 8,
     padding: 8,
     borderRadius: 8,
-  },
-
-  leftColumn: {
-    flex: 1,
-    justifyContent: "space-between",
-    height: 300,
-    paddingRight: 16,
-  },
-
-  rightColumn: {
-    width: 200,
-    height: 300,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
   },
 });
 
