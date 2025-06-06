@@ -39,6 +39,10 @@ export const Z_Symptom = z.object({
   startDate: z.date().optional(),
   // TODO: This is causing some strange behaviour, will address it in the future
   // startDate: z.date().max(new Date(), "Start date cannot be in the future").optional(),
+  affectedParts: z.object({
+    key: z.string(),
+    state: z.number(),
+  }),
 });
 
 export const Z_MedicalConsultation = z.object({

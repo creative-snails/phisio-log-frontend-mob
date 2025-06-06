@@ -7,6 +7,7 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
+import useAppStore from "@/store/useAppStore";
 import { commonStyles } from "@/styles/commonStyles";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
@@ -50,7 +51,10 @@ const EditSymptoms = () => {
           <CustomButton
             title="Edit Body parts affected"
             variant="secondary"
-            onPress={() => router.navigate(`/${ROUTES.BODY_MAP}`)}
+            onPress={() => {
+              useAppStore.getState().setCurrentSymptomIndex(index);
+              router.push(`/${ROUTES.BODY_MAP}`);
+            }}
           />
           <CustomButton
             title="Remove Symptom"
@@ -66,7 +70,11 @@ const EditSymptoms = () => {
         <CustomButton
           title="Add Symptom"
           variant="secondary"
-          onPress={() => setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))}
+          onPress={() =>
+            setLocalValue(
+              addItem(localValue, { name: "", startDate: new Date(), affectedParts: { key: "", state: 1 } })
+            )
+          }
         />
       </View>
       <SaveCancelButtons onSave={handleSave} />

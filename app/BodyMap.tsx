@@ -12,13 +12,11 @@ import {
 import Svg from "react-native-svg";
 import BodyPart from "./BodyPart";
 
+import CustomButton from "@/components/CustomButton";
 import { backSide, frontSide } from "@/services/bodyParts";
+import useAppStore from "@/store/useAppStore";
 
-type BodyMapProps = {
-  initialSize?: number;
-};
-
-const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
+const BodyMap: React.FC = () => {
   // State for front/back view toggle
   const [flip, setFlip] = useState(true);
   // States from zoom and pan transformations
@@ -36,6 +34,13 @@ const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
   // Refs to remember previous gesture states
   const lastScale = useRef(1);
   const lastOffset = useRef({ x: 0, y: 0 });
+
+  //Placeholder for if symptom is empty
+  const symptomPlaceholder = { name: "unknown", startDate: new Date(), affectedParts: { key: "head", state: 2 } };
+
+  //For importing symptom state
+  const { healthRecord, currentSymptomIndex, updateCurrentSymptom } = useAppStore();
+  const currentSymptom = currentSymptomIndex !== null ? healthRecord.symptoms[currentSymptomIndex] : symptomPlaceholder;
 
   // Reset all transformations when flipping the body
   useEffect(() => {
@@ -76,8 +81,20 @@ const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.root}>
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.symptomTitle}>{currentSymptom.name}</Text>
+          <Text>Edit affected area</Text>
+          <CustomButton
+            title="Save"
+            onPress={() => {
+              //This needs to update the currentSymptom in the store
+              updateCurrentSymptom(currentSymptom);
+            }}
+          />
+        </View>
+
         <PinchGestureHandler
           ref={pinchRef}
           onGestureEvent={handlePinchEvent}
@@ -97,7 +114,7 @@ const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
               preserveAspectRatio="xMidYMid meet"
               style={{
                 transform: [
-                  { scale: initialSize },
+                  { scale: 1 },
                   { scaleX: 1 },
                   { scaleY: -1 },
                   { translateX: translateX / scale }, // reduce pan speed as scale grows
@@ -122,6 +139,9 @@ const BodyMap: React.FC<BodyMapProps> = ({ initialSize = 1 }) => {
 export default BodyMap;
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#666",
@@ -141,5 +161,17 @@ const styles = StyleSheet.create({
 
     flex: 1,
     justifyContent: "center",
+  },
+  symptomTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  header: {
+    flexDirection: "row", // Arrange children horizontally
+    alignItems: "center", // Vertically align items
+    justifyContent: "space-between", // Space out the name and button
+    width: "90%", // Give it some width to space things nicely
+    marginTop: 12, // Optional: adds space below the header
+    paddingHorizontal: 8,
   },
 });

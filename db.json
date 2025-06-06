@@ -11,8 +11,8 @@
           "duration": "3 days",
           "affectedParts": [
             {
-              "key": "head",
-              "state": "2"
+              "key": "head-front",
+              "state": "3"
             }
           ]
         },
