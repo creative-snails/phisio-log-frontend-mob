@@ -11,8 +11,8 @@
           "duration": "3 days",
           "affectedParts": [
             {
-              "key": "head-front",
-              "state": "3"
+              "id": "head-front",
+              "status": "1"
             }
           ]
         },
@@ -22,12 +22,12 @@
           "duration": "2 days",
           "affectedParts": [
             {
-              "key": "stomach-left",
-              "state": "2"
+              "id": "lower-abdomen-left",
+              "status": "2"
             },
             {
-              "key": "stomach-right",
-              "state": "2"
+              "id": "lower-abdomen-right",
+              "status": "2"
             }
           ]
         }
