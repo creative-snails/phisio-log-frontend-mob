@@ -10,6 +10,7 @@ import {
   State,
 } from "react-native-gesture-handler";
 import Svg from "react-native-svg";
+import { Picker } from "@react-native-picker/picker";
 import BodyPart from "./BodyPart";
 
 import CustomButton from "@/components/CustomButton";
@@ -45,6 +46,9 @@ const BodyMap: React.FC = () => {
 
   const [mappedFrontSide, setMappedFrontSide] = useState<bodyPartData[]>([]);
   const [mappedBackSide, setMappedBackSide] = useState<bodyPartData[]>([]);
+
+  const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<1 | 2 | 3>(1);
 
   //For importing symptom state
   const { healthRecord, currentSymptomIndex, updateCurrentSymptom } = useAppStore();
@@ -118,6 +122,27 @@ const BodyMap: React.FC = () => {
             }}
           />
         </View>
+        {selectedPartId && (
+          <View style={{ marginTop: 16 }}>
+            <Text>Set status for {selectedPartId}:</Text>
+            <Picker
+              selectedValue={selectedStatus}
+              onValueChange={(itemValue: 1 | 2 | 3) => {
+                setSelectedStatus(itemValue);
+                const updatedParts = [...currentSymptom.affectedParts];
+                const index = updatedParts.findIndex((p) => p.id === selectedPartId);
+                if (index >= 0) {
+                  updatedParts[index].status = itemValue;
+                }
+                updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
+              }}
+            >
+              <Picker.Item label="Worsening" value={1} />
+              <Picker.Item label="Improving" value={2} />
+              <Picker.Item label="Healed" value={3} />
+            </Picker>
+          </View>
+        )}
 
         <PinchGestureHandler
           ref={pinchRef}
@@ -148,10 +173,28 @@ const BodyMap: React.FC = () => {
             >
               {flip
                 ? mappedFrontSide.map((part) => (
-                    <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />
+                    <BodyPart
+                      interact={!isZooming && !isPanning}
+                      key={part.id}
+                      data={part}
+                      onSelect={(id) => {
+                        setSelectedPartId(id);
+                        const part = currentSymptom.affectedParts.find((p) => p.id === id);
+                        setSelectedStatus(part?.status ?? 1);
+                      }}
+                    />
                   ))
                 : mappedBackSide.map((part) => (
-                    <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />
+                    <BodyPart
+                      interact={!isZooming && !isPanning}
+                      key={part.id}
+                      data={part}
+                      onSelect={(id) => {
+                        setSelectedPartId(id);
+                        const part = currentSymptom.affectedParts.find((p) => p.id === id);
+                        setSelectedStatus(part?.status ?? 1);
+                      }}
+                    />
                   ))}
             </Svg>
           </PanGestureHandler>

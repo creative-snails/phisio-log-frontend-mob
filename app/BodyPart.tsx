@@ -7,9 +7,10 @@ import { bodyPartData } from "@/services/bodyParts";
 interface BodyPartProps {
   data: bodyPartData;
   interact: boolean;
+  onSelect: (id: string) => void;
 }
 
-const BodyPart = ({ interact, data }: BodyPartProps) => {
+const BodyPart = ({ interact, data, onSelect }: BodyPartProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(data.isSelected);
 
   // Ref to track latest interact prop value inside event handlers
@@ -32,6 +33,7 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
     const pressTimeout = setTimeout(() => {
       if (!interactRef.current) return;
       setIsSelected((prev) => !prev);
+      onSelect(data.id);
     }, 250);
 
     return () => clearTimeout(pressTimeout);
