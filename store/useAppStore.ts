@@ -10,6 +10,8 @@ interface AppStore {
   setHealthRecord: (healthRecord: HealthRecordType) => void;
   setLoading: (loading: boolean) => void;
 
+  currentRecordIndex: number | null;
+  setCurrentRecordIndex: (index: number | null) => void;
   currentSymptomIndex: number | null;
   setCurrentSymptomIndex: (index: number | null) => void;
   updateCurrentSymptom: (updates: Symptom) => void;
@@ -34,7 +36,9 @@ const useAppStore = create<AppStore>((set, get) => ({
   setHealthRecord: (healthRecord: HealthRecordType) => set({ healthRecord }),
   setLoading: (loading: boolean) => set({ loading }),
 
-  currentSymptomIndex: null,
+  currentRecordIndex: 1,
+  setCurrentRecordIndex: (index) => set({ currentRecordIndex: index }),
+  currentSymptomIndex: 1,
   setCurrentSymptomIndex: (index) => set({ currentSymptomIndex: index }),
 
   updateCurrentSymptom: (updates) => {

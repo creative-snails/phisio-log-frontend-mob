@@ -11,12 +11,15 @@ import {
 } from "react-native-gesture-handler";
 import Svg from "react-native-svg";
 import { Picker } from "@react-native-picker/picker";
+import { updateHealthRecord } from "./api";
 import BodyPart from "./BodyPart";
 
 import CustomButton from "@/components/CustomButton";
 import { backSide, bodyPartData, frontSide } from "@/services/bodyParts";
 import useAppStore from "@/store/useAppStore";
 import { Symptom } from "@/validation/healthRecordSchema";
+
+type AffectedStatus = 1 | 2 | 3;
 
 const BodyMap: React.FC = () => {
   // State for front/back view toggle
@@ -51,7 +54,7 @@ const BodyMap: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<1 | 2 | 3>(1);
 
   //For importing symptom state
-  const { healthRecord, currentSymptomIndex, updateCurrentSymptom } = useAppStore();
+  const { healthRecord, currentSymptomIndex, updateCurrentSymptom, currentRecordIndex } = useAppStore();
   const currentSymptom = currentSymptomIndex !== null ? healthRecord.symptoms[currentSymptomIndex] : symptomPlaceholder;
 
   // Reset all transformations when flipping the body
@@ -116,9 +119,29 @@ const BodyMap: React.FC = () => {
           <Text>Edit affected area</Text>
           <CustomButton
             title="Save"
-            onPress={() => {
-              //This needs to update the currentSymptom in the store
+            onPress={async () => {
+              if (currentRecordIndex === null || currentSymptomIndex === null) {
+                console.warn("Cannot save: missing record or symptom index.");
+
+                return;
+              }
+
+              // Copy the current record to edit it safely
+              const updatedRecord = { ...healthRecord };
+
+              // Replace the specific symptom inside the array
+              const updatedSymptoms = [...updatedRecord.symptoms];
+              updatedSymptoms[currentSymptomIndex] = currentSymptom;
+              updatedRecord.symptoms = updatedSymptoms;
+
+              // Save to store and backend
               updateCurrentSymptom(currentSymptom);
+              try {
+                await updateHealthRecord(currentRecordIndex, updatedRecord);
+                console.log("Record saved.");
+              } catch (error) {
+                console.error("Failed to save record: ", error);
+              }
             }}
           />
         </View>
@@ -179,8 +202,21 @@ const BodyMap: React.FC = () => {
                       data={part}
                       onSelect={(id) => {
                         setSelectedPartId(id);
-                        const part = currentSymptom.affectedParts.find((p) => p.id === id);
-                        setSelectedStatus(part?.status ?? 1);
+                        const updatedParts = [...currentSymptom.affectedParts];
+                        const index = updatedParts.findIndex((p) => p.id === id);
+
+                        if (index >= 0) {
+                          // Already exists – select and use its current status
+                          setSelectedStatus(updatedParts[index].status);
+                        } else {
+                          // Doesn't exist – add it with default status
+                          const newPart = { id, status: 1 as AffectedStatus };
+                          updatedParts.push(newPart);
+                          setSelectedStatus(1);
+                        }
+
+                        // Update store immediately with new affectedParts
+                        updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
                       }}
                     />
                   ))
@@ -191,8 +227,21 @@ const BodyMap: React.FC = () => {
                       data={part}
                       onSelect={(id) => {
                         setSelectedPartId(id);
-                        const part = currentSymptom.affectedParts.find((p) => p.id === id);
-                        setSelectedStatus(part?.status ?? 1);
+                        const updatedParts = [...currentSymptom.affectedParts];
+                        const index = updatedParts.findIndex((p) => p.id === id);
+
+                        if (index >= 0) {
+                          // Already exists – select and use its current status
+                          setSelectedStatus(updatedParts[index].status);
+                        } else {
+                          // Doesn't exist – add it with default status
+                          const newPart = { id, status: 1 as AffectedStatus };
+                          updatedParts.push(newPart);
+                          setSelectedStatus(1);
+                        }
+
+                        // Update store immediately with new affectedParts
+                        updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
                       }}
                     />
                   ))}
