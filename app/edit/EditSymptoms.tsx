@@ -18,6 +18,7 @@ import { validators } from "@/validation/validators";
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
   const router = useRouter();
+  const { setCurrentSymptomIndex } = useAppStore();
 
   const handleDateChange = (index: number, date: Date) => {
     setLocalValue(updateItemProperty(localValue, index, "startDate", date));
@@ -52,7 +53,7 @@ const EditSymptoms = () => {
             title="Edit Body parts affected"
             variant="secondary"
             onPress={() => {
-              useAppStore.getState().setCurrentSymptomIndex(index);
+              setCurrentSymptomIndex(index);
               router.push(`/${ROUTES.BODY_MAP}`);
             }}
           />
@@ -72,7 +73,7 @@ const EditSymptoms = () => {
           variant="secondary"
           onPress={() =>
             setLocalValue(
-              addItem(localValue, { name: "", startDate: new Date(), affectedParts: { key: "", state: 1 } })
+              addItem(localValue, { name: "", startDate: new Date(), affectedParts: [{ id: "", status: 1 }] })
             )
           }
         />

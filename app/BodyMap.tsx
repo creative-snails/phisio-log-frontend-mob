@@ -13,8 +13,9 @@ import Svg from "react-native-svg";
 import BodyPart from "./BodyPart";
 
 import CustomButton from "@/components/CustomButton";
-import { backSide, frontSide } from "@/services/bodyParts";
+import { backSide, bodyPartData, frontSide } from "@/services/bodyParts";
 import useAppStore from "@/store/useAppStore";
+import { Symptom } from "@/validation/healthRecordSchema";
 
 const BodyMap: React.FC = () => {
   // State for front/back view toggle
@@ -36,7 +37,14 @@ const BodyMap: React.FC = () => {
   const lastOffset = useRef({ x: 0, y: 0 });
 
   //Placeholder for if symptom is empty
-  const symptomPlaceholder = { name: "unknown", startDate: new Date(), affectedParts: { key: "head", state: 2 } };
+  const symptomPlaceholder: Symptom = {
+    name: "unknown",
+    startDate: new Date(),
+    affectedParts: [{ id: "head", status: 2 }],
+  };
+
+  const [mappedFrontSide, setMappedFrontSide] = useState<bodyPartData[]>([]);
+  const [mappedBackSide, setMappedBackSide] = useState<bodyPartData[]>([]);
 
   //For importing symptom state
   const { healthRecord, currentSymptomIndex, updateCurrentSymptom } = useAppStore();
@@ -50,6 +58,22 @@ const BodyMap: React.FC = () => {
     setTranslateY(0);
     setScale(1);
   }, [flip]);
+
+  useEffect(() => {
+    const mapBodyParts = (base: bodyPartData[]) =>
+      base.map((part) => {
+        const match = currentSymptom.affectedParts.find((p) => p.id === part.id);
+
+        return {
+          ...part,
+          isSelected: !!match,
+          status: match ? match.status : part.status,
+        };
+      });
+
+    setMappedFrontSide(mapBodyParts(frontSide));
+    setMappedBackSide(mapBodyParts(backSide));
+  }, [currentSymptom]);
 
   const handlePinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
@@ -123,8 +147,12 @@ const BodyMap: React.FC = () => {
               }}
             >
               {flip
-                ? frontSide.map((part) => <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />)
-                : backSide.map((part) => <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />)}
+                ? mappedFrontSide.map((part) => (
+                    <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />
+                  ))
+                : mappedBackSide.map((part) => (
+                    <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />
+                  ))}
             </Svg>
           </PanGestureHandler>
         </PinchGestureHandler>

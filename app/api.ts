@@ -2,7 +2,8 @@ import axios from "axios";
 
 import { HealthRecordType } from "@/validation/healthRecordSchema";
 
-const API_URL = "http://192.168.1.223:5555/health-records";
+// const API_URL = "http://192.168.1.223:5555/health-records";
+const API_URL = "http://localhost:5555/health-records";
 
 export const getHealthRecord = async (id: number) => {
   try {

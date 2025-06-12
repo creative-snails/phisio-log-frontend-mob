@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "expo start",
-    "start:mock": "json-server --watch db.json --port 5555",
+    "start:mock": "json-server --watch db.json --port 5555 --host 0.0.0.0",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

@@ -30,6 +30,11 @@ export const Z_Description = z
   .min(MIN_CHAR_MEDIUM, minValidationMessage("Description", MIN_CHAR_MEDIUM))
   .max(MAX_CHAR_LONG, maxValidationMessage("Description", MAX_CHAR_LONG));
 
+export const Z_AffectedParts = z.object({
+  id: z.string(),
+  status: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+});
+
 export const Z_Symptom = z.object({
   name: z
     .string()
@@ -39,10 +44,7 @@ export const Z_Symptom = z.object({
   startDate: z.date().optional(),
   // TODO: This is causing some strange behaviour, will address it in the future
   // startDate: z.date().max(new Date(), "Start date cannot be in the future").optional(),
-  affectedParts: z.object({
-    key: z.string(),
-    state: z.number(),
-  }),
+  affectedParts: Z_AffectedParts.array(),
 });
 
 export const Z_MedicalConsultation = z.object({
@@ -116,6 +118,7 @@ export const Z_HealthRecord = z.object({
 
 export const Z_SymptomsArray = z.array(Z_Symptom);
 export const Z_MedicalConsultationArray = z.array(Z_MedicalConsultation);
+export const Z_AffectedPartsArray = z.array(Z_AffectedParts);
 
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;
