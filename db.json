@@ -12,7 +12,7 @@
           "affectedParts": [
             {
               "id": "head-front",
-              "status": "2"
+              "status": "1"
             }
           ]
         },
@@ -28,10 +28,6 @@
             {
               "id": "lower-abdomen-right",
               "status": "2"
-            },
-            {
-              "id": "upper-abdomen-right",
-              "status": "3"
             }
           ]
         }

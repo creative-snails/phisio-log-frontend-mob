@@ -17,7 +17,7 @@ import BodyPart from "./BodyPart";
 import CustomButton from "@/components/CustomButton";
 import { backSide, bodyPartData, frontSide } from "@/services/bodyParts";
 import useAppStore from "@/store/useAppStore";
-import { Symptom } from "@/validation/healthRecordSchema";
+import { HealthRecordType, Symptom } from "@/validation/healthRecordSchema";
 
 type AffectedStatus = 1 | 2 | 3;
 
@@ -25,7 +25,6 @@ const BodyMap: React.FC = () => {
   // State for front/back view toggle
   const [flip, setFlip] = useState(true);
   // States from zoom and pan transformations
-  // const [size, setSize] = useState(initialSize);
   const [scale, setScale] = useState(1);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
@@ -111,6 +110,43 @@ const BodyMap: React.FC = () => {
     }
   };
 
+  const handleDeselect = async () => {
+    if (!selectedPartId) return;
+
+    // Remove the deselected part from the current symptom
+    const updatedParts = currentSymptom.affectedParts.filter((p) => p.id !== selectedPartId);
+
+    const updatedSymptom = {
+      ...currentSymptom,
+      affectedParts: updatedParts,
+    };
+
+    // Update local state
+    updateCurrentSymptom(updatedSymptom);
+    setSelectedPartId(null);
+
+    // Create the updated health record object
+    const updatedHealthRecord: HealthRecordType = {
+      ...healthRecord, // Make sure this includes all required fields
+      symptoms: healthRecord.symptoms.map((symptom) =>
+        symptom.name === updatedSymptom.name ? updatedSymptom : symptom
+      ),
+    };
+
+    if (currentRecordIndex === null || currentSymptomIndex === null) {
+      console.warn("Cannot save: missing record or symptom index.");
+
+      return;
+    }
+
+    try {
+      await updateHealthRecord(currentRecordIndex, updatedHealthRecord);
+    } catch (error) {
+      console.error("Failed to persist deselection:", error);
+      // Optionally: rollback or notify user
+    }
+  };
+
   return (
     <GestureHandlerRootView style={styles.root}>
       <View style={styles.container}>
@@ -125,7 +161,6 @@ const BodyMap: React.FC = () => {
 
                 return;
               }
-
               // Copy the current record to edit it safely
               const updatedRecord = { ...healthRecord };
 
@@ -138,6 +173,7 @@ const BodyMap: React.FC = () => {
               updateCurrentSymptom(currentSymptom);
               try {
                 await updateHealthRecord(currentRecordIndex, updatedRecord);
+                setSelectedPartId(null);
                 console.log("Record saved.");
               } catch (error) {
                 console.error("Failed to save record: ", error);
@@ -146,9 +182,12 @@ const BodyMap: React.FC = () => {
           />
         </View>
         {selectedPartId && (
-          <View style={{ marginTop: 16 }}>
-            <Text>Set status for {selectedPartId}:</Text>
+          <View style={{ marginTop: 16, display: "flex", flexDirection: "row" }}>
+            <Text style={{ display: "flex", alignItems: "center", paddingHorizontal: 4 }}>
+              Set status for {selectedPartId}:
+            </Text>
             <Picker
+              style={{ margin: "auto" }}
               selectedValue={selectedStatus}
               onValueChange={(itemValue: 1 | 2 | 3) => {
                 setSelectedStatus(itemValue);
@@ -164,6 +203,14 @@ const BodyMap: React.FC = () => {
               <Picker.Item label="Improving" value={2} />
               <Picker.Item label="Healed" value={3} />
             </Picker>
+
+            <CustomButton
+              title="Deselect area"
+              variant="tertiary"
+              onPress={() => {
+                handleDeselect();
+              }}
+            />
           </View>
         )}
 
