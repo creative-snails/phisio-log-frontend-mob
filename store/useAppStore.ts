@@ -38,7 +38,7 @@ const useAppStore = create<AppStore>((set, get) => ({
 
   currentRecordIndex: 1,
   setCurrentRecordIndex: (index) => set({ currentRecordIndex: index }),
-  currentSymptomIndex: 1,
+  currentSymptomIndex: null,
   setCurrentSymptomIndex: (index) => set({ currentSymptomIndex: index }),
 
   updateCurrentSymptom: (updates) => {

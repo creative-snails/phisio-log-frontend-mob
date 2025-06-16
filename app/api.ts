@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { AffectedPartsArray, HealthRecordType } from "@/validation/healthRecordSchema";
+import { HealthRecordType } from "@/validation/healthRecordSchema";
 
 // const API_URL = "http://192.168.1.223:5555/health-records";
 const API_URL = "http://localhost:5555/health-records";
@@ -56,19 +56,6 @@ export const deleteHealthRecord = async (id: number) => {
     return response.data;
   } catch (error) {
     console.error("Error deleting health record:", error);
-    throw error;
-  }
-};
-
-export const updateSymptoms = async (recordId: number, symptomId: number, updatedItems: AffectedPartsArray) => {
-  try {
-    const response = await axios.put(`${API_URL}/${recordId}/symptoms/${symptomId}/affectedParts`, {
-      affectedParts: updatedItems,
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error("Error updating affectedParts in symptoms:", error);
     throw error;
   }
 };

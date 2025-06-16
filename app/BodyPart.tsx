@@ -7,8 +7,6 @@ import { bodyPartData } from "@/services/bodyParts";
 interface BodyPartProps {
   data: bodyPartData;
   interact: boolean;
-  // bodyPartIsSelected: boolean;
-  // toggleBodyPartIsSelected: (toggle: boolean) => void;
   onSelect: (id: string) => void;
 }
 

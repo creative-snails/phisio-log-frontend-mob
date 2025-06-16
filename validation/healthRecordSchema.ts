@@ -118,7 +118,6 @@ export const Z_HealthRecord = z.object({
 
 export const Z_SymptomsArray = z.array(Z_Symptom);
 export const Z_MedicalConsultationArray = z.array(Z_MedicalConsultation);
-export const Z_AffectedPartsArray = z.array(Z_AffectedParts);
 
 export type Stage = z.infer<typeof Z_Stage>;
 export type Severity = z.infer<typeof Z_Severity>;
@@ -127,8 +126,6 @@ export type StatusOptionsType = z.infer<typeof Z_StatusOptions>;
 export type Status = z.infer<typeof Z_Status>;
 export type Description = z.infer<typeof Z_Description>;
 export type Symptom = z.infer<typeof Z_Symptom>;
-export type AffectedParts = z.infer<typeof Z_AffectedParts>;
-export type AffectedPartsArray = z.infer<typeof Z_AffectedPartsArray>;
 export type MedicalConsultation = z.infer<typeof Z_MedicalConsultation>;
 export type HealthRecordUpdateType = z.infer<typeof Z_HealthRecordUpdate>;
 export type HealthRecordType = z.infer<typeof Z_HealthRecord>;

@@ -17,7 +17,9 @@ import BodyPart from "./BodyPart";
 import CustomButton from "@/components/CustomButton";
 import { backSide, bodyPartData, frontSide } from "@/services/bodyParts";
 import useAppStore from "@/store/useAppStore";
-import { HealthRecordType, Symptom } from "@/validation/healthRecordSchema";
+import { handleDeselect } from "@/utils/bodyMapDeselect";
+import { handleSaveSymptom } from "@/utils/bodyMapSave";
+import { Symptom } from "@/validation/healthRecordSchema";
 
 type AffectedStatus = 1 | 2 | 3;
 
@@ -31,6 +33,14 @@ const BodyMap: React.FC = () => {
   // States to disable interaction during gestures
   const [isZooming, setIsZooming] = useState(false);
   const [isPanning, setIsPanning] = useState(false);
+
+  const [mappedFrontSide, setMappedFrontSide] = useState<bodyPartData[]>([]);
+  const [mappedBackSide, setMappedBackSide] = useState<bodyPartData[]>([]);
+  const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<1 | 2 | 3>(1);
+
+  //For importing symptom state
+  const { healthRecord, currentSymptomIndex, updateCurrentSymptom, currentRecordIndex } = useAppStore();
 
   // Refs for gesture handlers
   const pinchRef = useRef(null);
@@ -46,15 +56,10 @@ const BodyMap: React.FC = () => {
     affectedParts: [{ id: "head", status: 2 }],
   };
 
-  const [mappedFrontSide, setMappedFrontSide] = useState<bodyPartData[]>([]);
-  const [mappedBackSide, setMappedBackSide] = useState<bodyPartData[]>([]);
-
-  const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
-  const [selectedStatus, setSelectedStatus] = useState<1 | 2 | 3>(1);
-
-  //For importing symptom state
-  const { healthRecord, currentSymptomIndex, updateCurrentSymptom, currentRecordIndex } = useAppStore();
-  const currentSymptom = currentSymptomIndex !== null ? healthRecord.symptoms[currentSymptomIndex] : symptomPlaceholder;
+  let currentSymptom = symptomPlaceholder;
+  if (currentSymptomIndex !== null) {
+    currentSymptom = healthRecord.symptoms[currentSymptomIndex];
+  }
 
   // Reset all transformations when flipping the body
   useEffect(() => {
@@ -110,41 +115,31 @@ const BodyMap: React.FC = () => {
     }
   };
 
-  const handleDeselect = async () => {
-    if (!selectedPartId) return;
+  const onDeselect = () =>
+    handleDeselect({
+      selectedPartId,
+      currentSymptom,
+      updateCurrentSymptom,
+      setSelectedPartId,
+      healthRecord,
+      updateHealthRecord,
+      currentRecordIndex,
+      currentSymptomIndex,
+    });
 
-    // Remove the deselected part from the current symptom
-    const updatedParts = currentSymptom.affectedParts.filter((p) => p.id !== selectedPartId);
+  const handleSelectBodyPart = (id: string) => {
+    setSelectedPartId(id);
+    const updatedParts = [...currentSymptom.affectedParts];
+    const index = updatedParts.findIndex((p) => p.id === id);
 
-    const updatedSymptom = {
-      ...currentSymptom,
-      affectedParts: updatedParts,
-    };
-
-    // Update local state
-    updateCurrentSymptom(updatedSymptom);
-    setSelectedPartId(null);
-
-    // Create the updated health record object
-    const updatedHealthRecord: HealthRecordType = {
-      ...healthRecord, // Make sure this includes all required fields
-      symptoms: healthRecord.symptoms.map((symptom) =>
-        symptom.name === updatedSymptom.name ? updatedSymptom : symptom
-      ),
-    };
-
-    if (currentRecordIndex === null || currentSymptomIndex === null) {
-      console.warn("Cannot save: missing record or symptom index.");
-
-      return;
+    if (index >= 0) {
+      setSelectedStatus(updatedParts[index].status);
+    } else {
+      const newPart = { id, status: 1 as AffectedStatus };
+      updatedParts.push(newPart);
+      setSelectedStatus(1);
     }
-
-    try {
-      await updateHealthRecord(currentRecordIndex, updatedHealthRecord);
-    } catch (error) {
-      console.error("Failed to persist deselection:", error);
-      // Optionally: rollback or notify user
-    }
+    updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
   };
 
   return (
@@ -156,28 +151,15 @@ const BodyMap: React.FC = () => {
           <CustomButton
             title="Save"
             onPress={async () => {
-              if (currentRecordIndex === null || currentSymptomIndex === null) {
-                console.warn("Cannot save: missing record or symptom index.");
-
-                return;
-              }
-              // Copy the current record to edit it safely
-              const updatedRecord = { ...healthRecord };
-
-              // Replace the specific symptom inside the array
-              const updatedSymptoms = [...updatedRecord.symptoms];
-              updatedSymptoms[currentSymptomIndex] = currentSymptom;
-              updatedRecord.symptoms = updatedSymptoms;
-
-              // Save to store and backend
-              updateCurrentSymptom(currentSymptom);
-              try {
-                await updateHealthRecord(currentRecordIndex, updatedRecord);
-                setSelectedPartId(null);
-                console.log("Record saved.");
-              } catch (error) {
-                console.error("Failed to save record: ", error);
-              }
+              await handleSaveSymptom({
+                healthRecord,
+                currentSymptom,
+                currentSymptomIndex,
+                currentRecordIndex,
+                updateHealthRecord,
+                updateCurrentSymptom,
+                setSelectedPartId,
+              });
             }}
           />
         </View>
@@ -206,7 +188,7 @@ const BodyMap: React.FC = () => {
               title="Deselect area"
               variant="tertiary"
               onPress={() => {
-                handleDeselect();
+                onDeselect();
               }}
             />
           </View>
@@ -245,24 +227,7 @@ const BodyMap: React.FC = () => {
                       interact={!isZooming && !isPanning}
                       key={part.id}
                       data={part}
-                      onSelect={(id) => {
-                        setSelectedPartId(id);
-                        const updatedParts = [...currentSymptom.affectedParts];
-                        const index = updatedParts.findIndex((p) => p.id === id);
-
-                        if (index >= 0) {
-                          // Already exists – select and use its current status
-                          setSelectedStatus(updatedParts[index].status);
-                        } else {
-                          // Doesn't exist – add it with default status
-                          const newPart = { id, status: 1 as AffectedStatus };
-                          updatedParts.push(newPart);
-                          setSelectedStatus(1);
-                        }
-
-                        // Update store immediately with new affectedParts
-                        updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
-                      }}
+                      onSelect={handleSelectBodyPart}
                     />
                   ))
                 : mappedBackSide.map((part) => (
@@ -270,24 +235,7 @@ const BodyMap: React.FC = () => {
                       interact={!isZooming && !isPanning}
                       key={part.id}
                       data={part}
-                      onSelect={(id) => {
-                        setSelectedPartId(id);
-                        const updatedParts = [...currentSymptom.affectedParts];
-                        const index = updatedParts.findIndex((p) => p.id === id);
-
-                        if (index >= 0) {
-                          // Already exists – select and use its current status
-                          setSelectedStatus(updatedParts[index].status);
-                        } else {
-                          // Doesn't exist – add it with default status
-                          const newPart = { id, status: 1 as AffectedStatus };
-                          updatedParts.push(newPart);
-                          setSelectedStatus(1);
-                        }
-
-                        // Update store immediately with new affectedParts
-                        updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
-                      }}
+                      onSelect={handleSelectBodyPart}
                     />
                   ))}
             </Svg>
@@ -332,11 +280,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   header: {
-    flexDirection: "row", // Arrange children horizontally
-    alignItems: "center", // Vertically align items
-    justifyContent: "space-between", // Space out the name and button
-    width: "90%", // Give it some width to space things nicely
-    marginTop: 12, // Optional: adds space below the header
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "90%",
+    marginTop: 12,
     paddingHorizontal: 8,
   },
   topRow: {
