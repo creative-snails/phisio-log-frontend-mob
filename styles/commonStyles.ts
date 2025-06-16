@@ -40,7 +40,7 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 1,
     margin: 8,
     padding: 8,
-    width: "50%",
+    width: "66%",
   },
   title: {
     fontSize: 20,

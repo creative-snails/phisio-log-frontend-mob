@@ -1,19 +1,35 @@
 {
   "health-records": [
     {
-      "id": 1,
+      "id": "1",
       "user": "me",
       "description": "Severe migraine lasting for days",
       "symptoms": [
         {
           "name": "Migraine",
           "startDate": "2025-02-20",
-          "duration": "3 days"
+          "duration": "3 days",
+          "affectedParts": [
+            {
+              "id": "head-front",
+              "status": 1
+            }
+          ]
         },
         {
           "name": "Nausea",
           "startDate": "2025-02-21",
-          "duration": "2 days"
+          "duration": "2 days",
+          "affectedParts": [
+            {
+              "id": "lower-abdomen-left",
+              "status": "2"
+            },
+            {
+              "id": "lower-abdomen-right",
+              "status": "2"
+            }
+          ]
         }
       ],
       "status": {
@@ -56,7 +72,7 @@
       "updatedAt": "2025-02-23T15:30:00.000Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "user": "me",
       "description": "Persistent lower back pain affecting mobility",
       "symptoms": [

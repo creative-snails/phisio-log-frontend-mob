@@ -1,4 +1,5 @@
 import { StyleSheet, TextInput, View } from "react-native";
+import { useRouter } from "expo-router";
 
 import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
@@ -6,14 +7,18 @@ import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
 import { SaveCancelButtons } from "@/components/formElements/SaveCancelButtons";
 import { useDatePicker } from "@/hooks/useDatePicker";
 import { useEditForm } from "@/hooks/useEditForm";
+import useAppStore from "@/store/useAppStore";
 import { commonStyles } from "@/styles/commonStyles";
 import { addItem, removeItem, updateItemProperty } from "@/utils/arrayHelpers";
 import { SCREEN_LABELS } from "@/utils/constants";
+import { ROUTES } from "@/utils/constants";
 import { Symptom } from "@/validation/healthRecordSchema";
 import { validators } from "@/validation/validators";
 
 const EditSymptoms = () => {
   const { localValue, setLocalValue, handleSave, loading } = useEditForm("symptoms", validators.symptoms);
+  const router = useRouter();
+  const { setCurrentSymptomIndex } = useAppStore();
 
   const handleDateChange = (index: number, date: Date) => {
     setLocalValue(updateItemProperty(localValue, index, "startDate", date));
@@ -31,6 +36,7 @@ const EditSymptoms = () => {
           <TextInput
             style={commonStyles.textInput}
             value={symptom.name}
+            placeholder="Symptom name"
             onChangeText={(text) => setLocalValue(updateItemProperty(localValue, index, "name", text))}
           />
           <DatePicker
@@ -40,6 +46,14 @@ const EditSymptoms = () => {
             date={getCurrentDate(localValue)}
             value={symptom.startDate ? new Date(symptom.startDate) : null}
             onPress={() => openDatePicker(index)}
+          />
+          <CustomButton
+            title="Edit Body parts affected"
+            variant="secondary"
+            onPress={() => {
+              setCurrentSymptomIndex(index);
+              router.push(`/${ROUTES.BODY_MAP}`);
+            }}
           />
           <CustomButton
             title="Remove Symptom"
@@ -55,7 +69,11 @@ const EditSymptoms = () => {
         <CustomButton
           title="Add Symptom"
           variant="secondary"
-          onPress={() => setLocalValue(addItem(localValue, { name: "", startDate: new Date() }))}
+          onPress={() =>
+            setLocalValue(
+              addItem(localValue, { name: "", startDate: new Date(), affectedParts: [{ id: "", status: 1 }] })
+            )
+          }
         />
       </View>
       <SaveCancelButtons onSave={handleSave} />

@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 4,
   },
+  //eslint throws several warnings because of the conditional styles below so they have been ignored
+  /* eslint-disable react-native/no-unused-styles */
   primary: {
     backgroundColor: "#007bff",
   },
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
   },
+  /* eslint-enable react-native/no-unused-styles */
   disabled: {
     opacity: 0.6,
   },
