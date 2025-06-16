@@ -182,12 +182,10 @@ const BodyMap: React.FC = () => {
           />
         </View>
         {selectedPartId && (
-          <View style={{ marginTop: 16, display: "flex", flexDirection: "row" }}>
-            <Text style={{ display: "flex", alignItems: "center", paddingHorizontal: 4 }}>
-              Set status for {selectedPartId}:
-            </Text>
+          <View style={styles.topRow}>
+            <Text style={styles.topRowText}>Set status for {selectedPartId}:</Text>
             <Picker
-              style={{ margin: "auto" }}
+              style={styles.dropdown}
               selectedValue={selectedStatus}
               onValueChange={(itemValue: 1 | 2 | 3) => {
                 setSelectedStatus(itemValue);
@@ -296,7 +294,7 @@ const BodyMap: React.FC = () => {
           </PanGestureHandler>
         </PinchGestureHandler>
         <TouchableOpacity style={styles.button} onPress={() => setFlip((prev) => !prev)}>
-          <Text style={{ color: "#fff" }}>Flip</Text>
+          <Text style={styles.flipText}>Flip</Text>
         </TouchableOpacity>
       </View>
     </GestureHandlerRootView>
@@ -340,5 +338,21 @@ const styles = StyleSheet.create({
     width: "90%", // Give it some width to space things nicely
     marginTop: 12, // Optional: adds space below the header
     paddingHorizontal: 8,
+  },
+  topRow: {
+    marginTop: 16,
+    display: "flex",
+    flexDirection: "row",
+  },
+  topRowText: {
+    display: "flex",
+    alignItems: "center",
+    paddingHorizontal: 4,
+  },
+  dropdown: {
+    margin: "auto",
+  },
+  flipText: {
+    color: "#fff",
   },
 });

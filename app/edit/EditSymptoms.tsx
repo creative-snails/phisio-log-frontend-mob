@@ -95,15 +95,6 @@ const styles = StyleSheet.create({
     margin: 8,
     padding: 8,
   },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    margin: 8,
-    padding: 8,
-    borderRadius: 8,
-  },
 });
 
 export default EditSymptoms;
