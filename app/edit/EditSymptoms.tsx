@@ -33,8 +33,6 @@ const EditSymptoms = () => {
     <EditScreenLayout title={SCREEN_LABELS.EDIT.SYMPTOMS} loading={loading}>
       {localValue.map((symptom, index) => (
         <View key={index} style={styles.container}>
-          {/* Left Column: Name and Date */}
-
           <TextInput
             style={commonStyles.textInput}
             value={symptom.name}
