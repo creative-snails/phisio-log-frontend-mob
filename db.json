@@ -12,7 +12,7 @@
           "affectedParts": [
             {
               "id": "head-front",
-              "status": "1"
+              "status": 1
             }
           ]
         },

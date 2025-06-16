@@ -165,28 +165,31 @@ const BodyMap: React.FC = () => {
         </View>
         {selectedPartId && (
           <View style={styles.topRow}>
-            <Text style={styles.topRowText}>Set status for {selectedPartId}:</Text>
-            <Picker
-              style={styles.dropdown}
-              selectedValue={selectedStatus}
-              onValueChange={(itemValue: 1 | 2 | 3) => {
-                setSelectedStatus(itemValue);
-                const updatedParts = [...currentSymptom.affectedParts];
-                const index = updatedParts.findIndex((p) => p.id === selectedPartId);
-                if (index >= 0) {
-                  updatedParts[index].status = itemValue;
-                }
-                updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
-              }}
-            >
-              <Picker.Item label="Worsening" value={1} />
-              <Picker.Item label="Improving" value={2} />
-              <Picker.Item label="Healed" value={3} />
-            </Picker>
+            <View style={styles.dropdownContainer}>
+              <Text style={styles.topRowText}>Set status for {selectedPartId}:</Text>
+              <Picker
+                style={styles.dropdown}
+                selectedValue={selectedStatus}
+                onValueChange={(itemValue: 1 | 2 | 3) => {
+                  setSelectedStatus(itemValue);
+                  const updatedParts = [...currentSymptom.affectedParts];
+                  const index = updatedParts.findIndex((p) => p.id === selectedPartId);
+                  if (index >= 0) {
+                    updatedParts[index].status = itemValue;
+                  }
+                  updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
+                }}
+              >
+                <Picker.Item label="Worsening" value={1} />
+                <Picker.Item label="Improving" value={2} />
+                <Picker.Item label="Healed" value={3} />
+              </Picker>
+            </View>
 
             <CustomButton
               title="Deselect area"
               variant="tertiary"
+              style={styles.deselectBtn}
               onPress={() => {
                 onDeselect();
               }}
@@ -270,10 +273,10 @@ const styles = StyleSheet.create({
     width: 60,
   },
   container: {
-    alignItems: "center",
-
     flex: 1,
-    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingVertical: 16,
   },
   symptomTitle: {
     fontSize: 18,
@@ -288,7 +291,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   topRow: {
-    marginTop: 16,
     display: "flex",
     flexDirection: "row",
   },
@@ -296,11 +298,25 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     paddingHorizontal: 4,
+    margin: "auto",
+  },
+  dropdownContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
   dropdown: {
+    zIndex: 100,
+    backgroundColor: "#d9d9d9",
     margin: "auto",
+    marginTop: 4,
+    width: "66%",
+    borderRadius: 4,
   },
   flipText: {
     color: "#fff",
+  },
+  deselectBtn: {
+    zIndex: 100,
   },
 });
