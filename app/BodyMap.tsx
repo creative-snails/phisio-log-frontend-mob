@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   GestureEvent,
@@ -56,10 +56,13 @@ const BodyMap: React.FC = () => {
     affectedParts: [{ id: "head", status: 2 }],
   };
 
-  let currentSymptom = symptomPlaceholder;
-  if (currentSymptomIndex !== null) {
-    currentSymptom = healthRecord.symptoms[currentSymptomIndex];
-  }
+  const currentSymptom = useMemo(() => {
+    if (currentSymptomIndex !== null) {
+      return healthRecord.symptoms[currentSymptomIndex];
+    }
+
+    return symptomPlaceholder;
+  }, [currentSymptomIndex, healthRecord]);
 
   // Reset all transformations when flipping the body
   useEffect(() => {
