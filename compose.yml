@@ -1,0 +1,20 @@
+services:
+  frontend-mob:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mock-api-mob
+
+  mock-api-mob:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./db.json:/app/db.json
+    command: npm run start:mock
