@@ -7,6 +7,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
+# Install Expo CLI globally
+RUN npm install -g @expo/cli
+
 COPY . .
 RUN chown -R phisiomobuser:phisiomobgroup /app
 

@@ -9,6 +9,7 @@ services:
       - /app/node_modules
     depends_on:
       - mock-api-mob
+    command: npm start
 
   mock-api-mob:
     build: .
