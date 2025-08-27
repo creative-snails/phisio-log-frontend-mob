@@ -1,18 +1,18 @@
 FROM node:22.13.1-alpine3.21
 
-RUN addgroup -S phisiomobgroup && adduser -S phisiomobuser -G phisiomobgroup
-
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
 
-# Install Expo CLI globally
-RUN npm install -g @expo/cli
-
 COPY . .
-RUN chown -R phisiomobuser:phisiomobgroup /app
 
-USER phisiomobuser
+# Expose ports:
+# 19000: Expo DevTools
+# 19001: Expo Metro bundler (LAN)
+# 19002: Expo web UI
+# 5555: Mock JSON server
+EXPOSE 19000 19001 19002 5555
 
-EXPOSE 8081 5555
+# Default command (start expo)
+CMD ["npm", "start"]
