@@ -1,6 +1,7 @@
 services:
   frontend-mob:
     build: .
+    tty: true
     restart: unless-stopped
     ports:
       - "8081:8081"
@@ -9,6 +10,8 @@ services:
       - /app/node_modules
     depends_on:
       - mock-api-mob
+    environment:
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
 
   mock-api-mob:
     build:

@@ -5,9 +5,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-COPY . .
-
-# Expose expo metro bundler (dev server)
 EXPOSE 8081
 
-CMD ["npm", "start"]
+CMD ["npx", "expo", "start", "--host", "lan"]
