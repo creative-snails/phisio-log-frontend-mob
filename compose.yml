@@ -1,5 +1,5 @@
 services:
-  frontend-mob:
+  expo:
     build: .
     tty: true
     restart: unless-stopped
@@ -11,9 +11,11 @@ services:
     depends_on:
       - mock-api-mob
     environment:
-      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+      - REACT_NATIVE_PACKAGER_HOSTNAME=${EXPO_PUBLIC_HOST_IP}
+      - EXPO_TOKEN=${EXPO_TOKEN}
+    command: ["npm", "start"]
 
-  mock-api-mob:
+  mock-api:
     build:
       context: .
       dockerfile: Dockerfile.mock
