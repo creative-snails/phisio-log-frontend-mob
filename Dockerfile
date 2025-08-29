@@ -6,5 +6,3 @@ COPY package*.json ./
 RUN npm ci
 
 EXPOSE 8081
-
-CMD ["npx", "expo", "start", "--host", "lan"]
