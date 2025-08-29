@@ -9,7 +9,7 @@ services:
       - .:/app
       - /app/node_modules
     depends_on:
-      - mock-api-mob
+      - mock-api
     environment:
       - REACT_NATIVE_PACKAGER_HOSTNAME=${EXPO_PUBLIC_HOST_IP}
       - EXPO_TOKEN=${EXPO_TOKEN}
