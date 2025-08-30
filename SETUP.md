@@ -2,9 +2,11 @@
 
 ### Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your system
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running on your system
   > Docker Desktop includes both Docker Engine and Docker Compose, plus a GUI for easier management.
 - If you're using Linux, you can install Docker and Docker Compose separately. See [Install Docker Engine on Linux](https://docs.docker.com/engine/install/)
+
+<br>
 
 ### Getting Started
 
@@ -37,13 +39,41 @@
 
    > ℹ️ Make sure your mobile device is connected to the same Wi-Fi network as your dev machine when scanning the QR code in Expo Go.
 
-### Stopping the Application
+<br>
 
-- Stop all running services and remove associated containers/networks:
+### Stopping/Starting the Application after initial build
+
+- This pauses the containers but keeps their state and data.
 
   ```bash
-  docker compose down
+  docker compose stop   # Stop all running containers (services, e.g. expo and mock-api)
   ```
+
+- This resumes containers without re-running initialization scripts or showing the Expo QR code/Metro logs in your terminal.
+
+  ```bash
+  docker compose start  # Start containers again in the background (no QR code or Metro interface - ok if you don't need either)
+  ```
+
+- This re-runs containers displaying QR code and Metro logs in your terminal, which is useful for development and debugging.
+
+  ```bash
+  docker compose up     # Start containers with logs, QR code, and Metro interface (recommended for development)
+  ```
+
+- **To stop all running services and remove associated containers and networks:**
+
+  ```bash
+  docker compose down  # Use this if you want to reset environment, e.g. after experiencing some issues (quick reset followed by `docker compose up`)
+  ```
+
+ℹ️ **Summary:**
+
+- Use `docker compose stop` / `docker compose start` for quick pauses/resumes (no logs/QR code)
+- Use `docker compose stop` / `docker compose up` for a full dev experience (logs, QR code, Metro) - recommended
+- Use `docker compose down` / `docker compose up` to remove everything and start clean (causes an app to bundle up a bit slower opening dev server first time)
+
+<br>
 
 ### Rebuilding the Application
 
