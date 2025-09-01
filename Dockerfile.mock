@@ -5,6 +5,8 @@ WORKDIR /app
 # Install json-server globally
 RUN npm install -g json-server@1.0.0-beta.3
 
+COPY db.json ./
+
 EXPOSE 5555
 
 # Start mock JSON server

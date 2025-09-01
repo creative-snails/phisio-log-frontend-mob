@@ -13,7 +13,6 @@ services:
     environment:
       - REACT_NATIVE_PACKAGER_HOSTNAME=${EXPO_PUBLIC_HOST_IP}
       - EXPO_TOKEN=${EXPO_TOKEN}
-    command: ["npm", "start"]
 
   mock-api:
     build:

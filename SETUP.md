@@ -29,10 +29,10 @@
 
 3. **Build and start the app:**
 
-   Note that first build will take a bit longer since all base images and dependencies need to be pulled and installed. Subsequent runs will be much faster.
+   Note that initial build will take longer since all base images and dependencies need to be pulled and installed. Subsequent runs will be much faster.
 
    ```bash
-   docker compose up
+   docker compose up    # add -d for detached mode (background mode) - leaves terminal free
    ```
 
    You can now access the application either in the browser (web) using the provided URL, or on a mobile device with the Expo Go app by scanning the QR code shown in the terminal.
@@ -41,37 +41,30 @@
 
 <br>
 
-### Stopping/Starting the Application after initial build
+### Stopping & Starting the Application after initial build/run
 
-- This pauses the containers but keeps their state and data.
+- To stop or remove services/containers:
 
   ```bash
-  docker compose stop   # Stop all running containers (services, e.g. expo and mock-api)
+  docker compose stop   # Stop all running containers/services (e.g. expo and mock-api)
+  # or
+  docker compose down   # Remove all running containers/services and their associated networks
   ```
 
-- This resumes containers without re-running initialization scripts or showing the Expo QR code/Metro logs in your terminal.
+- To start containers/services again:
 
   ```bash
-  docker compose start  # Start containers again in the background (no QR code or Metro interface - ok if you don't need either)
-  ```
-
-- This re-runs containers displaying QR code and Metro logs in your terminal, which is useful for development and debugging.
-
-  ```bash
-  docker compose up     # Start containers with logs, QR code, and Metro interface (recommended for development)
-  ```
-
-- **To stop all running services and remove associated containers and networks:**
-
-  ```bash
-  docker compose down  # Use this if you want to reset environment, e.g. after experiencing some issues (quick reset followed by `docker compose up`)
+  docker compose start  # Start all stopped containers/services (no QR code or Metro interface shown) - only if 'docker compose stop' was run
+  # or
+  docker compose up     # Start containers/services with logs, QR code, and Metro interface - must be used if 'docker compose down' was run
   ```
 
 ℹ️ **Summary:**
 
-- Use `docker compose stop` / `docker compose start` for quick pauses/resumes (no logs/QR code)
-- Use `docker compose stop` / `docker compose up` for a full dev experience (logs, QR code, Metro) - recommended
-- Use `docker compose down` / `docker compose up` to remove everything and start clean (causes an app to bundle up a bit slower opening dev server first time)
+- Use `docker compose stop` / `docker compose start` for quick pauses/resumes (no logs/QR code shown unless `docker compose logs` is run afterwards)
+- Use `docker compose stop` / `docker compose up` for a full dev experience (logs, QR code, Metro) - recommended (no need to run `docker compose logs`)
+- Use `docker compose down` to stop and remove services and their networks in case you need to free up resources (followed by `docker compose up` to start again)
+- Use `docker compose restart` if you need to restart the services (e.g., after changing environment variables in compose.yml or running into issues)
 
 <br>
 
@@ -79,15 +72,15 @@
 
 Rebuild when:
 
-- You change the Dockerfile
-- Add/remove dependencies and update build-related files (package.json, .env)
-- Experience issues
+- Dockerfile is modified
+- Dependencies are added/removed or build-related files updated (package.json, package-lock.json, .env)
+- Issues are experienced even after running `docker compose restart`
 
   ```bash
   docker compose up --build
   ```
 
-- If issues persist, do a clean rebuild from scratch (paste & run the following block):
+* If issues still persist, do a clean rebuild from scratch (paste & run the following block):
 
   ```bash
   docker compose down --rmi all &&
