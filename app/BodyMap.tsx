@@ -89,6 +89,15 @@ const BodyMap: React.FC = () => {
     setMappedBackSide(mapBodyParts(backSide));
   }, [currentSymptom]);
 
+  //Opens menu on first affected body part
+  useEffect(() => {
+    if (currentSymptom.affectedParts.length > 0) {
+      const firstPart = currentSymptom.affectedParts[0];
+      setSelectedPartId(firstPart.id);
+      setSelectedStatus(firstPart.status as AffectedStatus);
+    }
+  }, [currentSymptom]);
+
   const handlePinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
   };
@@ -215,7 +224,7 @@ const BodyMap: React.FC = () => {
             <Svg
               width="90%"
               height="720"
-              viewBox="870 500 3000 5000"
+              viewBox="870 400 3000 5500"
               preserveAspectRatio="xMidYMid meet"
               style={{
                 transform: [

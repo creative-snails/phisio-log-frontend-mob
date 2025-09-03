@@ -1,6 +1,7 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { useRouter } from "expo-router";
 
+import BodyMapPreview from "@/app/BodyMapPreview";
 import CustomButton from "@/components/CustomButton";
 import { DatePicker } from "@/components/formElements/DatePicker";
 import { EditScreenLayout } from "@/components/formElements/EditScreenLayout";
@@ -55,6 +56,16 @@ const EditSymptoms = () => {
               router.push(`/${ROUTES.BODY_MAP}`);
             }}
           />
+
+          <Pressable
+            onPress={() => {
+              setCurrentSymptomIndex(index);
+              router.push(`/${ROUTES.BODY_MAP}`);
+            }}
+          >
+            <BodyMapPreview affectedParts={symptom.affectedParts} />
+          </Pressable>
+
           <CustomButton
             title="Remove Symptom"
             variant="tertiary"
