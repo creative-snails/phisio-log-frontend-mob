@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     flex: 1,
     height: 50,
-    justifyContent: "space-between",
+    justifyContent: "center",
     maxHeight: 50,
     padding: 14,
     width: 60,
@@ -327,6 +327,7 @@ const styles = StyleSheet.create({
   },
   flipText: {
     color: "#fff",
+    textAlign: "center",
   },
   deselectBtn: {
     zIndex: 100,
