@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "expo start",
-    "start:mock": "json-server --watch db.json --port 5555 --host 0.0.0.0",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -74,7 +73,6 @@
     "husky": "^8.0.0",
     "jest": "^29.2.1",
     "jest-expo": "~52.0.3",
-    "json-server": "^1.0.0-beta.3",
     "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
     "react-test-renderer": "18.3.1",

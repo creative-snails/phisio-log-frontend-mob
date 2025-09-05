@@ -1,0 +1,25 @@
+services:
+  expo:
+    build: .
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mock-api
+    environment:
+      - REACT_NATIVE_PACKAGER_HOSTNAME=${EXPO_PUBLIC_HOST_IP}
+      - EXPO_TOKEN=${EXPO_TOKEN}
+
+  mock-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock
+    restart: unless-stopped
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./db.json:/app/db.json

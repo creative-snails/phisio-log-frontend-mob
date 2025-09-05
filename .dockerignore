@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Build outputs
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Package management
+yarn.lock
+
+# TypeScript
+*.tsbuildinfo
+
+# macOS
+.DS_Store
+*.pem
+
+# Git
+.git/
+.gitignore
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# CI/CD
+.github/
+
+# Development tools
+.husky/
+.prettierignore
+.prettierrc
+eslint.config.js
+
+# Documentation
+README*.md
+LICENSE
+SETUP.md
+
+# Native files (not needed in container)
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# Local env files
+.env*.local
+
+# Docker files (avoid recursive copying)
+Dockerfile*
+compose.yml
+.dockerignore
+
+# Example files
+app-example/

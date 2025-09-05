@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { HealthRecordType } from "@/validation/healthRecordSchema";
 
-const API_URL = "http://localhost:5555/health-records";
+const API_URL = `http://${process.env.EXPO_PUBLIC_HOST_IP ?? "localhost"}:5555/health-records`;
 
 export const getHealthRecord = async (id: number) => {
   try {
