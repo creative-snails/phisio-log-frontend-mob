@@ -18,12 +18,14 @@
    ```
 
    ⚠️ While dependencies are handled inside Docker, we recommend installing them locally too for IDE features like linting and autocomplete.
+
    - Use `npm ci` or `yarn install --immutable`
    - Avoid plain `npm install` or `yarn install`
 
 2. **Configure environment variables:**
 
    Rename `.env.example` in the project root to `.env`, then update following placeholders:
+
    - Set `EXPO_PUBLIC_HOST_IP=<host_ip_placeholder>` to your machine’s local LAN IP (e.g., 192.168.1.4)
    - Set `EXPO_TOKEN=<token_placeholder>` to the shared Expo token pinned in the `phisio-log-frontend-mob` Slack channel
 

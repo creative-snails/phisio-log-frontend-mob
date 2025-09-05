@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Platform } from "react-native";
 import { Path } from "react-native-svg";
 
@@ -7,11 +7,10 @@ import { bodyPartData } from "@/services/bodyParts";
 interface BodyPartProps {
   data: bodyPartData;
   interact: boolean;
+  onSelect: (id: string) => void;
 }
 
-const BodyPart = ({ interact, data }: BodyPartProps) => {
-  const [isSelected, setIsSelected] = useState<boolean>(data.isSelected);
-
+const BodyPart = ({ interact, data, onSelect }: BodyPartProps) => {
   // Ref to track latest interact prop value inside event handlers
   const interactRef = useRef(interact);
 
@@ -31,7 +30,7 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
   const handlePress = () => {
     const pressTimeout = setTimeout(() => {
       if (!interactRef.current) return;
-      setIsSelected((prev) => !prev);
+      onSelect(data.id);
     }, 250);
 
     return () => clearTimeout(pressTimeout);
@@ -46,7 +45,7 @@ const BodyPart = ({ interact, data }: BodyPartProps) => {
       stroke="#ff0000"
       strokeWidth={6}
       strokeOpacity={1}
-      fill={isSelected ? statusColors[data.status] : "#aaaaaa"}
+      fill={data.isSelected ? statusColors[data.status] : "#aaaaaa"}
     />
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   GestureEvent,
@@ -10,11 +10,20 @@ import {
   State,
 } from "react-native-gesture-handler";
 import Svg from "react-native-svg";
+import { Picker } from "@react-native-picker/picker";
+import { updateHealthRecord } from "./api";
 import BodyPart from "./BodyPart";
 
-import { backSide, frontSide } from "@/services/bodyParts";
+import CustomButton from "@/components/CustomButton";
+import { backSide, bodyPartData, frontSide } from "@/services/bodyParts";
+import useAppStore from "@/store/useAppStore";
+import { handleDeselect } from "@/utils/bodyMapDeselect";
+import { handleSaveSymptom } from "@/utils/bodyMapSave";
+import { Symptom } from "@/validation/healthRecordSchema";
 
-const BodyMap = () => {
+type AffectedStatus = 1 | 2 | 3;
+
+const BodyMap: React.FC = () => {
   // State for front/back view toggle
   const [flip, setFlip] = useState(true);
   // States from zoom and pan transformations
@@ -25,12 +34,35 @@ const BodyMap = () => {
   const [isZooming, setIsZooming] = useState(false);
   const [isPanning, setIsPanning] = useState(false);
 
+  const [mappedFrontSide, setMappedFrontSide] = useState<bodyPartData[]>([]);
+  const [mappedBackSide, setMappedBackSide] = useState<bodyPartData[]>([]);
+  const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<1 | 2 | 3>(1);
+
+  //For importing symptom state
+  const { healthRecord, currentSymptomIndex, updateCurrentSymptom, currentRecordIndex } = useAppStore();
+
   // Refs for gesture handlers
   const pinchRef = useRef(null);
   const panRef = useRef(null);
   // Refs to remember previous gesture states
   const lastScale = useRef(1);
   const lastOffset = useRef({ x: 0, y: 0 });
+
+  //Placeholder for if symptom is empty
+  const symptomPlaceholder: Symptom = {
+    name: "unknown",
+    startDate: new Date(),
+    affectedParts: [{ id: "head", status: 2 }],
+  };
+
+  const currentSymptom = useMemo(() => {
+    if (currentSymptomIndex !== null) {
+      return healthRecord.symptoms[currentSymptomIndex];
+    }
+
+    return symptomPlaceholder;
+  }, [currentSymptomIndex, healthRecord]);
 
   // Reset all transformations when flipping the body
   useEffect(() => {
@@ -40,6 +72,31 @@ const BodyMap = () => {
     setTranslateY(0);
     setScale(1);
   }, [flip]);
+
+  useEffect(() => {
+    const mapBodyParts = (base: bodyPartData[]) =>
+      base.map((part) => {
+        const match = currentSymptom.affectedParts.find((p) => p.id === part.id);
+
+        return {
+          ...part,
+          isSelected: !!match,
+          status: match ? match.status : part.status,
+        };
+      });
+
+    setMappedFrontSide(mapBodyParts(frontSide));
+    setMappedBackSide(mapBodyParts(backSide));
+  }, [currentSymptom]);
+
+  //Opens menu on first affected body part
+  useEffect(() => {
+    if (currentSymptom.affectedParts.length > 0) {
+      const firstPart = currentSymptom.affectedParts[0];
+      setSelectedPartId(firstPart.id);
+      setSelectedStatus(firstPart.status as AffectedStatus);
+    }
+  }, [currentSymptom]);
 
   const handlePinchEvent = (event: GestureEvent<PinchGestureHandlerEventPayload>) => {
     setScale(lastScale.current * event.nativeEvent.scale);
@@ -70,9 +127,88 @@ const BodyMap = () => {
     }
   };
 
+  const onDeselect = () =>
+    handleDeselect({
+      selectedPartId,
+      currentSymptom,
+      updateCurrentSymptom,
+      setSelectedPartId,
+      healthRecord,
+      updateHealthRecord,
+      currentRecordIndex,
+      currentSymptomIndex,
+    });
+
+  const handleSelectBodyPart = (id: string) => {
+    setSelectedPartId(id);
+    const updatedParts = [...currentSymptom.affectedParts];
+    const index = updatedParts.findIndex((p) => p.id === id);
+
+    if (index >= 0) {
+      setSelectedStatus(updatedParts[index].status);
+    } else {
+      const newPart = { id, status: 1 as AffectedStatus };
+      updatedParts.push(newPart);
+      setSelectedStatus(1);
+    }
+    updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
+  };
+
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.root}>
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.symptomTitle}>{currentSymptom.name}</Text>
+          <Text>Edit affected area</Text>
+          <CustomButton
+            title="Save"
+            onPress={async () => {
+              await handleSaveSymptom({
+                healthRecord,
+                currentSymptom,
+                currentSymptomIndex,
+                currentRecordIndex,
+                updateHealthRecord,
+                updateCurrentSymptom,
+                setSelectedPartId,
+              });
+            }}
+          />
+        </View>
+        {selectedPartId && (
+          <View style={styles.topRow}>
+            <View style={styles.dropdownContainer}>
+              <Text style={styles.topRowText}>Set status for {selectedPartId}:</Text>
+              <Picker
+                style={styles.dropdown}
+                selectedValue={selectedStatus}
+                onValueChange={(itemValue: 1 | 2 | 3) => {
+                  setSelectedStatus(itemValue);
+                  const updatedParts = [...currentSymptom.affectedParts];
+                  const index = updatedParts.findIndex((p) => p.id === selectedPartId);
+                  if (index >= 0) {
+                    updatedParts[index].status = itemValue;
+                  }
+                  updateCurrentSymptom({ ...currentSymptom, affectedParts: updatedParts });
+                }}
+              >
+                <Picker.Item label="Worsening" value={1} />
+                <Picker.Item label="Improving" value={2} />
+                <Picker.Item label="Healed" value={3} />
+              </Picker>
+            </View>
+
+            <CustomButton
+              title="Deselect area"
+              variant="tertiary"
+              style={styles.deselectBtn}
+              onPress={() => {
+                onDeselect();
+              }}
+            />
+          </View>
+        )}
+
         <PinchGestureHandler
           ref={pinchRef}
           onGestureEvent={handlePinchEvent}
@@ -88,11 +224,11 @@ const BodyMap = () => {
             <Svg
               width="90%"
               height="720"
-              viewBox="870 500 3000 5000"
+              viewBox="870 400 3000 5500"
               preserveAspectRatio="xMidYMid meet"
               style={{
                 transform: [
-                  { scale },
+                  { scale: 1 },
                   { scaleX: 1 },
                   { scaleY: -1 },
                   { translateX: translateX / scale }, // reduce pan speed as scale grows
@@ -101,13 +237,27 @@ const BodyMap = () => {
               }}
             >
               {flip
-                ? frontSide.map((part) => <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />)
-                : backSide.map((part) => <BodyPart interact={!isZooming && !isPanning} key={part.id} data={part} />)}
+                ? mappedFrontSide.map((part) => (
+                    <BodyPart
+                      interact={!isZooming && !isPanning}
+                      key={part.id}
+                      data={part}
+                      onSelect={handleSelectBodyPart}
+                    />
+                  ))
+                : mappedBackSide.map((part) => (
+                    <BodyPart
+                      interact={!isZooming && !isPanning}
+                      key={part.id}
+                      data={part}
+                      onSelect={handleSelectBodyPart}
+                    />
+                  ))}
             </Svg>
           </PanGestureHandler>
         </PinchGestureHandler>
         <TouchableOpacity style={styles.button} onPress={() => setFlip((prev) => !prev)}>
-          <Text style={{ color: "#fff" }}>Flip</Text>
+          <Text style={styles.flipText}>Flip</Text>
         </TouchableOpacity>
       </View>
     </GestureHandlerRootView>
@@ -117,6 +267,9 @@ const BodyMap = () => {
 export default BodyMap;
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   button: {
     alignItems: "center",
     backgroundColor: "#666",
@@ -126,15 +279,57 @@ const styles = StyleSheet.create({
     color: "#fff",
     flex: 1,
     height: 50,
-    justifyContent: "space-between",
+    justifyContent: "center",
     maxHeight: 50,
     padding: 14,
     width: 60,
   },
   container: {
-    alignItems: "center",
-
     flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingVertical: 16,
+  },
+  symptomTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "90%",
+    marginTop: 12,
+    paddingHorizontal: 8,
+  },
+  topRow: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  topRowText: {
+    display: "flex",
+    alignItems: "center",
+    paddingHorizontal: 4,
+    margin: "auto",
+  },
+  dropdownContainer: {
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
+  },
+  dropdown: {
+    zIndex: 100,
+    backgroundColor: "#d9d9d9",
+    margin: "auto",
+    marginTop: 4,
+    width: "66%",
+    borderRadius: 4,
+  },
+  flipText: {
+    color: "#fff",
+    textAlign: "center",
+  },
+  deselectBtn: {
+    zIndex: 100,
   },
 });
